@@ -3,15 +3,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebas
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 
 // Firebaseの設定
-const firebaseConfig = {
-    apiKey: "AIzaSyB1_49HKdussy1p5Yq1mtRiFCf9YMnwmOU",
-    authDomain: "po09-91f80.firebaseapp.com",
-    projectId: "po09-91f80",
-    storageBucket: "po09-91f80.firebasestorage.app",
-    messagingSenderId: "116376226644",
-    appId: "1:116376226644:web:cee3eacc0837872caf16c1",
-    measurementId: "G-2JWQBBBRML"
-};
+  const firebaseConfig = {
+    apiKey: "AIzaSyBG0oI4oX6Bllv9uwNS1SevG45G92rA5Qc",
+    authDomain: "ci00-122f7.firebaseapp.com",
+    projectId: "ci00-122f7",
+    storageBucket: "ci00-122f7.firebasestorage.app",
+    messagingSenderId: "611111120777",
+    appId: "1:611111120777:web:a754047ec66d5bc3093b58",
+    measurementId: "G-XENL409WZ7"
+  };
 
 // Firebaseの初期化
 const app = initializeApp(firebaseConfig);
