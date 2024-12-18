@@ -1,6 +1,6 @@
 // Firebaseの初期化
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 
 // Firebaseの設定
 const firebaseConfig = {
@@ -34,11 +34,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const name = document.getElementById('minorName').value;
         const age = document.getElementById('minorAge').value;
         const infoList = document.getElementById('infoList');
-        
+
         const listItem = document.createElement('li');
         listItem.textContent = `未成年者: ${name}, 年齢: ${age}`;
+
+        // 削除ボタンを作成
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = '削除';
+        deleteButton.classList.add('delete-button');
+
+        // 削除ボタンのクリックイベント
+        deleteButton.addEventListener('click', () => {
+            infoList.removeChild(listItem);
+        });
+
+        listItem.appendChild(deleteButton);
         infoList.appendChild(listItem);
-        
+
         // 入力フィールドをクリア
         document.getElementById('minorName').value = '';
         document.getElementById('minorAge').value = '';
@@ -52,11 +64,23 @@ document.addEventListener('DOMContentLoaded', () => {
         const totalEarnings = document.getElementById('totalEarnings').value;
         const trustAccount = document.getElementById('trustAccount').value;
         const infoList = document.getElementById('infoList');
-        
+
         const listItem = document.createElement('li');
         listItem.textContent = `収益化ブイログ数: ${vlogCount}, 総時間: ${totalDuration}分, 特集時間: ${featuredDuration}分, 総報酬: ¥${totalEarnings}, 信託口座: ¥${trustAccount}`;
+
+        // 削除ボタンを作成
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = '削除';
+        deleteButton.classList.add('delete-button');
+
+        // 削除ボタンのクリックイベント
+        deleteButton.addEventListener('click', () => {
+            infoList.removeChild(listItem);
+        });
+
+        listItem.appendChild(deleteButton);
         infoList.appendChild(listItem);
-        
+
         // 入力フィールドをクリア
         document.getElementById('vlogCount').value = '';
         document.getElementById('totalDuration').value = '';
