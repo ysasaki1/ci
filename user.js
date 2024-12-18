@@ -1,8 +1,21 @@
 // Firebaseの初期化
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 
-// Firebaseの設定（index.jsで使用している設定をそのまま参照）
-const auth = getAuth();
+// Firebaseの設定
+  const firebaseConfig = {
+    apiKey: "AIzaSyBG0oI4oX6Bllv9uwNS1SevG45G92rA5Qc",
+    authDomain: "ci00-122f7.firebaseapp.com",
+    projectId: "ci00-122f7",
+    storageBucket: "ci00-122f7.firebasestorage.app",
+    messagingSenderId: "611111120777",
+    appId: "1:611111120777:web:a754047ec66d5bc3093b58",
+    measurementId: "G-XENL409WZ7"
+  };
+
+// Firebaseの初期化
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
 // ユーザーの認証状態を監視
 onAuthStateChanged(auth, (user) => {
