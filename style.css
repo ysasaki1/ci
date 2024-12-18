@@ -89,3 +89,18 @@ input {
     text-decoration: none;
     cursor: pointer;
 }
+
+
+.delete-button {
+    margin-left: 10px; /* ボタンとテキストの間にスペースを追加 */
+    background-color: #ff4d4d; /* 削除ボタンの背景色 */
+    color: white; /* 削除ボタンの文字色 */
+    border: none; /* ボーダーをなしに */
+    border-radius: 5px; /* 角を丸くする */
+    cursor: pointer; /* カーソルをポインターに */
+}
+
+.delete-button:hover {
+    background-color: #ff1a1a; /* ホバー時の色 */
+}
+
