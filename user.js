@@ -42,7 +42,6 @@ const languageData = {
         registeredVlogs: "Registered Vlogs",
         minorAge: "Age:", // 年齢のラベル
         delete: "Delete", // 削除ボタンのラベル
-        minorName: "Name", // 名前のプレースホルダー
     },
     ja: {
         title: "ブイログ情報管理",
@@ -59,9 +58,11 @@ const languageData = {
         registeredVlogs: "登録されたブイログ",
         minorAge: "年齢:", // 年齢のラベル
         delete: "削除", // 削除ボタンのラベル
-        minorName: "名前", // 名前のプレースホルダー
     }
 };
+
+// 現在の言語を設定
+let currentLanguage = 'ja'; // 初期言語
 
 function updateLanguage() {
     const welcomeMessage = document.getElementById('welcomeMessage');
@@ -72,14 +73,12 @@ function updateLanguage() {
     const downloadCSVButton = document.getElementById('downloadCSVButton');
     const logoutButton = document.getElementById('logoutButton');
 
-    // プレースホルダーの初期値を設定
-    const minorNameLabel = document.querySelector('input[placeholder="名前"]');
-    const minorAgeLabel = document.querySelector('input[placeholder="年齢"]');
     const vlogTitleLabel = document.querySelector('input[placeholder="ブイログタイトル"]');
     const totalEarningsLabel = document.querySelector('input[placeholder="総収益"]');
     const totalDurationLabel = document.querySelector('input[placeholder="総出演時間 (分)"]');
     const registeredMinorsTitle = document.querySelector('h2:nth-of-type(3)');
     const registeredVlogsTitle = document.querySelector('h2:nth-of-type(4)');
+    const minorAgeLabel = document.querySelector('input[placeholder="年齢"]'); // 年齢のプレースホルダー
 
     // 各要素のテキストを更新
     if (welcomeMessage) {
@@ -105,20 +104,14 @@ function updateLanguage() {
     }
 
     // プレースホルダーのテキスト更新
-    if (minorNameLabel) {
-        minorNameLabel.placeholder = languageData[currentLanguage].minorName; // 名前のプレースホルダー
-    }
-    if (minorAgeLabel) {
-        minorAgeLabel.placeholder = languageData[currentLanguage].minorAge; // 年齢のプレースホルダー
-    }
     if (vlogTitleLabel) {
-        vlogTitleLabel.placeholder = languageData[currentLanguage].vlogTitle; // ブイログタイトルのプレースホルダー
+        vlogTitleLabel.placeholder = languageData[currentLanguage].vlogTitle;
     }
     if (totalEarningsLabel) {
-        totalEarningsLabel.placeholder = languageData[currentLanguage].totalEarnings; // 総収益のプレースホルダー
+        totalEarningsLabel.placeholder = languageData[currentLanguage].totalEarnings;
     }
     if (totalDurationLabel) {
-        totalDurationLabel.placeholder = languageData[currentLanguage].totalDuration; // 総出演時間のプレースホルダー
+        totalDurationLabel.placeholder = languageData[currentLanguage].totalDuration;
     }
     if (registeredMinorsTitle) {
         registeredMinorsTitle.innerText = languageData[currentLanguage].registeredMinors;  // 登録された未成年者
@@ -126,7 +119,9 @@ function updateLanguage() {
     if (registeredVlogsTitle) {
         registeredVlogsTitle.innerText = languageData[currentLanguage].registeredVlogs;  // 登録されたブイログ
     }
-
+    if (minorAgeLabel) {
+        minorAgeLabel.placeholder = languageData[currentLanguage].minorAge;
+    }
 
     // 削除ボタンのラベルを更新
     const deleteButtons = document.querySelectorAll('.delete-button');
@@ -395,4 +390,3 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 });
-
