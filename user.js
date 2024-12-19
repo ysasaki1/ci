@@ -40,6 +40,8 @@ const languageData = {
         totalDuration: "Total Duration (minutes)",
         registeredMinors: "Registered Minors",
         registeredVlogs: "Registered Vlogs",
+        minorAge: "Age:", // 年齢のラベル
+        delete: "Delete", // 削除ボタンのラベル
     },
     ja: {
         title: "ブイログ情報管理",
@@ -54,6 +56,8 @@ const languageData = {
         totalDuration: "総出演時間 (分)",
         registeredMinors: "登録された未成年者",
         registeredVlogs: "登録されたブイログ",
+        minorAge: "年齢:", // 年齢のラベル
+        delete: "削除", // 削除ボタンのラベル
     }
 };
 
@@ -68,13 +72,14 @@ function updateLanguage() {
     const addVlogButton = document.getElementById('addVlogInfoButton');
     const downloadCSVButton = document.getElementById('downloadCSVButton');
     const logoutButton = document.getElementById('logoutButton');
-    
+
     // 新たに追加した要素
     const vlogTitleLabel = document.querySelector('input[placeholder="ブイログタイトル"]');
     const totalEarningsLabel = document.querySelector('input[placeholder="総収益"]');
     const totalDurationLabel = document.querySelector('input[placeholder="総出演時間 (分)"]');
     const registeredMinorsTitle = document.querySelector('h2:nth-of-type(3)');
     const registeredVlogsTitle = document.querySelector('h2:nth-of-type(4)');
+    const minorAgeLabel = document.querySelector('input[placeholder="年齢"]'); // 年齢のプレースホルダー
 
     if (welcomeMessage) {
         welcomeMessage.innerText = languageData[currentLanguage].title;
@@ -97,7 +102,7 @@ function updateLanguage() {
     if (logoutButton) {
         logoutButton.innerText = languageData[currentLanguage].logout;
     }
-    
+
     // 新たに追加した要素のテキスト更新
     if (vlogTitleLabel) {
         vlogTitleLabel.placeholder = languageData[currentLanguage].vlogTitle;
@@ -114,7 +119,9 @@ function updateLanguage() {
     if (registeredVlogsTitle) {
         registeredVlogsTitle.innerText = languageData[currentLanguage].registeredVlogs;
     }
-}
+    if (minorAgeLabel) {
+        minorAgeLabel.placeholder = languageData[currentLanguage].minorAge;
+    }
 
 // 未成年者のデータをFirestoreに追加する関数
 async function addMinorToFirestore(minor) {
