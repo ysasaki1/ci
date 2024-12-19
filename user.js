@@ -149,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('minorName').value = '';
         document.getElementById('minorAge').value = '';
     });
+
     // 収益化ブイログ情報を追加
     document.getElementById('addVlogInfoButton').addEventListener('click', () => {
         const vlogTitle = document.getElementById('vlogTitle').value; // ブイログのタイトル
@@ -180,8 +181,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 結果を表示
         displayVlogInfo(vlog);
-        
-        // 入力フィールドをクリア
+
+
+                // 入力フィールドをクリア
         document.getElementById('vlogTitle').value = '';
         document.getElementById('totalEarnings').value = '';
         document.getElementById('totalDuration').value = '';
@@ -199,75 +201,75 @@ document.addEventListener('DOMContentLoaded', () => {
         vlogList.appendChild(vlogItem);
     }
 
-// ログアウト処理
-const logoutButton = document.getElementById('logoutButton');
-if (logoutButton) {
-    logoutButton.addEventListener('click', async () => {
-        try {
-            await auth.signOut(); // Firebaseのログアウト処理
-            alert("ログアウトしました");
-            window.location.href = 'index.html'; // ログインページにリダイレクト
-        } catch (error) {
-            console.error("ログアウト中にエラーが発生しました:", error);
-            alert("ログアウトに失敗しました。再試行してください。");
+    // ログアウト処理
+    const logoutButton = document.getElementById('logoutButton');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', async () => {
+            try {
+                await auth.signOut(); // Firebaseのログアウト処理
+                alert("ログアウトしました");
+                window.location.href = 'index.html'; // ログインページにリダイレクト
+            } catch (error) {
+                console.error("ログアウト中にエラーが発生しました:", error);
+                alert("ログアウトに失敗しました。再試行してください。");
+            }
+        });
+    }
+
+    // エラーメッセージの表示
+    const closeModalButton = document.getElementById('closeModal');
+    if (closeModalButton) {
+        closeModalButton.onclick = function() {
+            const errorModal = document.getElementById('errorModal');
+            if (errorModal) {
+                errorModal.style.display = 'none';
+            }
+        }
+    }
+
+    // CSV出力の関数
+    function downloadCSV() {
+        // 未成年者のデータをCSV形式に変換
+        const minorsCSV = minors.map(minor => `${minor.name},${minor.age},${minor.earnings},${minor.vlogs.join('; ')}`).join('\n');
+        const vlogsCSV = vlogs.map(vlog => `${vlog.title},${vlog.totalEarnings},${vlog.totalDuration},${vlog.minors.join('; ')}`).join('\n');
+
+        const csvContent = `未成年者データ\n名前,年齢,収益,出演ブイログ\n${minorsCSV}\n\nブイログデータ\nタイトル,総収益,総出演時間,出演未成年者\n${vlogsCSV}`;
+
+        // CSVファイルを生成してダウンロード
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.setAttribute('href', url);
+        a.setAttribute('download', 'data.csv');
+        a.style.visibility = 'hidden';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+
+    // CSV出力ボタンを設定
+    document.getElementById('downloadCSVButton').addEventListener('click', downloadCSV);
+
+    // サムネイルを取得する関数
+    function getThumbnailFromUrl(url) {
+        const videoId = url.split('v=')[1];
+        const ampersandPosition = videoId ? videoId.indexOf('&') : -1;
+        if (ampersandPosition !== -1) {
+            videoId = videoId.substring(0, ampersandPosition);
+        }
+        return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+    }
+
+    // サムネイルを追加するためのイベントリスナー
+    document.getElementById('addVlogInfoButton').addEventListener('click', () => {
+        const vlogTitle = document.getElementById('vlogTitle').value;
+        const videoUrl = document.getElementById('videoUrl').value; // YouTubeの動画URL
+        const thumbnailUrl = getThumbnailFromUrl(videoUrl); // サムネイルのURLを取得
+
+        // サムネイルを表示するコード
+        const thumbnailContainer = document.getElementById('thumbnailContainer');
+        if (thumbnailContainer) { // thumbnailContainerが存在するか確認
+            thumbnailContainer.innerHTML = `<img src="${thumbnailUrl}" alt="サムネイル" style="width: 100%; max-width: 300px;"/>`;
         }
     });
-}
-
-// エラーメッセージの表示
-const closeModalButton = document.getElementById('closeModal');
-if (closeModalButton) {
-    closeModalButton.onclick = function() {
-        const errorModal = document.getElementById('errorModal');
-        if (errorModal) {
-            errorModal.style.display = 'none';
-        }
-    }
-}
-
-
-// CSV出力の関数
-function downloadCSV() {
-    // 未成年者のデータをCSV形式に変換
-    const minorsCSV = minors.map(minor => `${minor.name},${minor.age},${minor.earnings},${minor.vlogs.join('; ')}`).join('\n');
-    const vlogsCSV = vlogs.map(vlog => `${vlog.title},${vlog.totalEarnings},${vlog.totalDuration},${vlog.minors.join('; ')}`).join('\n');
-
-    const csvContent = `未成年者データ\n名前,年齢,収益,出演ブイログ\n${minorsCSV}\n\nブイログデータ\nタイトル,総収益,総出演時間,出演未成年者\n${vlogsCSV}`;
-
-    // CSVファイルを生成してダウンロード
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.setAttribute('href', url);
-    a.setAttribute('download', 'data.csv');
-    a.style.visibility = 'hidden';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-}
-
-// CSV出力ボタンを設定
-document.getElementById('downloadCSVButton').addEventListener('click', downloadCSV);
-
-// サムネイルを取得する関数
-function getThumbnailFromUrl(url) {
-    const videoId = url.split('v=')[1];
-    const ampersandPosition = videoId ? videoId.indexOf('&') : -1;
-    if (ampersandPosition !== -1) {
-        videoId = videoId.substring(0, ampersandPosition);
-    }
-    return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
-}
-
-// サムネイルを追加するためのイベントリスナー
-document.getElementById('addVlogInfoButton').addEventListener('click', () => {
-    const vlogTitle = document.getElementById('vlogTitle').value;
-    const videoUrl = document.getElementById('videoUrl').value; // YouTubeの動画URL
-    const thumbnailUrl = getThumbnailFromUrl(videoUrl); // サムネイルのURLを取得
-
-    // ここでサムネイルを表示するコードを追加
-    const thumbnailContainer = document.getElementById('thumbnailContainer');
-    if (thumbnailContainer) { // thumbnailContainerが存在するか確認
-        thumbnailContainer.innerHTML = `<img src="${thumbnailUrl}" alt="サムネイル" style="width: 100%; max-width: 300px;"/>`;
-    }
-}); // 閉じカッコ
+}); // DOMContentLoadedの終了
