@@ -268,6 +268,4 @@ document.getElementById('addVlogInfoButton').addEventListener('click', () => {
     // ここでサムネイルを表示するコードを追加
     const thumbnailContainer = document.getElementById('thumbnailContainer');
     thumbnailContainer.innerHTML = `<img src="${thumbnailUrl}" alt="サムネイル" style="width: 100%; max-width: 300px;"/>`;
-
-    // 追加の処理...
-});
+}
