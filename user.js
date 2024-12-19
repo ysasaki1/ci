@@ -123,6 +123,13 @@ function updateLanguage() {
         minorAgeLabel.placeholder = languageData[currentLanguage].minorAge;
     }
 
+    // 削除ボタンのラベルを更新
+    const deleteButtons = document.querySelectorAll('.delete-button');
+    deleteButtons.forEach(button => {
+        button.innerText = languageData[currentLanguage].delete;
+    });
+}
+
 // 未成年者のデータをFirestoreに追加する関数
 async function addMinorToFirestore(minor) {
     try {
@@ -160,7 +167,7 @@ async function fetchMinorsFromFirestore(userId) {
 
                 // 削除ボタンを作成
                 const deleteButton = document.createElement('button');
-                deleteButton.textContent = '削除';
+                deleteButton.textContent = languageData[currentLanguage].delete; // 言語に応じた削除ボタンラベル
                 deleteButton.classList.add('delete-button');
 
                 // 削除ボタンのクリックイベント
@@ -221,7 +228,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const minor = { id: minorId, userId, name, age, createdDate, earnings: 0, vlogs: [] };
         minors.push(minor); // 未成年者を追加
 
-              // Firestoreにデータを追加
+        // Firestoreにデータを追加
         await addMinorToFirestore(minor);
 
         // チェックボックスを生成
@@ -242,7 +249,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // 削除ボタンを作成
         const deleteButton = document.createElement('button');
-        deleteButton.textContent = '削除';
+        deleteButton.textContent = languageData[currentLanguage].delete; // 言語に応じた削除ボタンラベル
         deleteButton.classList.add('delete-button');
 
         // 削除ボタンのクリックイベント
@@ -381,4 +388,5 @@ document.addEventListener('DOMContentLoaded', async () => {
             thumbnailContainer.innerHTML = `<img src="${thumbnailUrl}" alt="サムネイル" style="width: 100%; max-width: 300px;"/>`;
         }
     });
-}); // DOMContentLoadedの終了
+});
+
