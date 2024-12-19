@@ -21,17 +21,25 @@
 
         <div class="form-section">
             <h2>収益化ブイログ情報</h2>
-            <input type="number" id="vlogCount" placeholder="収益化ブイログ数" min="0" required>
-            <input type="number" id="totalDuration" placeholder="総時間 (分)" min="0" required>
-            <input type="number" id="featuredDuration" placeholder="特集ブイログ総時間 (分)" min="0" required>
-            <input type="number" id="totalEarnings" placeholder="総報酬額" min="0" required>
-            <input type="number" id="trustAccount" placeholder="信託口座預金額" min="0" required>
+            <input type="text" id="vlogTitle" placeholder="ブイログタイトル" required>
+            <input type="number" id="totalEarnings" placeholder="総収益" min="0" required>
+            <div>
+                <h3>出演未成年者</h3>
+                <div id="minorSelection">
+                    <!-- 未成年者のチェックボックスをここに動的に追加 -->
+                </div>
+            </div>
             <button id="addVlogInfoButton" class="small-button">追加</button>
         </div>
 
         <div class="form-section">
-            <h2>登録された情報</h2>
+            <h2>登録された未成年者</h2>
             <ul id="infoList"></ul>
+        </div>
+
+        <div class="form-section">
+            <h2>登録されたブイログ</h2>
+            <ul id="vlogList"></ul>
         </div>
 
         <button id="logoutButton" class="small-button">ログアウト</button>
