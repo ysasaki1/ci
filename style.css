@@ -134,7 +134,9 @@ input {
     width: 200px; /* ボタンの幅を指定 */
 }
 
-/* 言語切り替えボタンのスタイル */
+
+
+
 .lang-buttons {
     position: absolute; /* 絶対位置に配置 */
     top: 20px; /* 上からの距離 */
@@ -150,8 +152,11 @@ input {
     border-radius: 5px; /* 角を丸くする */
     cursor: pointer; /* ポインターを表示 */
     margin-left: 10px; /* ボタン間のスペース */
+    display: inline-block; /* インラインブロックにしてサイズを統一 */
+    text-align: center; /* テキストを中央寄せ */
 }
 
 .lang-button:hover {
     background-color: #0056b3; /* ホバー時の色 */
 }
+
