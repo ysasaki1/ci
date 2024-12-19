@@ -85,10 +85,10 @@ function updateLanguage() {
         welcomeMessage.innerText = languageData[currentLanguage].title;
     }
     if (minorInfoTitle) {
-        minorInfoTitle.innerText = languageData[currentLanguage].minorInfo;
+        minorInfoTitle.innerText = languageData[currentLanguage].minorInfo;  // 未成年者の情報
     }
     if (vlogInfoTitle) {
-        vlogInfoTitle.innerText = languageData[currentLanguage].vlogInfo;
+        vlogInfoTitle.innerText = languageData[currentLanguage].vlogInfo;  // 収益化ブイログ情報
     }
     if (addMinorButton) {
         addMinorButton.innerText = languageData[currentLanguage].addMinor;
@@ -103,7 +103,7 @@ function updateLanguage() {
         logoutButton.innerText = languageData[currentLanguage].logout;
     }
 
-    // 新たに追加した要素のテキスト更新
+    // プレースホルダーのテキスト更新
     if (vlogTitleLabel) {
         vlogTitleLabel.placeholder = languageData[currentLanguage].vlogTitle;
     }
@@ -114,10 +114,10 @@ function updateLanguage() {
         totalDurationLabel.placeholder = languageData[currentLanguage].totalDuration;
     }
     if (registeredMinorsTitle) {
-        registeredMinorsTitle.innerText = languageData[currentLanguage].registeredMinors;
+        registeredMinorsTitle.innerText = languageData[currentLanguage].registeredMinors;  // 登録された未成年者
     }
     if (registeredVlogsTitle) {
-        registeredVlogsTitle.innerText = languageData[currentLanguage].registeredVlogs;
+        registeredVlogsTitle.innerText = languageData[currentLanguage].registeredVlogs;  // 登録されたブイログ
     }
     if (minorAgeLabel) {
         minorAgeLabel.placeholder = languageData[currentLanguage].minorAge;
@@ -129,6 +129,7 @@ function updateLanguage() {
         button.innerText = languageData[currentLanguage].delete;
     });
 }
+
 
 // 未成年者のデータをFirestoreに追加する関数
 async function addMinorToFirestore(minor) {
