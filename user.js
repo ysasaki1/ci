@@ -73,7 +73,6 @@ function updateLanguage() {
     const downloadCSVButton = document.getElementById('downloadCSVButton');
     const logoutButton = document.getElementById('logoutButton');
 
-    // 新たに追加した要素
     const vlogTitleLabel = document.querySelector('input[placeholder="ブイログタイトル"]');
     const totalEarningsLabel = document.querySelector('input[placeholder="総収益"]');
     const totalDurationLabel = document.querySelector('input[placeholder="総出演時間 (分)"]');
@@ -81,6 +80,7 @@ function updateLanguage() {
     const registeredVlogsTitle = document.querySelector('h2:nth-of-type(4)');
     const minorAgeLabel = document.querySelector('input[placeholder="年齢"]'); // 年齢のプレースホルダー
 
+    // 各要素のテキストを更新
     if (welcomeMessage) {
         welcomeMessage.innerText = languageData[currentLanguage].title;
     }
