@@ -23,6 +23,41 @@ const minors = [];
 // ブイログのデータ構造
 const vlogs = [];
 
+// 言語データの定義
+const languageData = {
+    en: {
+        title: "Vlog Information Management",
+        minorInfo: "Minor Information",
+        vlogInfo: "Monetized Vlog Information",
+        addMinor: "Add Minor",
+        addVlog: "Add Vlog",
+        downloadCSV: "Download CSV",
+        logout: "Logout",
+    },
+    ja: {
+        title: "ブイログ情報管理",
+        minorInfo: "未成年者の情報",
+        vlogInfo: "収益化ブイログ情報",
+        addMinor: "追加",
+        addVlog: "追加",
+        downloadCSV: "CSV出力",
+        logout: "ログアウト",
+    }
+};
+
+// 現在の言語を設定
+let currentLanguage = 'ja'; // 初期言語
+
+function updateLanguage() {
+    document.getElementById('welcomeMessage').innerText = languageData[currentLanguage].title;
+    document.getElementById('minorInfoTitle').innerText = languageData[currentLanguage].minorInfo;
+    document.getElementById('vlogInfoTitle').innerText = languageData[currentLanguage].vlogInfo;
+    document.getElementById('addMinorInfoButton').innerText = languageData[currentLanguage].addMinor;
+    document.getElementById('addVlogInfoButton').innerText = languageData[currentLanguage].addVlog;
+    document.getElementById('downloadCSVButton').innerText = languageData[currentLanguage].downloadCSV;
+    document.getElementById('logoutButton').innerText = languageData[currentLanguage].logout;
+}
+
 // DOMContentLoadedイベントを使用して、DOMが読み込まれてから実行
 document.addEventListener('DOMContentLoaded', () => {
     // ユーザーの認証状態を監視
@@ -35,6 +70,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // 言語切り替えボタンのイベントリスナー
+    document.getElementById('lang-en').addEventListener('click', () => {
+        currentLanguage = 'en';
+        updateLanguage();
+    });
+
+    document.getElementById('lang-ja').addEventListener('click', () => {
+        currentLanguage = 'ja';
+        updateLanguage();
+    });
+
+    // 初回の言語設定
+    updateLanguage();
+
     // 未成年者の情報を追加
     document.getElementById('addMinorInfoButton').addEventListener('click', () => {
         const name = document.getElementById('minorName').value;
@@ -43,23 +92,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const minor = { name, age, earnings: 0, vlogs: [] };
         minors.push(minor); // 未成年者を追加
 
-// チェックボックスを生成
-const checkboxContainer = document.getElementById('minorCheckboxContainer');
-const checkbox = document.createElement('div');
-checkbox.className = 'minor-checkbox'; // クラス名を追加
-checkbox.innerHTML = `
-    <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
-    <label for="${name}">${name}</label>
-    <input type="number" id="duration_${name}" placeholder="出演時間 (分)" min="0">
-`;
-checkboxContainer.appendChild(checkbox);
-
+        // チェックボックスを生成
+        const checkboxContainer = document.getElementById('minorCheckboxContainer');
+        const checkbox = document.createElement('div');
+        checkbox.className = 'minor-checkbox'; // クラス名を追加
+        checkbox.innerHTML = `
+            <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
+            <label for="${name}">${name}</label>
+            <input type="number" id="duration_${name}" placeholder="出演時間 (分)" min="0">
+        `;
+        checkboxContainer.appendChild(checkbox);
 
         // 登録された未成年者リストに追加
         const infoList = document.getElementById('infoList');
         const listItem = document.createElement('li');
         listItem.textContent = `未成年者: ${name}, 年齢: ${age}`;
-        
+
         // 削除ボタンを作成
         const deleteButton = document.createElement('button');
         deleteButton.textContent = '削除';
@@ -143,7 +191,6 @@ checkboxContainer.appendChild(checkbox);
     }
 });
 
-
 // CSV出力の関数
 function downloadCSV() {
     // 未成年者のデータをCSV形式に変換
@@ -167,7 +214,6 @@ function downloadCSV() {
 // CSV出力ボタンを設定
 document.getElementById('downloadCSVButton').addEventListener('click', downloadCSV);
 
-
 // サムネイルを取得する関数
 function getThumbnailFromUrl(url) {
     const videoId = url.split('v=')[1];
@@ -190,58 +236,3 @@ document.getElementById('addVlogInfoButton').addEventListener('click', () => {
 
     // 追加の処理...
 });
-
-
-
-
-let currentLanguage = 'ja'; // 初期言語
-
-function updateLanguage() {
-    document.getElementById('welcomeMessage').innerText = languageData[currentLanguage].title;
-    // 他の要素も言語に応じて更新
-    document.getElementById('minorInfoTitle').innerText = languageData[currentLanguage].minorInfo;
-    document.getElementById('vlogInfoTitle').innerText = languageData[currentLanguage].vlogInfo;
-    document.getElementById('addMinorButton').innerText = languageData[currentLanguage].addMinor;
-    document.getElementById('addVlogButton').innerText = languageData[currentLanguage].addVlog;
-    document.getElementById('downloadCSVButton').innerText = languageData[currentLanguage].downloadCSV;
-    document.getElementById('logoutButton').innerText = languageData[currentLanguage].logout;
-}
-
-document.getElementById('lang-en').addEventListener('click', () => {
-    currentLanguage = 'en';
-    updateLanguage();
-});
-
-document.getElementById('lang-ja').addEventListener('click', () => {
-    currentLanguage = 'ja';
-    updateLanguage();
-});
-
-// 初回の言語設定
-updateLanguage();
-
-
-
-const languageData = {
-    en: {
-        title: "Vlog Information Management",
-        minorInfo: "Minor Information",
-        vlogInfo: "Monetized Vlog Information",
-        addMinor: "Add Minor",
-        addVlog: "Add Vlog",
-        downloadCSV: "Download CSV",
-        logout: "Logout",
-        // 他のテキストも追加
-    },
-    ja: {
-        title: "ブイログ情報管理",
-        minorInfo: "未成年者の情報",
-        vlogInfo: "収益化ブイログ情報",
-        addMinor: "追加",
-        addVlog: "追加",
-        downloadCSV: "CSV出力",
-        logout: "ログアウト",
-        // 他のテキストも追加
-    }
-};
-
