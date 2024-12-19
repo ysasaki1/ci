@@ -3,53 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ユーザーページ</title>
+    <title>ポートフォリオサイト</title>
     <link rel="stylesheet" href="style.css">
-    <script type="module" src="user.js"></script>
+    <script type="module" src="script.js"></script>
 </head>
 <body>
     <div class="container">
-        <h1>ブイログ情報管理</h1>
-        <p id="welcomeMessage"></p>
-
         <div class="form-section">
-            <h2>未成年者の情報</h2>
-            <input type="text" id="minorName" placeholder="名前" required>
-            <input type="number" id="minorAge" placeholder="年齢" min="0" required>
-            <button id="addMinorInfoButton" class="small-button">追加</button>
+            <h1>ユーザー登録</h1>
+            <input type="email" id="email" placeholder="メールアドレス" required>
+            <input type="password" id="password" placeholder="パスワード" required>
+            <button id="registerButton" class="small-button">登録</button>
         </div>
 
         <div class="form-section">
-            <h2>収益化ブイログ情報</h2>
-            <input type="text" id="vlogTitle" placeholder="ブイログタイトル" required>
-            <input type="number" id="totalEarnings" placeholder="総収益" min="0" required>
-            <input type="number" id="totalDuration" placeholder="総出演時間 (分)" min="0" required>
-            <div>
-                <h3>出演未成年者</h3>
-                <div id="minorCheckboxContainer" class="minor-container">
-                    <!-- 未成年者のチェックボックスがここに動的に追加されます -->
-                </div>
+            <h1>ログイン</h1>
+            <input type="email" id="loginEmail" placeholder="メールアドレス" required>
+            <input type="password" id="loginPassword" placeholder="パスワード" required>
+            <button id="loginButton" class="small-button">ログイン</button>
+        </div>
+
+        <div id="errorModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeModal">&times;</span>
+                <p id="modalMessage"></p>
             </div>
-            <button id="addVlogInfoButton" class="small-button">追加</button>
-        </div>
-
-        <div class="form-section">
-            <h2>登録された未成年者</h2>
-            <ul id="infoList"></ul>
-        </div>
-
-        <div class="form-section">
-            <h2>登録されたブイログ</h2>
-            <ul id="vlogList"></ul>
-        </div>
-
-        <button id="logoutButton" class="small-button">ログアウト</button>
-    </div>
-
-    <div id="errorModal" class="modal">
-        <div class="modal-content">
-            <span class="close" id="closeModal">&times;</span>
-            <p id="modalMessage"></p>
         </div>
     </div>
 </body>
