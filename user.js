@@ -17,6 +17,28 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+// 未成年者のデータ構造
+const minors = [
+    {
+        name: "未成年者A",
+        age: 15,
+        earnings: 0,
+        videos: [] // 出演した動画の情報
+    },
+    {
+        name: "未成年者B",
+        age: 14,
+        earnings: 0,
+        videos: []
+    }
+];
+
+// ブイログのデータ構造
+const vlogData = {
+    totalEarnings: 100000, // 総収益
+    minorsInVideo: ["未成年者A", "未成年者B"], // 出演している未成年者の名前
+};
+
 // DOMContentLoadedイベントを使用して、DOMが読み込まれてから実行
 document.addEventListener('DOMContentLoaded', () => {
     // ユーザーの認証状態を監視
@@ -89,15 +111,67 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('trustAccount').value = '';
     });
 
-    // ログアウト処理
-    document.getElementById('logoutButton').addEventListener('click', async () => {
-        await auth.signOut(); // Firebaseのログアウト処理
-        alert("ログアウトしました");
-        window.location.href = 'index.html'; // ログインページにリダイレクト
+    // 収益の計算
+    calculateTrustAccount(minors, vlogData);
+});
+
+// 収益の計算関数
+function calculateTrustAccount(minors, vlogData) {
+    const totalEarnings = vlogData.totalEarnings;
+    const minorsInVideo = vlogData.minorsInVideo;
+
+    if (minorsInVideo.length === 0) {
+        console.log("出演している未成年者がいません。");
+        return;
+    }
+
+    // 各未成年者の収益計算
+    const earningsPerMinor = totalEarnings / minorsInVideo.length;
+
+    minors.forEach(minor => {
+        if (minorsInVideo.includes(minor.name)) {
+            minor.earnings += earningsPerMinor; // 各未成年者に均等に収益を分配
+        }
     });
 
-    // エラーメッセージの表示
-    document.getElementById('closeModal').onclick = function() {
-        document.getElementById('errorModal').style.display = 'none';
+    // 信託口座預金額の計算
+    const trustAccountDeposits = minors.map(minor => ({
+        name: minor.name,
+        earnings: minor.earnings,
+        sharePercentage: (minor.earnings / totalEarnings) * 100 // 収益の割合
+    }));
+
+    // 結果を表示
+    trustAccountDeposits.forEach(({name, earnings, sharePercentage}) => {
+        console.log(`${name} の収益: ¥${earnings} (${sharePercentage.toFixed(2)}%)`);
+    });
+
+    // 収益の割合条件のチェック
+    checkEarningsCondition(minors, vlogData);
+}
+
+// 収益の割合条件のチェック
+function checkEarningsCondition(minors, vlogData) {
+    const totalEarnings = vlogData.totalEarnings;
+    const minorsInVideo = vlogData.minorsInVideo;
+
+    if (minorsInVideo.length === 1) {
+        const singleMinor = minors.find(minor => minor.name === minorsInVideo[0]);
+        if (singleMinor.earnings / totalEarnings < 0.5) {
+            console.log(`${singleMinor.name} の収益割合が50%未満です。`);
+        } else {
+            console.log(`${singleMinor.name} の収益割合が条件を満たしています。`);
+        }
+    } else if (minorsInVideo.length > 1) {
+        const totalShares = minorsInVideo.reduce((sum, name) => {
+            const minor = minors.find(minor => minor.name === name);
+            return sum + (minor.earnings / totalEarnings);
+        }, 0);
+
+        if (totalShares < 1) {
+            console.log("未成年者間で均等に分配されていません。");
+        } else {
+            console.log("収益配分が条件を満たしています。");
+        }
     }
-});
+}
