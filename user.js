@@ -190,3 +190,58 @@ document.getElementById('addVlogInfoButton').addEventListener('click', () => {
 
     // 追加の処理...
 });
+
+
+
+
+let currentLanguage = 'ja'; // 初期言語
+
+function updateLanguage() {
+    document.getElementById('welcomeMessage').innerText = languageData[currentLanguage].title;
+    // 他の要素も言語に応じて更新
+    document.getElementById('minorInfoTitle').innerText = languageData[currentLanguage].minorInfo;
+    document.getElementById('vlogInfoTitle').innerText = languageData[currentLanguage].vlogInfo;
+    document.getElementById('addMinorButton').innerText = languageData[currentLanguage].addMinor;
+    document.getElementById('addVlogButton').innerText = languageData[currentLanguage].addVlog;
+    document.getElementById('downloadCSVButton').innerText = languageData[currentLanguage].downloadCSV;
+    document.getElementById('logoutButton').innerText = languageData[currentLanguage].logout;
+}
+
+document.getElementById('lang-en').addEventListener('click', () => {
+    currentLanguage = 'en';
+    updateLanguage();
+});
+
+document.getElementById('lang-ja').addEventListener('click', () => {
+    currentLanguage = 'ja';
+    updateLanguage();
+});
+
+// 初回の言語設定
+updateLanguage();
+
+
+
+const languageData = {
+    en: {
+        title: "Vlog Information Management",
+        minorInfo: "Minor Information",
+        vlogInfo: "Monetized Vlog Information",
+        addMinor: "Add Minor",
+        addVlog: "Add Vlog",
+        downloadCSV: "Download CSV",
+        logout: "Logout",
+        // 他のテキストも追加
+    },
+    ja: {
+        title: "ブイログ情報管理",
+        minorInfo: "未成年者の情報",
+        vlogInfo: "収益化ブイログ情報",
+        addMinor: "追加",
+        addVlog: "追加",
+        downloadCSV: "CSV出力",
+        logout: "ログアウト",
+        // 他のテキストも追加
+    }
+};
+
