@@ -120,24 +120,53 @@ document.addEventListener('DOMContentLoaded', () => {
     // 初回の言語設定
     updateLanguage();
 
-    // 未成年者の情報を追加
-    document.getElementById('addMinorInfoButton').addEventListener('click', () => {
-        const name = document.getElementById('minorName').value;
-        const age = document.getElementById('minorAge').value;
+// 未成年者の情報を追加
+document.getElementById('addMinorInfoButton').addEventListener('click', async () => {
+    const name = document.getElementById('minorName').value;
+    const age = document.getElementById('minorAge').value;
 
-        const minor = { name, age, earnings: 0, vlogs: [] };
-        minors.push(minor); // 未成年者を追加
+    const minor = { name, age, earnings: 0, vlogs: [] };
+    minors.push(minor); // 未成年者を追加
 
-        // チェックボックスを生成
-        const checkboxContainer = document.getElementById('minorCheckboxContainer');
-        const checkbox = document.createElement('div');
-        checkbox.className = 'minor-checkbox'; // クラス名を追加
-        checkbox.innerHTML = `
-            <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
-            <label for="${name}">${name}</label>
-            <input type="number" id="duration_${name}" placeholder="出演時間 (分)" min="0">
-        `;
-        checkboxContainer.appendChild(checkbox);
+    // Firestoreにデータを追加
+    await addMinorToFirestore(minor);
+
+    // チェックボックスを生成
+    const checkboxContainer = document.getElementById('minorCheckboxContainer');
+    const checkbox = document.createElement('div');
+    checkbox.className = 'minor-checkbox'; // クラス名を追加
+    checkbox.innerHTML = `
+        <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
+        <label for="${name}">${name}</label>
+        <input type="number" id="duration_${name}" placeholder="出演時間 (分)" min="0">
+    `;
+    checkboxContainer.appendChild(checkbox);
+
+    // 登録された未成年者リストに追加
+    const infoList = document.getElementById('infoList');
+    const listItem = document.createElement('li');
+    listItem.textContent = `未成年者: ${name}, 年齢: ${age}`;
+
+    // 削除ボタンを作成
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = '削除';
+    deleteButton.classList.add('delete-button');
+
+    // 削除ボタンのクリックイベント
+    deleteButton.addEventListener('click', () => {
+        infoList.removeChild(listItem);
+        minors.splice(minors.indexOf(minor), 1); // 未成年者を削除
+        checkboxContainer.removeChild(checkbox); // チェックボックスも削除
+    });
+
+    listItem.appendChild(deleteButton);
+    infoList.appendChild(listItem);
+
+    // 入力フィールドをクリア
+    document.getElementById('minorName').value = '';
+    document.getElementById('minorAge').value = '';
+});
+
 
         // 登録された未成年者リストに追加
         const infoList = document.getElementById('infoList');
