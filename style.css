@@ -132,3 +132,45 @@ input {
     margin: 20px auto; /* 上下のマージンを追加し、中央寄せ */
     width: 200px; /* ボタンの幅を指定 */
 }
+
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #eef2f3;
+    padding: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    text-align: center; /* コンテナ内のテキストを中央寄せ */
+    position: relative; /* 絶対配置のため */
+}
+
+.lang-buttons {
+    position: absolute; /* 絶対位置に配置 */
+    top: 20px; /* 上からの距離 */
+    right: 20px; /* 右からの距離 */
+}
+
+.lang-button {
+    width: 100px; /* ボタンの幅を統一 */
+    padding: 10px; /* パディングを設定 */
+    background-color: #007bff; /* ボタンの背景色 */
+    color: white; /* ボタンの文字色 */
+    border: none; /* ボーダーなし */
+    border-radius: 5px; /* 角を丸くする */
+    cursor: pointer; /* ポインターを表示 */
+    margin-left: 10px; /* ボタン間のスペース */
+}
+
+.lang-button:hover {
+    background-color: #0056b3; /* ホバー時の色 */
+}
+
+/* 残りのCSSスタイルはそのまま */
+
