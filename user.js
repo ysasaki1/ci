@@ -71,19 +71,28 @@ document.addEventListener('DOMContentLoaded', () => {
         const vlogTitle = document.getElementById('vlogTitle').value; // ブイログのタイトル
         const totalEarnings = parseFloat(document.getElementById('totalEarnings').value); // 総収益
         const selectedMinors = Array.from(document.querySelectorAll('input[name="minorSelect"]:checked')).map(input => input.value);
+        const totalDuration = parseFloat(document.getElementById('totalDuration').value); // 総出演時間
+        const selectedDurations = selectedMinors.map(minorName => parseFloat(document.getElementById(`duration_${minorName}`).value)); // 各未成年者の出演時間
 
-        const vlog = { title: vlogTitle, totalEarnings, minors: selectedMinors };
+        const vlog = { title: vlogTitle, totalEarnings, minors: selectedMinors, selectedDurations };
         vlogs.push(vlog); // ブイログを追加
 
         // 各未成年者の収益を計算
-        const earningsPerMinor = totalEarnings / selectedMinors.length;
-
-        selectedMinors.forEach(minorName => {
+        selectedMinors.forEach((minorName, index) => {
             const minor = minors.find(m => m.name === minorName);
-            if (minor) {
-                minor.earnings += earningsPerMinor; // 各未成年者に均等に収益を分配
-                minor.vlogs.push(vlogTitle); // ブイログタイトルを追加
+            const individualDuration = selectedDurations[index];
+            let earnings;
+
+            if (selectedMinors.length === 1) {
+                // 未成年者が1名の場合
+                earnings = (individualDuration / totalDuration) < 0.5 ? 0 : totalEarnings * (individualDuration / totalDuration);
+            } else {
+                // 未成年者が2名以上の場合
+                earnings = totalEarnings / selectedMinors.length;
             }
+
+            minor.earnings += earnings; // 各未成年者の収益を加算
+            minor.vlogs.push(vlogTitle); // ブイログタイトルを追加
         });
 
         // 結果を表示
@@ -92,6 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // 入力フィールドをクリア
         document.getElementById('vlogTitle').value = '';
         document.getElementById('totalEarnings').value = '';
+        selectedMinors.forEach(minorName => {
+            document.getElementById(`duration_${minorName}`).value = ''; // 各未成年者の出演時間をクリア
+        });
     });
 
     // 結果を表示する関数
