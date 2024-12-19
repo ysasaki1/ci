@@ -6,13 +6,16 @@ body {
 
 .container {
     max-width: 600px;
-    margin: auto;
+    margin: 60px auto; /* 上に60pxのマージンを追加 */
     background: white;
     padding: 30px;
     border-radius: 15px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     text-align: center; /* コンテナ内のテキストを中央寄せ */
 }
+
+/* その他のスタイルはそのまま */
+
 
 .form-section {
     margin-bottom: 20px;
