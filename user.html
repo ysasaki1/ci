@@ -9,18 +9,19 @@
 </head>
 <body>
     <div class="container">
-        <h1>ブイログ情報管理</h1>
-        <p id="welcomeMessage"></p>
+        <h1 id="welcomeMessage"></h1>
+        <button id="lang-en" class="lang-button">English</button>
+        <button id="lang-ja" class="lang-button">日本語</button>
 
         <div class="form-section">
-            <h2>未成年者の情報</h2>
+            <h2 id="minorInfoTitle">未成年者の情報</h2>
             <input type="text" id="minorName" placeholder="名前" required>
             <input type="number" id="minorAge" placeholder="年齢" min="0" required>
-            <button id="addMinorInfoButton" class="small-button">追加</button>
+            <button id="addMinorInfoButton" class="small-button" id="addMinorButton">追加</button>
         </div>
 
         <div class="form-section">
-            <h2>収益化ブイログ情報</h2>
+            <h2 id="vlogInfoTitle">収益化ブイログ情報</h2>
             <input type="text" id="vlogTitle" placeholder="ブイログタイトル" required>
             <input type="text" id="videoUrl" placeholder="YouTubeの動画URL" required>
             <input type="number" id="totalEarnings" placeholder="総収益" min="0" required>
@@ -34,7 +35,7 @@
             <div id="thumbnailContainer" style="margin: 10px 0;">
                 <!-- サムネイルがここに表示されます -->
             </div>
-            <button id="addVlogInfoButton" class="small-button">追加</button>
+            <button id="addVlogInfoButton" class="small-button" id="addVlogButton">追加</button>
         </div>
 
         <div class="form-section">
@@ -58,5 +59,9 @@
             <p id="modalMessage"></p>
         </div>
     </div>
+
+    <script type="module">
+        // ここに上記のJavaScriptコードを追加
+    </script>
 </body>
 </html>
