@@ -43,15 +43,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const minor = { name, age, earnings: 0, vlogs: [] };
         minors.push(minor); // 未成年者を追加
 
-        // チェックボックスを生成
-        const checkboxContainer = document.getElementById('minorCheckboxContainer');
-        const checkbox = document.createElement('div');
-        checkbox.innerHTML = `
-            <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
-            <label for="${name}">${name}</label>
-            <input type="number" id="duration_${name}" placeholder="出演時間 (分)" min="0" style="width: 100px;">
-        `;
-        checkboxContainer.appendChild(checkbox);
+// チェックボックスを生成
+const checkboxContainer = document.getElementById('minorCheckboxContainer');
+const checkbox = document.createElement('div');
+checkbox.className = 'minor-checkbox'; // クラス名を追加
+checkbox.innerHTML = `
+    <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
+    <label for="${name}">${name}</label>
+    <input type="number" id="duration_${name}" placeholder="出演時間 (分)" min="0">
+`;
+checkboxContainer.appendChild(checkbox);
+
 
         // 登録された未成年者リストに追加
         const infoList = document.getElementById('infoList');
