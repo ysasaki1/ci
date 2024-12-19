@@ -82,6 +82,16 @@ function updateLanguage() {
     }
 }
 
+// 未成年者のデータをFirestoreに追加する関数
+async function addMinorToFirestore(minor) {
+    try {
+        const docRef = await addDoc(collection(db, "minors"), minor);
+        console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+        console.error("Error adding document: ", e);
+    }
+}
+
 // Firestoreから未成年者データを取得する関数
 async function fetchMinorsFromFirestore(userId) {
     try {
@@ -170,7 +180,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const minor = { id: minorId, userId, name, age, createdDate, earnings: 0, vlogs: [] };
         minors.push(minor); // 未成年者を追加
 
-        // Firestoreにデータを追加
+              // Firestoreにデータを追加
         await addMinorToFirestore(minor);
 
         // チェックボックスを生成
@@ -189,7 +199,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const listItem = document.createElement('li');
         listItem.textContent = `未成年者: ${name}, 年齢: ${age}`;
 
-               // 削除ボタンを作成
+        // 削除ボタンを作成
         const deleteButton = document.createElement('button');
         deleteButton.textContent = '削除';
         deleteButton.classList.add('delete-button');
