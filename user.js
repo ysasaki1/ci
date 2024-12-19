@@ -23,6 +23,8 @@ const minors = [];
 // ブイログのデータ構造
 const vlogs = [];
 
+// Firebaseの初期化（省略）
+
 // 言語データの定義
 const languageData = {
     en: {
@@ -50,8 +52,8 @@ let currentLanguage = 'ja'; // 初期言語
 
 function updateLanguage() {
     document.getElementById('welcomeMessage').innerText = languageData[currentLanguage].title;
-    document.getElementById('minorInfoTitle').innerText = languageData[currentLanguage].minorInfo;
-    document.getElementById('vlogInfoTitle').innerText = languageData[currentLanguage].vlogInfo;
+    document.querySelector('h2:nth-of-type(1)').innerText = languageData[currentLanguage].minorInfo;
+    document.querySelector('h2:nth-of-type(2)').innerText = languageData[currentLanguage].vlogInfo;
     document.getElementById('addMinorInfoButton').innerText = languageData[currentLanguage].addMinor;
     document.getElementById('addVlogInfoButton').innerText = languageData[currentLanguage].addVlog;
     document.getElementById('downloadCSVButton').innerText = languageData[currentLanguage].downloadCSV;
@@ -60,15 +62,7 @@ function updateLanguage() {
 
 // DOMContentLoadedイベントを使用して、DOMが読み込まれてから実行
 document.addEventListener('DOMContentLoaded', () => {
-    // ユーザーの認証状態を監視
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            document.getElementById('welcomeMessage').innerText = `ようこそ, ${user.email}さん！`;
-        } else {
-            // ユーザーがログインしていない場合、ログインページにリダイレクト
-            window.location.href = 'index.html';
-        }
-    });
+    // ユーザーの認証状態を監視（省略）
 
     // 言語切り替えボタンのイベントリスナー
     document.getElementById('lang-en').addEventListener('click', () => {
@@ -83,6 +77,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 初回の言語設定
     updateLanguage();
+
+    // ユーザー登録・ログインの処理（省略）
+});
+
 
     // 未成年者の情報を追加
     document.getElementById('addMinorInfoButton').addEventListener('click', () => {
