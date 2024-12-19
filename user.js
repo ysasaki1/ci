@@ -17,13 +17,15 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
+// Firebaseの初期化
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
 // 未成年者のデータ構造
 const minors = [];
 
 // ブイログのデータ構造
 const vlogs = [];
-
-// Firebaseの初期化（省略）
 
 // 言語データの定義
 const languageData = {
@@ -51,18 +53,48 @@ const languageData = {
 let currentLanguage = 'ja'; // 初期言語
 
 function updateLanguage() {
-    document.getElementById('welcomeMessage').innerText = languageData[currentLanguage].title;
-    document.querySelector('h2:nth-of-type(1)').innerText = languageData[currentLanguage].minorInfo;
-    document.querySelector('h2:nth-of-type(2)').innerText = languageData[currentLanguage].vlogInfo;
-    document.getElementById('addMinorInfoButton').innerText = languageData[currentLanguage].addMinor;
-    document.getElementById('addVlogInfoButton').innerText = languageData[currentLanguage].addVlog;
-    document.getElementById('downloadCSVButton').innerText = languageData[currentLanguage].downloadCSV;
-    document.getElementById('logoutButton').innerText = languageData[currentLanguage].logout;
+    const welcomeMessage = document.getElementById('welcomeMessage');
+    const minorInfoTitle = document.querySelector('h2:nth-of-type(1)');
+    const vlogInfoTitle = document.querySelector('h2:nth-of-type(2)');
+    const addMinorButton = document.getElementById('addMinorInfoButton');
+    const addVlogButton = document.getElementById('addVlogInfoButton');
+    const downloadCSVButton = document.getElementById('downloadCSVButton');
+    const logoutButton = document.getElementById('logoutButton');
+
+    if (welcomeMessage) {
+        welcomeMessage.innerText = languageData[currentLanguage].title;
+    }
+    if (minorInfoTitle) {
+        minorInfoTitle.innerText = languageData[currentLanguage].minorInfo;
+    }
+    if (vlogInfoTitle) {
+        vlogInfoTitle.innerText = languageData[currentLanguage].vlogInfo;
+    }
+    if (addMinorButton) {
+        addMinorButton.innerText = languageData[currentLanguage].addMinor;
+    }
+    if (addVlogButton) {
+        addVlogButton.innerText = languageData[currentLanguage].addVlog;
+    }
+    if (downloadCSVButton) {
+        downloadCSVButton.innerText = languageData[currentLanguage].downloadCSV;
+    }
+    if (logoutButton) {
+        logoutButton.innerText = languageData[currentLanguage].logout;
+    }
 }
 
 // DOMContentLoadedイベントを使用して、DOMが読み込まれてから実行
 document.addEventListener('DOMContentLoaded', () => {
-    // ユーザーの認証状態を監視（省略）
+    // ユーザーの認証状態を監視
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            document.getElementById('welcomeMessage').innerText = `ようこそ, ${user.email}さん！`;
+        } else {
+            // ユーザーがログインしていない場合、ログインページにリダイレクト
+            window.location.href = 'index.html';
+        }
+    });
 
     // 言語切り替えボタンのイベントリスナー
     document.getElementById('lang-en').addEventListener('click', () => {
@@ -77,10 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 初回の言語設定
     updateLanguage();
-
-    // ユーザー登録・ログインの処理（省略）
-});
-
 
     // 未成年者の情報を追加
     document.getElementById('addMinorInfoButton').addEventListener('click', () => {
@@ -125,7 +153,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('minorName').value = '';
         document.getElementById('minorAge').value = '';
     });
-
     // 収益化ブイログ情報を追加
     document.getElementById('addVlogInfoButton').addEventListener('click', () => {
         const vlogTitle = document.getElementById('vlogTitle').value; // ブイログのタイトル
