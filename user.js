@@ -1,6 +1,7 @@
 // Firebaseの初期化
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 
 // Firebaseの設定
 const firebaseConfig = {
@@ -16,6 +17,19 @@ const firebaseConfig = {
 // Firebaseの初期化
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
+
+
+// データをFirestoreに追加する関数
+async function addMinorToFirestore(minor) {
+    try {
+        const docRef = await addDoc(collection(db, "minors"), minor);
+        console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+        console.error("Error adding document: ", e);
+    }
+}
+
 
 // 未成年者のデータ構造
 const minors = [];
