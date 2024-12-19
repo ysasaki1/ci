@@ -43,6 +43,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const minor = { name, age, earnings: 0, vlogs: [] };
         minors.push(minor); // 未成年者を追加
 
+        // チェックボックスを生成
+        const checkboxContainer = document.getElementById('minorCheckboxContainer');
+        const checkbox = document.createElement('div');
+        checkbox.innerHTML = `
+            <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
+            <label for="${name}">${name}</label>
+            <input type="number" id="duration_${name}" placeholder="出演時間 (分)" min="0" style="width: 100px;">
+        `;
+        checkboxContainer.appendChild(checkbox);
+
+        // 登録された未成年者リストに追加
         const infoList = document.getElementById('infoList');
         const listItem = document.createElement('li');
         listItem.textContent = `未成年者: ${name}, 年齢: ${age}`;
@@ -56,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         deleteButton.addEventListener('click', () => {
             infoList.removeChild(listItem);
             minors.splice(minors.indexOf(minor), 1); // 未成年者を削除
+            checkboxContainer.removeChild(checkbox); // チェックボックスも削除
         });
 
         listItem.appendChild(deleteButton);
@@ -70,8 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('addVlogInfoButton').addEventListener('click', () => {
         const vlogTitle = document.getElementById('vlogTitle').value; // ブイログのタイトル
         const totalEarnings = parseFloat(document.getElementById('totalEarnings').value); // 総収益
-        const selectedMinors = Array.from(document.querySelectorAll('input[name="minorSelect"]:checked')).map(input => input.value);
         const totalDuration = parseFloat(document.getElementById('totalDuration').value); // 総出演時間
+        const selectedMinors = Array.from(document.querySelectorAll('input[name="minorSelect"]:checked')).map(input => input.value);
         const selectedDurations = selectedMinors.map(minorName => parseFloat(document.getElementById(`duration_${minorName}`).value)); // 各未成年者の出演時間
 
         const vlog = { title: vlogTitle, totalEarnings, minors: selectedMinors, selectedDurations };
@@ -101,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 入力フィールドをクリア
         document.getElementById('vlogTitle').value = '';
         document.getElementById('totalEarnings').value = '';
+        document.getElementById('totalDuration').value = '';
         selectedMinors.forEach(minorName => {
             document.getElementById(`duration_${minorName}`).value = ''; // 各未成年者の出演時間をクリア
         });
