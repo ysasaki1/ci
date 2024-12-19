@@ -35,6 +35,11 @@ const languageData = {
         addVlog: "Add Vlog",
         downloadCSV: "Download CSV",
         logout: "Logout",
+        vlogTitle: "Vlog Title",
+        totalEarnings: "Total Earnings",
+        totalDuration: "Total Duration (minutes)",
+        registeredMinors: "Registered Minors",
+        registeredVlogs: "Registered Vlogs",
     },
     ja: {
         title: "ブイログ情報管理",
@@ -44,6 +49,43 @@ const languageData = {
         addVlog: "追加",
         downloadCSV: "CSV出力",
         logout: "ログアウト",
+        vlogTitle: "ブイログタイトル",
+        totalEarnings: "総収益",
+        totalDuration: "総出演時間 (分)",
+        registeredMinors: "登録された未成年者",
+        registeredVlogs: "登録されたブイログ",
+    }
+};
+
+// 言語データの定義
+const languageData = {
+    en: {
+        title: "Vlog Information Management",
+        minorInfo: "Minor Information",
+        vlogInfo: "Monetized Vlog Information",
+        addMinor: "Add Minor",
+        addVlog: "Add Vlog",
+        downloadCSV: "Download CSV",
+        logout: "Logout",
+        vlogTitle: "Vlog Title",
+        totalEarnings: "Total Earnings",
+        totalDuration: "Total Duration (minutes)",
+        registeredMinors: "Registered Minors",
+        registeredVlogs: "Registered Vlogs",
+    },
+    ja: {
+        title: "ブイログ情報管理",
+        minorInfo: "未成年者の情報",
+        vlogInfo: "収益化ブイログ情報",
+        addMinor: "追加",
+        addVlog: "追加",
+        downloadCSV: "CSV出力",
+        logout: "ログアウト",
+        vlogTitle: "ブイログタイトル",
+        totalEarnings: "総収益",
+        totalDuration: "総出演時間 (分)",
+        registeredMinors: "登録された未成年者",
+        registeredVlogs: "登録されたブイログ",
     }
 };
 
@@ -58,6 +100,13 @@ function updateLanguage() {
     const addVlogButton = document.getElementById('addVlogInfoButton');
     const downloadCSVButton = document.getElementById('downloadCSVButton');
     const logoutButton = document.getElementById('logoutButton');
+    
+    // 新たに追加した要素
+    const vlogTitleLabel = document.querySelector('input[placeholder="ブイログタイトル"]');
+    const totalEarningsLabel = document.querySelector('input[placeholder="総収益"]');
+    const totalDurationLabel = document.querySelector('input[placeholder="総出演時間 (分)"]');
+    const registeredMinorsTitle = document.querySelector('h2:nth-of-type(3)');
+    const registeredVlogsTitle = document.querySelector('h2:nth-of-type(4)');
 
     if (welcomeMessage) {
         welcomeMessage.innerText = languageData[currentLanguage].title;
@@ -79,6 +128,23 @@ function updateLanguage() {
     }
     if (logoutButton) {
         logoutButton.innerText = languageData[currentLanguage].logout;
+    }
+    
+    // 新たに追加した要素のテキスト更新
+    if (vlogTitleLabel) {
+        vlogTitleLabel.placeholder = languageData[currentLanguage].vlogTitle;
+    }
+    if (totalEarningsLabel) {
+        totalEarningsLabel.placeholder = languageData[currentLanguage].totalEarnings;
+    }
+    if (totalDurationLabel) {
+        totalDurationLabel.placeholder = languageData[currentLanguage].totalDuration;
+    }
+    if (registeredMinorsTitle) {
+        registeredMinorsTitle.innerText = languageData[currentLanguage].registeredMinors;
+    }
+    if (registeredVlogsTitle) {
+        registeredVlogsTitle.innerText = languageData[currentLanguage].registeredVlogs;
     }
 }
 
