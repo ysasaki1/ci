@@ -176,18 +176,32 @@ document.addEventListener('DOMContentLoaded', () => {
         vlogList.appendChild(vlogItem);
     }
 
-    // ログアウト処理
-    document.getElementById('logoutButton').addEventListener('click', async () => {
-        await auth.signOut(); // Firebaseのログアウト処理
-        alert("ログアウトしました");
-        window.location.href = 'index.html'; // ログインページにリダイレクト
+// ログアウト処理
+const logoutButton = document.getElementById('logoutButton');
+if (logoutButton) {
+    logoutButton.addEventListener('click', async () => {
+        try {
+            await auth.signOut(); // Firebaseのログアウト処理
+            alert("ログアウトしました");
+            window.location.href = 'index.html'; // ログインページにリダイレクト
+        } catch (error) {
+            console.error("ログアウト中にエラーが発生しました:", error);
+            alert("ログアウトに失敗しました。再試行してください。");
+        }
     });
+}
 
-    // エラーメッセージの表示
-    document.getElementById('closeModal').onclick = function() {
-        document.getElementById('errorModal').style.display = 'none';
+// エラーメッセージの表示
+const closeModalButton = document.getElementById('closeModal');
+if (closeModalButton) {
+    closeModalButton.onclick = function() {
+        const errorModal = document.getElementById('errorModal');
+        if (errorModal) {
+            errorModal.style.display = 'none';
+        }
     }
-});
+}
+
 
 // CSV出力の関数
 function downloadCSV() {
