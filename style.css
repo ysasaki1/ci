@@ -145,6 +145,7 @@ input {
 
 .lang-button {
     width: 100px; /* ボタンの幅を統一 */
+    height: 30px; 
     padding: 10px; /* パディングを設定 */
     background-color: #007bff; /* ボタンの背景色 */
     color: white; /* ボタンの文字色 */
