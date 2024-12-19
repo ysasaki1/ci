@@ -6,7 +6,7 @@ body {
 
 .container {
     max-width: 600px;
-    margin: 80px auto; /* 上に80pxのマージンを追加 */
+    margin: 60px auto; /* 上に80pxのマージンを追加 */
     background: white;
     padding: 30px;
     border-radius: 15px;
@@ -139,12 +139,12 @@ input {
 
 .lang-buttons {
     position: absolute; /* 絶対位置に配置 */
-    top: 20px; /* 上からの距離 */
-    right: 20px; /* 右からの距離 */
+    top: 10px; /* 上からの距離 */
+    right: 40px; /* 右からの距離 */
 }
 
 .lang-button {
-    width: 100px; /* ボタンの幅を統一 */
+    width: 70px; /* ボタンの幅を統一 */
     height: 30px; 
     padding: 10px; /* パディングを設定 */
     background-color: #007bff; /* ボタンの背景色 */
