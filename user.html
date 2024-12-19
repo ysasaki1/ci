@@ -22,6 +22,7 @@
         <div class="form-section">
             <h2>収益化ブイログ情報</h2>
             <input type="text" id="vlogTitle" placeholder="ブイログタイトル" required>
+            <input type="text" id="videoUrl" placeholder="YouTubeの動画URL" required>
             <input type="number" id="totalEarnings" placeholder="総収益" min="0" required>
             <input type="number" id="totalDuration" placeholder="総出演時間 (分)" min="0" required>
             <div>
@@ -29,6 +30,9 @@
                 <div id="minorCheckboxContainer" class="minor-container">
                     <!-- 未成年者のチェックボックスがここに動的に追加されます -->
                 </div>
+            </div>
+            <div id="thumbnailContainer" style="margin: 10px 0;">
+                <!-- サムネイルがここに表示されます -->
             </div>
             <button id="addVlogInfoButton" class="small-button">追加</button>
         </div>
@@ -46,7 +50,6 @@
         <button id="downloadCSVButton" class="small-button">CSV出力</button>
     </div>
 
-    <!-- ログアウトボタンをコンテナの外に移動 -->
     <button id="logoutButton" class="small-button">ログアウト</button>
 
     <div id="errorModal" class="modal">
