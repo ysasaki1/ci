@@ -130,71 +130,45 @@ function updateLanguage() {
     });
 }
 
-// DOMContentLoadedイベントを使用して、DOMが読み込まれてから実行
-document.addEventListener('DOMContentLoaded', async () => {
-    // ユーザーの認証状態を監視
-    onAuthStateChanged(auth, async (user) => {
-        if (user) {
-            document.getElementById('welcomeMessage').innerText = `ようこそ, ${user.email}さん！`;
-            const userId = user.uid; // ユーザーIDを取得
+// 未成年者のデータをFirestoreに追加する関数
+async function addMinorToFirestore(minor) {
+    try {
+        const docRef = await addDoc(collection(db, "minors"), minor);
+        console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+        console.error("Error adding document: ", e);
+    }
+}
 
-            // Firestoreから未成年者データを取得
-            await fetchMinorsFromFirestore(userId);
-        } else {
-            // ユーザーがログインしていない場合、ログインページにリダイレクト
-            window.location.href = 'index.html';
-        }
-    });
+// Firestoreから未成年者データを取得する関数
+async function fetchMinorsFromFirestore(userId) {
+    try {
+        const querySnapshot = await getDocs(collection(db, "minors"));
+        querySnapshot.forEach((doc) => {
+            const minor = doc.data();
+            if (minor.userId === userId) { // ユーザーIDでフィルター
+                minors.push(minor); // ローカルの minors 配列に追加
 
-    // 言語切り替えボタンのイベントリスナー
-    document.getElementById('lang-en').addEventListener('click', () => {
-        currentLanguage = 'en';
-        updateLanguage();
-    });
+                // チェックボックスを生成
+                const checkboxContainer = document.getElementById('minorCheckboxContainer');
+                const checkbox = document.createElement('div');
+                checkbox.className = 'minor-checkbox';
+                checkbox.innerHTML = `
+                    <input type="checkbox" name="minorSelect" value="${minor.name}" id="${minor.name}">
+                    <label for="${minor.name}">${minor.name}</label>
+                    <input type="number" id="duration_${minor.name}" placeholder="出演時間 (分)" min="0">
+                `;
+                checkboxContainer.appendChild(checkbox);
 
-    document.getElementById('lang-ja').addEventListener('click', () => {
-        currentLanguage = 'ja';
-        updateLanguage();
-    });
+                // 登録された未成年者リストに追加
+                const infoList = document.getElementById('infoList');
+                const listItem = document.createElement('li');
+                listItem.textContent = `未成年者: ${minor.name}, 年齢: ${minor.age}`;
 
-    // 初回の言語設定
-    updateLanguage();
-
-    // 未成年者の情報を追加
-    document.getElementById('addMinorInfoButton').addEventListener('click', async () => {
-        const name = document.getElementById('minorName').value;
-        const age = document.getElementById('minorAge').value;
-
-        const userId = auth.currentUser.uid; // 現在のユーザーIDを取得
-        const createdDate = new Date().toISOString(); // 登録日を取得
-        const minorId = `${userId}-${Date.now()}`; // ユニークな未成年者IDを生成
-
-        const minor = { id: minorId, userId, name, age, createdDate, earnings: 0, vlogs: [] };
-        minors.push(minor); // 未成年者を追加
-
-        // Firestoreにデータを追加
-        await addMinorToFirestore(minor);
-
-        // チェックボックスを生成
-        const checkboxContainer = document.getElementById('minorCheckboxContainer');
-        const checkbox = document.createElement('div');
-        checkbox.className = 'minor-checkbox'; // クラス名を追加
-        checkbox.innerHTML = `
-            <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
-            <label for="${name}">${name}</label>
-            <input type="number" id="duration_${name}" placeholder="出演時間 (分)" min="0">
-        `;
-        checkboxContainer.appendChild(checkbox);
-
-        // 登録された未成年者リストに追加
-        const infoList = document.getElementById('infoList');
-        const listItem = document.createElement('li');
-        listItem.textContent = `未成年者: ${name}, 年齢: ${age}`;
-
-        // 削除ボタンを作成
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = languageData[currentLanguage].delete; // 言語に応じた削除ボタンラベル
-        deleteButton.classList.add('delete-button');
+                // 削除ボタンを作成
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = languageData[currentLanguage].delete; // 言語に応じた削除ボタンラベル
+                deleteButton.classList.add('delete-button');
 
                 // 削除ボタンのクリックイベント
                 deleteButton.addEventListener('click', () => {
@@ -392,7 +366,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // CSV出力ボタンを設定
     document.getElementById('downloadCSVButton').addEventListener('click', downloadCSV);
 
-    // サムネイルを取得する関数
+      // サムネイルを取得する関数
     function getThumbnailFromUrl(url) {
         const videoId = url.split('v=')[1];
         const ampersandPosition = videoId ? videoId.indexOf('&') : -1;
@@ -415,3 +389,4 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 });
+
