@@ -17,10 +17,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Firebaseの初期化
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
 // 未成年者のデータ構造
 const minors = [];
 
