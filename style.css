@@ -130,16 +130,5 @@ input {
 #logoutButton {
     display: block; /* ブロック要素として表示 */
     margin: 20px auto; /* 上下のマージンを追加し、中央寄せ */
-    width: 33.33%; /* 他のボタンと同じ幅に設定 */
-    padding: 12px; /* パディングを他のボタンと同じに */
-    background-color: #007bff; /* ボタンの背景色を他のボタンと統一 */
-    color: white; /* ボタンの文字色を他のボタンと統一 */
-    border: none; /* ボーダーをなしに */
-    border-radius: 5px; /* 角を丸くする */
-    cursor: pointer; /* カーソルをポインターに */
-    box-sizing: border-box; /* パディングとボーダーを含めたサイズ計算 */
-}
-
-#logoutButton:hover {
-    background-color: #0056b3; /* ホバー時の色を他のボタンと統一 */
+    width: 200px; /* ボタンの幅を指定 */
 }
