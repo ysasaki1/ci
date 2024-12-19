@@ -90,7 +90,6 @@ input {
     cursor: pointer;
 }
 
-
 .delete-button {
     margin-left: 10px; /* ボタンとテキストの間にスペースを追加 */
     background-color: #ff4d4d; /* 削除ボタンの背景色 */
@@ -104,3 +103,25 @@ input {
     background-color: #ff1a1a; /* ホバー時の色 */
 }
 
+/* 未成年者のチェックボックスのスタイル */
+.minor-container {
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #fff;
+    margin-top: 10px; /* 上部マージン */
+}
+
+.minor-checkbox {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+
+.minor-checkbox input[type="number"] {
+    margin-left: 5px;
+    width: 60px; /* 出演時間の幅を指定 */
+    padding: 5px;
+}
