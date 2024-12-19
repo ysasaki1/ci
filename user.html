@@ -10,47 +10,50 @@
 <body>
     <div class="container">
         <h1 id="welcomeMessage"></h1>
-        <button id="lang-en" class="lang-button">English</button>
-        <button id="lang-ja" class="lang-button">日本語</button>
-
-        <div class="form-section">
-            <h2 id="minorInfoTitle">未成年者の情報</h2>
-            <input type="text" id="minorName" placeholder="名前" required>
-            <input type="number" id="minorAge" placeholder="年齢" min="0" required>
-            <button id="addMinorInfoButton" class="small-button" id="addMinorButton">追加</button>
-        </div>
-
-        <div class="form-section">
-            <h2 id="vlogInfoTitle">収益化ブイログ情報</h2>
-            <input type="text" id="vlogTitle" placeholder="ブイログタイトル" required>
-            <input type="text" id="videoUrl" placeholder="YouTubeの動画URL" required>
-            <input type="number" id="totalEarnings" placeholder="総収益" min="0" required>
-            <input type="number" id="totalDuration" placeholder="総出演時間 (分)" min="0" required>
-            <div>
-                <h3>出演未成年者</h3>
-                <div id="minorCheckboxContainer" class="minor-container">
-                    <!-- 未成年者のチェックボックスがここに動的に追加されます -->
-                </div>
-            </div>
-            <div id="thumbnailContainer" style="margin: 10px 0;">
-                <!-- サムネイルがここに表示されます -->
-            </div>
-            <button id="addVlogInfoButton" class="small-button" id="addVlogButton">追加</button>
-        </div>
-
-        <div class="form-section">
-            <h2>登録された未成年者</h2>
-            <ul id="infoList"></ul>
-        </div>
-
-        <div class="form-section">
-            <h2>登録されたブイログ</h2>
-            <ul id="vlogList"></ul>
-        </div>
-
-        <button id="downloadCSVButton" class="small-button">CSV出力</button>
+        <!-- 残りのコンテンツ -->
     </div>
 
+    <div class="lang-buttons">
+        <button id="lang-en" class="lang-button">English</button>
+        <button id="lang-ja" class="lang-button">日本語</button>
+    </div>
+
+    <div class="form-section">
+        <h2 id="minorInfoTitle">未成年者の情報</h2>
+        <input type="text" id="minorName" placeholder="名前" required>
+        <input type="number" id="minorAge" placeholder="年齢" min="0" required>
+        <button id="addMinorInfoButton" class="small-button">追加</button>
+    </div>
+
+    <div class="form-section">
+        <h2 id="vlogInfoTitle">収益化ブイログ情報</h2>
+        <input type="text" id="vlogTitle" placeholder="ブイログタイトル" required>
+        <input type="text" id="videoUrl" placeholder="YouTubeの動画URL" required>
+        <input type="number" id="totalEarnings" placeholder="総収益" min="0" required>
+        <input type="number" id="totalDuration" placeholder="総出演時間 (分)" min="0" required>
+        <div>
+            <h3>出演未成年者</h3>
+            <div id="minorCheckboxContainer" class="minor-container">
+                <!-- 未成年者のチェックボックスがここに動的に追加されます -->
+            </div>
+        </div>
+        <div id="thumbnailContainer" style="margin: 10px 0;">
+            <!-- サムネイルがここに表示されます -->
+        </div>
+        <button id="addVlogInfoButton" class="small-button">追加</button>
+    </div>
+
+    <div class="form-section">
+        <h2>登録された未成年者</h2>
+        <ul id="infoList"></ul>
+    </div>
+
+    <div class="form-section">
+        <h2>登録されたブイログ</h2>
+        <ul id="vlogList"></ul>
+    </div>
+
+    <button id="downloadCSVButton" class="small-button">CSV出力</button>
     <button id="logoutButton" class="small-button">ログアウト</button>
 
     <div id="errorModal" class="modal">
@@ -59,9 +62,5 @@
             <p id="modalMessage"></p>
         </div>
     </div>
-
-    <script type="module">
-        // ここに上記のJavaScriptコードを追加
-    </script>
 </body>
 </html>
