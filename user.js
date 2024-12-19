@@ -1,7 +1,7 @@
 // Firebaseの初期化
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 
 // Firebaseの設定
 const firebaseConfig = {
@@ -18,16 +18,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-
-// データをFirestoreに追加する関数
-async function addMinorToFirestore(minor) {
-    try {
-        const docRef = await addDoc(collection(db, "minors"), minor);
-        console.log("Document written with ID: ", docRef.id);
-    } catch (e) {
-        console.error("Error adding document: ", e);
-    }
-}
 
 // 未成年者のデータ構造
 const minors = [];
@@ -92,12 +82,59 @@ function updateLanguage() {
     }
 }
 
+// Firestoreから未成年者データを取得する関数
+async function fetchMinorsFromFirestore() {
+    try {
+        const querySnapshot = await getDocs(collection(db, "minors"));
+        querySnapshot.forEach((doc) => {
+            const minor = doc.data();
+            minors.push(minor); // ローカルの minors 配列に追加
+
+            // チェックボックスを生成
+            const checkboxContainer = document.getElementById('minorCheckboxContainer');
+            const checkbox = document.createElement('div');
+            checkbox.className = 'minor-checkbox';
+            checkbox.innerHTML = `
+                <input type="checkbox" name="minorSelect" value="${minor.name}" id="${minor.name}">
+                <label for="${minor.name}">${minor.name}</label>
+                <input type="number" id="duration_${minor.name}" placeholder="出演時間 (分)" min="0">
+            `;
+            checkboxContainer.appendChild(checkbox);
+
+            // 登録された未成年者リストに追加
+            const infoList = document.getElementById('infoList');
+            const listItem = document.createElement('li');
+            listItem.textContent = `未成年者: ${minor.name}, 年齢: ${minor.age}`;
+
+            // 削除ボタンを作成
+            const deleteButton = document.createElement('button');
+            deleteButton.textContent = '削除';
+            deleteButton.classList.add('delete-button');
+
+            // 削除ボタンのクリックイベント
+            deleteButton.addEventListener('click', () => {
+                infoList.removeChild(listItem);
+                minors.splice(minors.indexOf(minor), 1); // 未成年者を削除
+                checkboxContainer.removeChild(checkbox); // チェックボックスも削除
+            });
+
+            listItem.appendChild(deleteButton);
+            infoList.appendChild(listItem);
+        });
+    } catch (error) {
+        console.error("Error fetching minors: ", error);
+    }
+}
+
 // DOMContentLoadedイベントを使用して、DOMが読み込まれてから実行
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     // ユーザーの認証状態を監視
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
         if (user) {
             document.getElementById('welcomeMessage').innerText = `ようこそ, ${user.email}さん！`;
+
+            // Firestoreから未成年者データを取得
+            await fetchMinorsFromFirestore();
         } else {
             // ユーザーがログインしていない場合、ログインページにリダイレクト
             window.location.href = 'index.html';
@@ -164,8 +201,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('minorName').value = '';
         document.getElementById('minorAge').value = '';
     });
-
-
     // 収益化ブイログ情報を追加
     document.getElementById('addVlogInfoButton').addEventListener('click', () => {
         const vlogTitle = document.getElementById('vlogTitle').value; // ブイログのタイトル
@@ -174,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const selectedMinors = Array.from(document.querySelectorAll('input[name="minorSelect"]:checked')).map(input => input.value);
         const selectedDurations = selectedMinors.map(minorName => parseFloat(document.getElementById(`duration_${minorName}`).value)); // 各未成年者の出演時間
 
-        const vlog = { title: vlogTitle, totalEarnings, minors: selectedMinors, selectedDurations };
+        const vlog = { title: vlogTitle, totalEarnings, totalDuration, minors: selectedMinors, selectedDurations };
         vlogs.push(vlog); // ブイログを追加
 
         // 各未成年者の収益を計算
@@ -198,8 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 結果を表示
         displayVlogInfo(vlog);
 
-
-                // 入力フィールドをクリア
+        // 入力フィールドをクリア
         document.getElementById('vlogTitle').value = '';
         document.getElementById('totalEarnings').value = '';
         document.getElementById('totalDuration').value = '';
