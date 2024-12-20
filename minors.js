@@ -41,6 +41,11 @@ export function displayMinors() {
 
     const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
 
+    // Minor Participantsのタイトルを表示
+    const title = document.createElement('h3');
+    title.textContent = languageData[currentLanguage].minorParticipants; // 言語に応じたタイトル
+    infoList.appendChild(title);
+
     minors.forEach(minor => {
         const listItem = document.createElement('li');
         listItem.textContent = `${languageData[currentLanguage].minorItemLabel} ${minor.name}, ${languageData[currentLanguage].ageLabel} ${minor.age}`; // 言語に応じた表示
