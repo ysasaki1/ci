@@ -172,6 +172,7 @@ export function refreshLanguageUI() {
             item.textContent = `${languageData[currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[currentLanguage].aageLabel} ${minor.age}`; // 言語に応じたテキストを更新
         }
     });
+
     
     // チェックボックスのプレースホルダーを更新
     const durationInputs = document.querySelectorAll('input[type="number"]');
