@@ -28,6 +28,7 @@ export async function fetchMinorsFromFirestore(userId) {
                 minors.push(minor); // ローカルの minors 配列に追加
             }
         });
+        displayMinors(); // 取得したデータを表示
     } catch (error) {
         console.error("Error fetching minors: ", error);
     }
@@ -52,7 +53,7 @@ export function displayMinors() {
         // 削除ボタンのクリックイベント
         deleteButton.addEventListener('click', async () => {
             try {
-                const docRef = await deleteDoc(minor.id); // Firestoreから未成年者データを削除
+                await deleteDoc(doc.ref); // Firestoreから未成年者データを削除
                 infoList.removeChild(listItem);
                 minors.splice(minors.indexOf(minor), 1); // 未成年者をローカル配列から削除
             } catch (error) {
