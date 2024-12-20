@@ -1,14 +1,12 @@
 import { initializeFirebase } from "./firebase.js";
-import { collection, addDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
+import { collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 import { languageData, getCurrentLanguage } from "./language.js"; // 言語データをインポート
-import { auth } from "./firebase.js"; // authをインポート
 
 const { db } = initializeFirebase(); // Firebaseの初期化とdbの取得
+import { minors } from "./minors.js"; // minors.jsのデータを使用する場合
 
-export const data = {
-    vlogs: [],
-    minors: [] // 未成年者情報を管理する配列を追加
-};
+// ブイログのデータを格納する配列
+export const vlogs = [];
 
 // 収益化ブイログ情報をFirestoreに追加する関数
 export async function addVlogToFirestore(vlog) {
@@ -24,77 +22,17 @@ export async function addVlogToFirestore(vlog) {
 export async function fetchVlogsFromFirestore() {
     try {
         const querySnapshot = await getDocs(collection(db, "vlogs"));
-        data.vlogs = []; // 配列をクリア
+        const vlogs = [];
         querySnapshot.forEach((doc) => {
-            data.vlogs.push({ id: doc.id, ...doc.data() });
+            vlogs.push({ id: doc.id, ...doc.data() });
         });
-        return data.vlogs; // 取得したデータを返す
+        return vlogs; // 取得したデータを返す
     } catch (error) {
         console.error("Error fetching vlogs: ", error);
     }
 }
 
-// 未成年者のデータをFirestoreに追加する関数
-export async function addMinorToFirestore(minor) {
-    try {
-        const docRef = await addDoc(collection(db, "minors"), minor);
-        console.log("Minor added with ID: ", docRef.id);
-        return docRef; // 追加したドキュメントの参照を返す
-    } catch (e) {
-        console.error("Error adding minor: ", e);
-    }
-}
-
-// Firestoreから未成年者データを取得する関数
-export async function fetchMinorsFromFirestore(userId) {
-    try {
-        const querySnapshot = await getDocs(collection(db, "minors"));
-        data.minors = []; // 配列をクリア
-        querySnapshot.forEach((doc) => {
-            const minor = doc.data();
-            if (minor.userId === userId) { // ユーザーIDでフィルター
-                data.minors.push({ id: doc.id, ...minor }); // ローカルの minors 配列に追加
-            }
-        });
-        displayMinors(); // 取得したデータを表示
-    } catch (error) {
-        console.error("Error fetching minors: ", error);
-    }
-}
-
-// 登録された未成年者情報を表示する関数
-export function displayMinors() {
-    const infoList = document.getElementById('infoList');
-    infoList.innerHTML = ""; // 既存のリストをクリア
-
-    const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
-
-    data.minors.forEach(minor => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${languageData[currentLanguage].minorItemLabel} ${minor.name}, ${languageData[currentLanguage].ageLabel} ${minor.age}`; // 言語に応じた表示
-
-        // 削除ボタンを作成
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = languageData[currentLanguage].delete; // 言語に応じた削除ボタンラベル
-        deleteButton.classList.add('delete-button');
-
-        // 削除ボタンのクリックイベント
-        deleteButton.addEventListener('click', async () => {
-            try {
-                await deleteDoc(collection(db, "minors").doc(minor.id)); // Firestoreから未成年者データを削除
-                infoList.removeChild(listItem);
-                data.minors.splice(data.minors.indexOf(minor), 1); // 未成年者をローカル配列から削除
-            } catch (error) {
-                console.error("未成年者の削除中にエラーが発生しました:", error);
-            }
-        });
-
-        listItem.appendChild(deleteButton);
-        infoList.appendChild(listItem); // 言語に応じた内容を持つリストアイテムを追加
-    });
-}
-
-// 登録されたブイログ情報を表示する関数
+// 取得したブイログ情報を表示する関数
 export function displayVlogs(vlogs) {
     const vlogList = document.getElementById('vlogList');
     vlogList.innerHTML = ""; // 既存のリストをクリア
@@ -107,6 +45,7 @@ export function displayVlogs(vlogs) {
             ? vlog.minors.join(', ') 
             : languageData[currentLanguage].registeredMinors; // 未成年者がいない場合のテキスト
 
+        // 年齢情報の部分を削除
         vlogItem.textContent = `${languageData[currentLanguage].vlogTitle}: ${vlog.title}, ${languageData[currentLanguage].totalEarnings}: ¥${vlog.totalEarnings}, ${languageData[currentLanguage].registeredMinors}: ${minorsText}`;
         vlogList.appendChild(vlogItem);
     });
@@ -132,7 +71,18 @@ export function addVlogEventListener() {
 
         // Firestoreに新しいコレクション「vlogs」を作成し、データを追加
         await addVlogToFirestore(vlog);
-        data.vlogs.push(vlog); // ローカルのvlogs配列に追加
+        vlogs.push(vlog); // ローカルのvlogs配列に追加
+
+        // 結果を表示
+        displayVlogInfo(vlog);
+
+        // 入力フィールドをクリア
+        document.getElementById('vlogTitle').value = '';
+        document.getElementById('totalEarnings').value = '';
+        document.getElementById('totalDuration').value = '';
+        selectedMinors.forEach(minorName => {
+            document.getElementById(`duration_${minorName}`).value = '';
+        });
 
         // Firestore からのブイログを再読み込みして表示
         const allVlogs = await fetchVlogsFromFirestore();
@@ -140,43 +90,17 @@ export function addVlogEventListener() {
     });
 }
 
-// 未成年者を追加するイベントリスナー
-export function addMinorEventListener() {
-    document.getElementById('addMinorInfoButton').addEventListener('click', async () => {
-        const name = document.getElementById('minorName').value.trim();
-        const age = document.getElementById('minorAge').value.trim();
+// 結果を表示する関数
+function displayVlogInfo(vlog) {
+    const vlogList = document.getElementById('vlogList');
+    const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
 
-        if (!name || !age) {
-            alert(languageData[getCurrentLanguage()].errorMessage); // 言語に応じたエラーメッセージを表示
-            return;
-        }
+    const minorsText = vlog.minors && vlog.minors.length > 0 
+        ? vlog.minors.join(', ') 
+        : languageData[currentLanguage].registeredMinors; // 未成年者がいない場合のテキスト
 
-        const userId = auth.currentUser.uid; // 現在のユーザーIDを取得
-        const createdDate = new Date().toISOString(); // 登録日を取得
-        const minorId = `${userId}-${Date.now()}`; // ユニークな未成年者IDを生成
-
-        const minor = { id: minorId, userId, name, age, createdDate, earnings: 0, vlogs: [] };
-
-        // Firestoreにデータを追加
-        const docRef = await addMinorToFirestore(minor);
-        data.minors.push({ ...minor, id: docRef.id }); // 未成年者をローカル配列に追加
-
-        // チェックボックスを生成
-        const checkboxContainer = document.getElementById('minorCheckboxContainer');
-        const checkbox = document.createElement('div');
-        checkbox.className = 'minor-checkbox';
-        checkbox.innerHTML = `
-            <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
-            <label for="${name}">${name}</label>
-            <input type="number" id="duration_${name}" placeholder="${languageData[getCurrentLanguage()].durationPlaceholder}" min="0">
-        `;
-        checkboxContainer.appendChild(checkbox);
-
-        // 登録された未成年者リストに追加
-        displayMinors(); // 新しい未成年者をリストに表示
-
-        // 入力フィールドをクリア
-        document.getElementById('minorName').value = '';
-        document.getElementById('minorAge').value = '';
-    });
+    const vlogItem = document.createElement('li');
+    vlogItem.textContent = `${languageData[currentLanguage].vlogTitle}: ${vlog.title}, ${languageData[currentLanguage].totalEarnings}: ¥${vlog.totalEarnings}, ${languageData[currentLanguage].registeredMinors}: ${minorsText}`;
+    
+    vlogList.appendChild(vlogItem);
 }
