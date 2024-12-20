@@ -24,12 +24,16 @@ auth.onAuthStateChanged(async (user) => {
 });
 
 // 言語切り替えボタンの設定
-document.getElementById('lang-en').addEventListener('click', () => {
-    setLanguage('en'); // setLanguage 関数を使用
+document.getElementById('lang-en').addEventListener('click', async () => {
+    setLanguage('en'); // 言語を英語に設定
+    const allVlogs = await fetchVlogsFromFirestore();
+    displayVlogs(allVlogs); // 言語切り替え後に再表示
 });
 
-document.getElementById('lang-ja').addEventListener('click', () => {
-    setLanguage('ja'); // setLanguage 関数を使用
+document.getElementById('lang-ja').addEventListener('click', async () => {
+    setLanguage('ja'); // 言語を日本語に設定
+    const allVlogs = await fetchVlogsFromFirestore();
+    displayVlogs(allVlogs); // 言語切り替え後に再表示
 });
 
 // 未成年者の情報を追加
