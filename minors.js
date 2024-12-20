@@ -25,7 +25,7 @@ export async function fetchMinorsFromFirestore(userId) {
         querySnapshot.forEach((doc) => {
             const minor = doc.data();
             if (minor.userId === userId) { // ユーザーIDでフィルター
-                minors.push(minor); // ローカルの minors 配列に追加
+                minors.push({ ...minor, id: doc.id }); // ローカルの minors 配列に追加
             }
         });
         displayMinors(); // 取得したデータを表示
