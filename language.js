@@ -19,9 +19,7 @@ export const languageData = {
         minorAge: "Age",
         delete: "Delete",
         minorParticipants: "Minor Participants",
-        aminorItemLabel: "Minor: ",
-        aageLabel: "Age: ",
-        adurationPlaceholder: "Duration (minutes)",
+
         errorMessage: "Please fill in all fields correctly.", // エラーメッセージ
     },
     ja: {
@@ -41,9 +39,7 @@ export const languageData = {
         minorAge: "年齢",
         delete: "削除",
         minorParticipants: "出演未成年者",
-        aminorItemLabel: "未成年者: ",
-        aageLabel: "年齢: ",
-        adurationPlaceholder: "出演時間 (分)",
+
         errorMessage: "すべてのフィールドを正しく入力してください。" // エラーメッセージ
     }
 };
@@ -106,14 +102,6 @@ export function updateLanguage() {
     updatePlaceholder(minorNameInput, languageData[currentLanguage].minorName);
     updatePlaceholder(minorAgeInput, languageData[currentLanguage].minorAge);
 
-     // 追加: aminorItemLabel, aageLabel, adurationPlaceholder の更新
-    const aminorItemLabel = document.getElementById('aminorItemLabel');
-    const aageLabel = document.getElementById('aageLabel');
-    const adurationPlaceholder = document.getElementById('adurationPlaceholder');
-
-    updateTextContent(aminorItemLabel, languageData[currentLanguage].aminorItemLabel);
-    updateTextContent(aageLabel, languageData[currentLanguage].aageLabel);
-    updatePlaceholder(adurationPlaceholder, languageData[currentLanguage].adurationPlaceholder);
 
 
 
@@ -124,15 +112,37 @@ export function updateLanguage() {
     });
 }
 
+
+
+let currentLanguage = localStorage.getItem('language') || 'ja'; // 初期値をローカルストレージから取得
+
+const languageData = {
+    ja: {
+        delete: "削除",
+        errorMessage: "すべてのフィールドを入力してください。"
+    },
+    en: {
+        delete: "Delete",
+        errorMessage: "Please fill out all fields."
+    }
+};
+
 // 言語を切り替える関数
 export function setLanguage(lang) {
     if (languageData[lang]) {
         currentLanguage = lang;
-        updateLanguage();
+        localStorage.setItem('language', lang); // 言語をローカルストレージに保存
+        updateLanguage(); // UIを更新
     }
 }
 
 // 現在の言語を取得する関数
 export function getCurrentLanguage() {
     return currentLanguage;
+}
+
+// 言語更新のための関数
+function updateLanguage() {
+    // UIの各要素を更新
+    updateUI(); // UIを再表示
 }
