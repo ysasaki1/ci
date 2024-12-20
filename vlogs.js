@@ -1,8 +1,11 @@
+import { initializeFirebase } from "./firebase.js";
 import { collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
-import { db } from "./firebase.js";
+
+const { db } = initializeFirebase(); // Firebaseの初期化とdbの取得
 import { minors } from "./minors.js";
 import { languageData } from "./language.js";
 
+// ブイログのデータを格納する配列
 export const vlogs = [];
 
 // 収益化ブイログ情報をFirestoreに追加する関数
@@ -36,24 +39,6 @@ export function addVlogEventListener() {
         // Firestoreに新しいコレクション「vlogs」を作成し、データを追加
         await addVlogToFirestore(vlog);
         vlogs.push(vlog); // ローカルのvlogs配列に追加
-
-        // 各未成年者の収益を計算
-        selectedMinors.forEach((minorName, index) => {
-            const minor = minors.find(m => m.name === minorName);
-            const individualDuration = selectedDurations[index];
-            let earnings;
-
-            if (selectedMinors.length === 1) {
-                earnings = (individualDuration / totalDuration) < 0.5 ? 0 : totalEarnings * (individualDuration / totalDuration);
-            } else {
-                earnings = totalEarnings / selectedMinors.length;
-            }
-
-            // 各未成年者の収益を加算
-            minor.earnings = (minor.earnings || 0) + earnings;
-            minor.vlogs = minor.vlogs || [];
-            minor.vlogs.push(vlogTitle);
-        });
 
         // 結果を表示
         displayVlogInfo(vlog);
