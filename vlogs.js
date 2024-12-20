@@ -41,7 +41,10 @@ export function displayVlogs(vlogs) {
 
     vlogs.forEach(vlog => {
         const vlogItem = document.createElement('li');
-        vlogItem.textContent = `${languageData[currentLanguage].vlogTitle}: ${vlog.title}, ${languageData[currentLanguage].totalEarnings}: ¥${vlog.totalEarnings}, ${languageData[currentLanguage].minors}: ${vlog.minors.join(', ')}`;
+        const minorsText = vlog.minors && vlog.minors.length > 0 
+            ? vlog.minors.join(', ') 
+            : languageData[currentLanguage].minorParticipants; // 未成年者がいない場合のテキスト
+        vlogItem.textContent = `${languageData[currentLanguage].vlogTitle}: ${vlog.title}, ${languageData[currentLanguage].totalEarnings}: ¥${vlog.totalEarnings}, ${languageData[currentLanguage].minorParticipants}: ${minorsText}`;
         vlogList.appendChild(vlogItem);
     });
 }
@@ -88,9 +91,13 @@ export function addVlogEventListener() {
 // 結果を表示する関数
 function displayVlogInfo(vlog) {
     const vlogList = document.getElementById('vlogList');
-    const vlogItem = document.createElement('li');
     const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
-    vlogItem.textContent = `${languageData[currentLanguage].vlogTitle}: ${vlog.title}, ${languageData[currentLanguage].totalEarnings}: ¥${vlog.totalEarnings}, ${languageData[currentLanguage].minors}: ${vlog.minors.join(', ')}`;
+    const minorsText = vlog.minors && vlog.minors.length > 0 
+        ? vlog.minors.join(', ') 
+        : languageData[currentLanguage].minorParticipants; // 未成年者がいない場合のテキスト
+
+    const vlogItem = document.createElement('li');
+    vlogItem.textContent = `${languageData[currentLanguage].vlogTitle}: ${vlog.title}, ${languageData[currentLanguage].totalEarnings}: ¥${vlog.totalEarnings}, ${languageData[currentLanguage].minorParticipants}: ${minorsText}`;
     
     vlogList.appendChild(vlogItem);
 }
