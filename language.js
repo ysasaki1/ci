@@ -1,7 +1,8 @@
 import { auth } from "./firebase.js"; // authをインポート
 
-// 言語を更新する関数
-export function updateLanguage() {
+// 言語データの定義
+export const languageData = {
+    en: {
     const welcomeMessage = document.getElementById('welcomeMessage');
     const minorInfoTitle = document.getElementById('minorInfoTitle');
     const vlogInfoTitle = document.getElementById('vlogInfoTitle');
