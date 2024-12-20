@@ -1,5 +1,3 @@
-// minors.js
-
 import { initializeFirebase } from "./firebase.js";
 import { collection, addDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 import { auth } from "./firebase.js";
@@ -74,7 +72,6 @@ class MinorManager {
             await deleteDoc(docId);
             document.getElementById('infoList').removeChild(listItem);
             document.getElementById('minorCheckboxContainer').removeChild(checkboxDiv);
-            // minors配列から削除は不要
         } catch (error) {
             console.error("Error deleting minor: ", error);
             alert(languageData[this.currentLanguage].errorMessage);
