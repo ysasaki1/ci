@@ -84,9 +84,9 @@ export function updateLanguage() {
     const minorParticipantsTitle = document.getElementById('minorParticipantsTitle');
     const minorNameInput = document.getElementById('minorName');
     const minorAgeInput = document.getElementById('minorAge');
-        const minorItemLabel2 = document.getElementById('minorItemLabel');
-    const ageLabel2 = document.getElementById('ageLabel');
-    const durationPlaceholder2 = document.getElementById('durationPlaceholder');
+        const minorItemLabel2 = document.getElementById('minorItemLabel2');
+    const ageLabel2 = document.getElementById('ageLabel2');
+    const durationPlaceholder2 = document.getElementById('durationPlaceholder2');
 
 
     
