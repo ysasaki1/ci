@@ -1,6 +1,6 @@
 import { initializeFirebase, setupLogout } from "./firebase.js";
 import { setLanguage } from "./language.js"; // setLanguage をインポート
-import { fetchVlogsFromFirestore, displayVlogs, addVlogEventListener } from "./vlogs.js"; // minors は削除
+import { fetchVlogsFromFirestore, displayVlogs, addVlogEventListener } from "./vlogs.js"; // vlogs.jsをインポート
 
 const { auth } = initializeFirebase(); // Firebaseの初期化
 
@@ -8,8 +8,7 @@ const { auth } = initializeFirebase(); // Firebaseの初期化
 auth.onAuthStateChanged(async (user) => {
     if (user) {
         document.getElementById('welcomeMessage').innerText = `ようこそ, ${user.email}さん！`;
-        const userId = user.uid;
-
+        
         // Firestoreからブイログデータを取得して表示
         await loadVlogs(); // vlogs のみを読み込む
     } else {
@@ -41,7 +40,7 @@ document.getElementById('lang-ja').addEventListener('click', async () => {
 });
 
 // 収益化ブイログ情報を追加
-addVlogEventListener(); // minors の処理は削除
+addVlogEventListener(); // vlogs.jsの処理を呼び出す
 
 // ログアウト処理
 setupLogout();
