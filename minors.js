@@ -1,7 +1,7 @@
 import { initializeFirebase } from "./firebase.js";
 import { collection, addDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js"; // Firestoreのインポート
 import { auth } from "./firebase.js"; // authのインポート
-import { languageData, getCurrentLanguage, updateLanguage } from "./language.js"; // 言語データのインポート
+import { languageData, getCurrentLanguage } from "./language.js"; // 言語データのインポート
 
 const { db } = initializeFirebase(); // Firebaseの初期化とdbの取得
 
@@ -46,14 +46,14 @@ function displayMinor(minor) {
     checkboxDiv.innerHTML = `
         <input type="checkbox" name="minorSelect" value="${minor.name}" id="${minor.name}">
         <label for="${minor.name}">${minor.name}</label>
-        <input type="number" id="duration_${minor.name}" placeholder="${languageData[currentLanguage].adurationPlaceholder}" min="0"> <!-- 言語に応じたプレースホルダー -->
+        <input type="number" id="duration_${minor.name}" placeholder="${languageData[currentLanguage].adurationPlaceholder}" min="0">
     `;
     checkboxContainer.appendChild(checkboxDiv);
 
     // 登録された未成年者リストに追加
     const infoList = document.getElementById('infoList');
     const listItem = document.createElement('li');
-    listItem.textContent = `${languageData[currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[currentLanguage].aageLabel} ${minor.age}`; // 言語に応じたテキスト
+    listItem.textContent = `${languageData[currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[currentLanguage].aageLabel} ${minor.age}`;
 
     // 削除ボタンを作成
     const deleteButton = document.createElement('button');
@@ -80,9 +80,10 @@ function displayMinor(minor) {
 export function addMinorEventListener() {
     document.getElementById('addMinorInfoButton').addEventListener('click', async () => {
         const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
-        const minorItemLabel = languageData[currentLanguage].aminorItemLabel; // 言語に応じたラベル取得
-        const ageLabel = languageData[currentLanguage].aageLabel; // 言語に応じた年齢ラベル取得
-        const durationPlaceholder = languageData[currentLanguage].adurationPlaceholder; // 言語に応じたプレースホルダー取得
+        
+        const minorItemLabel = languageData[currentLanguage].aminorItemLabel; // 取得
+        const ageLabel = languageData[currentLanguage].aageLabel; // 取得
+        const durationPlaceholder = languageData[currentLanguage].adurationPlaceholder; // 取得
 
         const name = document.getElementById('minorName').value;
         const age = document.getElementById('minorAge').value;
@@ -109,14 +110,14 @@ export function addMinorEventListener() {
         checkboxDiv.innerHTML = `
             <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
             <label for="${name}">${name}</label>
-            <input type="number" id="duration_${name}" placeholder="${durationPlaceholder}" min="0"> <!-- 言語に応じたプレースホルダー -->
+            <input type="number" id="duration_${name}" placeholder="${durationPlaceholder}" min="0">
         `;
         checkboxContainer.appendChild(checkboxDiv);
 
         // 登録された未成年者リストに追加
         const infoList = document.getElementById('infoList');
         const listItem = document.createElement('li');
-        listItem.textContent = `${minorItemLabel} ${name}, ${ageLabel} ${age}`; // 言語に応じたテキスト
+        listItem.textContent = `${minorItemLabel} ${name}, ${ageLabel} ${age}`;
 
         // 削除ボタンを作成
         const deleteButton = document.createElement('button');
@@ -149,12 +150,12 @@ export function setLanguage(lang) {
     if (languageData[lang]) {
         currentLanguage = lang;
         updateLanguage(); // UIを更新
-        fetchMinorsFromFirestore(auth.currentUser.uid); // ユーザーの未成年者情報を再取得
+        refreshMinors(); // 未成年者情報を再表示
     }
 }
 
 // UIを更新する関数
-export function refreshLanguageUI() {
+export function updateLanguage() {
     const currentLanguage = getCurrentLanguage();
     
     // 言語に基づいて各要素を更新
@@ -169,14 +170,13 @@ export function refreshLanguageUI() {
     listItems.forEach((item, index) => {
         const minor = minors[index];
         if (minor) {
-            item.textContent = `${languageData[currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[currentLanguage].aageLabel} ${minor.age}`; // 言語に応じたテキストを更新
+            item.textContent = `${languageData[currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[currentLanguage].aageLabel} ${minor.age}`;
         }
     });
-
     
     // チェックボックスのプレースホルダーを更新
     const durationInputs = document.querySelectorAll('input[type="number"]');
     durationInputs.forEach(input => {
-        input.placeholder = languageData[currentLanguage].adurationPlaceholder; // 言語に応じたプレースホルダーを更新
+        input.placeholder = languageData[currentLanguage].adurationPlaceholder; // プレースホルダーを更新
     });
 }
