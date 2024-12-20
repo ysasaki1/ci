@@ -141,8 +141,11 @@ async function handleAddMinor() {
     // Firestoreにデータを追加
     const docRef = await addMinorToFirestore(minor);
 
-    // チェックボックスを生成
+    // チェックボックスコンテナのクリア
     const checkboxContainer = document.getElementById('minorCheckboxContainer');
+    checkboxContainer.innerHTML = ''; // 既存のチェックボックスをクリア
+
+    // チェックボックスを生成
     const checkboxDiv = document.createElement('div');
     checkboxDiv.className = 'minor-checkbox';
     const labels = getLabels(); // 新しいラベルを取得
