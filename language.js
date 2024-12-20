@@ -19,9 +19,9 @@ export const languageData = {
         minorAge: "Age",
         delete: "Delete",
         minorParticipants: "Minor Participants",
-        1minorItemLabel: "Minor: ",
-        1ageLabel: "Age: ",
-        1durationPlaceholder: "Duration (minutes)",
+        aminorItemLabel: "Minor: ",
+        aageLabel: "Age: ",
+        adurationPlaceholder: "Duration (minutes)",
         errorMessage: "Please fill in all fields correctly.", // エラーメッセージ
     },
     ja: {
@@ -41,9 +41,9 @@ export const languageData = {
         minorAge: "年齢",
         delete: "削除",
         minorParticipants: "出演未成年者",
-        1minorItemLabel: "未成年者: ",
-        1ageLabel: "年齢: ",
-        1durationPlaceholder: "出演時間 (分)",
+        aminorItemLabel: "未成年者: ",
+        aageLabel: "年齢: ",
+        adurationPlaceholder: "出演時間 (分)",
         errorMessage: "すべてのフィールドを正しく入力してください。" // エラーメッセージ
     }
 };
@@ -107,9 +107,9 @@ export function updateLanguage() {
     updatePlaceholder(totalDurationLabel, languageData[currentLanguage].totalDuration);
     updatePlaceholder(minorNameInput, languageData[currentLanguage].minorName);
     updatePlaceholder(minorAgeInput, languageData[currentLanguage].minorAge);
-    updateTextContent(minorItemLabel2, languageData[currentLanguage].1minorItemLabel);
-    updateTextContent(ageLabel2, languageData[currentLanguage].1ageLabel);
-    updateTextContent(durationPlaceholder2, languageData[currentLanguage].1durationPlaceholder);
+    updateTextContent(minorItemLabel2, languageData[currentLanguage].aminorItemLabel);
+    updateTextContent(ageLabel2, languageData[currentLanguage].aageLabel);
+    updateTextContent(durationPlaceholder2, languageData[currentLanguage].adurationPlaceholder);
 
     // 削除ボタンのラベルを更新
     const deleteButtons = document.querySelectorAll('.delete-button');
