@@ -306,71 +306,80 @@ checkboxContainer.appendChild(checkbox);
         document.getElementById('minorName').value = '';
         document.getElementById('minorAge').value = '';
     });
+// 収益化ブイログ情報を追加
+document.getElementById('addVlogInfoButton').addEventListener('click', () => {
+    const vlogTitle = document.getElementById('vlogTitle').value.trim(); // ブイログのタイトル
+    const totalEarnings = parseFloat(document.getElementById('totalEarnings').value); // 総収益
+    const totalDuration = parseFloat(document.getElementById('totalDuration').value); // 総出演時間
+    
+    // バリデーション
+    if (!vlogTitle || isNaN(totalEarnings) || isNaN(totalDuration) || totalDuration <= 0) {
+        alert("すべてのフィールドを正しく入力してください。");
+        return;
+    }
 
-    // 収益化ブイログ情報を追加
-    document.getElementById('addVlogInfoButton').addEventListener('click', () => {
-        const vlogTitle = document.getElementById('vlogTitle').value; // ブイログのタイトル
-        const totalEarnings = parseFloat(document.getElementById('totalEarnings').value); // 総収益
-        const totalDuration = parseFloat(document.getElementById('totalDuration').value); // 総出演時間
-        const selectedMinors = Array.from(document.querySelectorAll('input[name="minorSelect"]:checked')).map(input => input.value);
-        const selectedDurations = selectedMinors.map(minorName => parseFloat(document.getElementById(`duration_${minorName}`).value)); // 各未成年者の出演時間
+    const selectedMinors = Array.from(document.querySelectorAll('input[name="minorSelect"]:checked')).map(input => input.value);
+    const selectedDurations = selectedMinors.map(minorName => parseFloat(document.getElementById(`duration_${minorName}`).value)); // 各未成年者の出演時間
 
-        const vlog = { title: vlogTitle, totalEarnings, totalDuration, minors: selectedMinors, selectedDurations };
-        vlogs.push(vlog); // ブイログを追加
+    const vlog = { title: vlogTitle, totalEarnings, totalDuration, minors: selectedMinors, selectedDurations };
+    vlogs.push(vlog); // ブイログを追加
 
-        // 各未成年者の収益を計算
-        selectedMinors.forEach((minorName, index) => {
-            const minor = minors.find(m => m.name === minorName);
-            const individualDuration = selectedDurations[index];
-            let earnings;
+    // 各未成年者の収益を計算
+    selectedMinors.forEach((minorName, index) => {
+        const minor = minors.find(m => m.name === minorName);
+        const individualDuration = selectedDurations[index];
+        let earnings;
 
-            if (selectedMinors.length === 1) {
-                // 未成年者が1名の場合
-                earnings = (individualDuration / totalDuration) < 0.5 ? 0 : totalEarnings * (individualDuration / totalDuration);
-            } else {
-                // 未成年者が2名以上の場合
-                earnings = totalEarnings / selectedMinors.length;
-            }
+        if (selectedMinors.length === 1) {
+            // 未成年者が1名の場合
+            earnings = (individualDuration / totalDuration) < 0.5 ? 0 : totalEarnings * (individualDuration / totalDuration);
+        } else {
+            // 未成年者が2名以上の場合
+            earnings = totalEarnings / selectedMinors.length;
+        }
 
-            minor.earnings += earnings; // 各未成年者の収益を加算
-            minor.vlogs.push(vlogTitle); // ブイログタイトルを追加
-        });
-
-        // 結果を表示
-        displayVlogInfo(vlog);
-
-        // 入力フィールドをクリア
-        document.getElementById('vlogTitle').value = '';
-        document.getElementById('totalEarnings').value = '';
-        document.getElementById('totalDuration').value = '';
-        selectedMinors.forEach(minorName => {
-            document.getElementById(`duration_${minorName}`).value = ''; // 各未成年者の出演時間をクリア
-        });
+        // 各未成年者の収益を加算
+        minor.earnings = (minor.earnings || 0) + earnings; 
+        minor.vlogs = minor.vlogs || []; // vlogs 配列が未定義の場合は初期化
+        minor.vlogs.push(vlogTitle); // ブイログタイトルを追加
     });
 
-    // 結果を表示する関数
-    function displayVlogInfo(vlog) {
-        const vlogList = document.getElementById('vlogList');
-        const vlogItem = document.createElement('li');
-        vlogItem.textContent = `ブイログタイトル: ${vlog.title}, 総収益: ¥${vlog.totalEarnings}, 出演未成年者: ${vlog.minors.join(', ')}`;
-        
-        vlogList.appendChild(vlogItem);
-    }
+    // 結果を表示
+    displayVlogInfo(vlog);
 
-    // ログアウト処理
-    const logoutButton = document.getElementById('logoutButton');
-    if (logoutButton) {
-        logoutButton.addEventListener('click', async () => {
-            try {
-                await auth.signOut(); // Firebaseのログアウト処理
-                alert("ログアウトしました");
-                window.location.href = 'index.html'; // ログインページにリダイレクト
-            } catch (error) {
-                console.error("ログアウト中にエラーが発生しました:", error);
-                alert("ログアウトに失敗しました。再試行してください。");
-            }
-        });
-    }
+    // 入力フィールドをクリア
+    document.getElementById('vlogTitle').value = '';
+    document.getElementById('totalEarnings').value = '';
+    document.getElementById('totalDuration').value = '';
+    selectedMinors.forEach(minorName => {
+        document.getElementById(`duration_${minorName}`).value = ''; // 各未成年者の出演時間をクリア
+    });
+});
+
+// 結果を表示する関数
+function displayVlogInfo(vlog) {
+    const vlogList = document.getElementById('vlogList');
+    const vlogItem = document.createElement('li');
+    vlogItem.textContent = `ブイログタイトル: ${vlog.title}, 総収益: ¥${vlog.totalEarnings}, 出演未成年者: ${vlog.minors.join(', ')}`;
+    
+    vlogList.appendChild(vlogItem);
+}
+
+// ログアウト処理
+const logoutButton = document.getElementById('logoutButton');
+if (logoutButton) {
+    logoutButton.addEventListener('click', async () => {
+        try {
+            await auth.signOut(); // Firebaseのログアウト処理
+            alert("ログアウトしました");
+            window.location.href = 'index.html'; // ログインページにリダイレクト
+        } catch (error) {
+            console.error("ログアウト中にエラーが発生しました:", error);
+            alert("ログアウトに失敗しました。再試行してください。");
+        }
+    });
+}
+
 
     // エラーメッセージの表示
     const closeModalButton = document.getElementById('closeModal');
