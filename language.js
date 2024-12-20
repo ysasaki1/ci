@@ -92,6 +92,8 @@ export function updateLanguage() {
         : `Welcome, ${userEmail}!`);
     updateTextContent(minorInfoTitle, languageData[currentLanguage].minorInfo);
     updateTextContent(vlogInfoTitle, languageData[currentLanguage].vlogInfo);
+    updateTextContent(registeredMinorsTitle, languageData[currentLanguage].registeredMinors);
+    updateTextContent(registeredVlogsTitle, languageData[currentLanguage].registeredVlogs);
     updateTextContent(minorParticipantsTitle, languageData[currentLanguage].minorParticipants);
     updateTextContent(addMinorButton, languageData[currentLanguage].addMinor);
     updateTextContent(addVlogButton, languageData[currentLanguage].addVlog);
@@ -100,8 +102,6 @@ export function updateLanguage() {
     updatePlaceholder(vlogTitleLabel, languageData[currentLanguage].vlogTitle);
     updatePlaceholder(totalEarningsLabel, languageData[currentLanguage].totalEarnings);
     updatePlaceholder(totalDurationLabel, languageData[currentLanguage].totalDuration);
-    updateTextContent(registeredMinorsTitle, languageData[currentLanguage].registeredMinors);
-    updateTextContent(registeredVlogsTitle, languageData[currentLanguage].registeredVlogs);
     updatePlaceholder(minorNameInput, languageData[currentLanguage].minorName);
     updatePlaceholder(minorAgeInput, languageData[currentLanguage].minorAge);
 
