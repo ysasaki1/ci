@@ -156,7 +156,11 @@ class MinorManager {
 
         minors.forEach(minor => {
             const minorInfo = document.createElement('div');
-            minorInfo.textContent = `${languageData[this.currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[this.currentLanguage].aageLabel} ${minor.age}, ${languageData[this.currentLanguage].adurationPlaceholder}`;
+            minorInfo.textContent = `
+                ${languageData[this.currentLanguage].aminorItemLabel} ${minor.name}, 
+                ${languageData[this.currentLanguage].aageLabel} ${minor.age}, 
+                ${languageData[this.currentLanguage].adurationPlaceholder}
+            `;
             displayContainer.appendChild(minorInfo);
         });
     }
