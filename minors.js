@@ -3,7 +3,7 @@ import { collection, addDoc, getDocs, deleteDoc } from "https://www.gstatic.com/
 import { auth } from "./firebase.js";
 import { languageData } from "./language.js";
 
-export const minors = []; // ここで未成年者の配列をエクスポート
+export const minors = []; // 未成年者の配列をエクスポート
 
 class MinorManager {
     constructor() {
@@ -13,6 +13,11 @@ class MinorManager {
     }
 
     async init() {
+        if (!auth.currentUser) {
+            console.error("User is not authenticated.");
+            return; // ユーザーが認証されていない場合は処理を中止
+        }
+
         const userId = auth.currentUser.uid;
         await this.fetchMinorsFromFirestore(userId);
         this.setupEventListeners();
