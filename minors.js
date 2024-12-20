@@ -76,7 +76,7 @@ export function addMinorEventListener() {
         const age = document.getElementById('minorAge').value;
 
         if (!name || !age) {
-            alert("名前と年齢を入力してください。");
+            alert(languageData[getCurrentLanguage()].errorMessage); // 言語に応じたエラーメッセージ
             return;
         }
 
