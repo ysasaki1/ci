@@ -41,6 +41,12 @@ export function displayMinors() {
 
     const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
 
+    // Minor Participantsのタイトルを表示
+    const title = document.createElement('h3');
+    title.textContent = languageData[currentLanguage].minorParticipants; // 言語に応じたタイトル
+    infoList.appendChild(title);
+
+    // 未成年者情報をリスト表示
     minors.forEach(minor => {
         const listItem = document.createElement('li');
 
@@ -49,10 +55,8 @@ export function displayMinors() {
 
         // 削除ボタンを作成
         const deleteButton = document.createElement('button');
+        deleteButton.textContent = languageData[currentLanguage].delete; // 言語に応じた削除ボタンラベル
         deleteButton.classList.add('delete-button');
-
-        // 言語に応じた削除ボタンラベルを設定
-        deleteButton.textContent = languageData[currentLanguage].delete; 
 
         // 削除ボタンのクリックイベント
         deleteButton.addEventListener('click', async () => {
