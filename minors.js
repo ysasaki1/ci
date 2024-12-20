@@ -46,7 +46,7 @@ function displayMinor(minor) {
     checkboxDiv.innerHTML = `
         <input type="checkbox" name="minorSelect" value="${minor.name}" id="${minor.name}">
         <label for="${minor.name}">${minor.name}</label>
-        <input type="number" id="duration_${minor.name}" placeholder="${languageData[currentLanguage].adurationPlaceholder}" min="0"> <!-- adurationPlaceholderを使用 -->
+        <input type="number" id="duration_${minor.name}" placeholder="${languageData[currentLanguage].totalEarnings}" min="0"> <!-- adurationPlaceholderをtotalEarningsに変更 -->
     `;
     checkboxContainer.appendChild(checkboxDiv);
 
@@ -82,6 +82,7 @@ export function addMinorEventListener() {
         const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
         const minorItemLabel = languageData[currentLanguage].aminorItemLabel; // 取得
         const ageLabel = languageData[currentLanguage].aageLabel; // 取得
+        const durationPlaceholder = languageData[currentLanguage].totalEarnings; // adurationPlaceholderをtotalEarningsに変更
 
         const name = document.getElementById('minorName').value;
         const age = document.getElementById('minorAge').value;
@@ -108,7 +109,7 @@ export function addMinorEventListener() {
         checkboxDiv.innerHTML = `
             <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
             <label for="${name}">${name}</label>
-            <input type="number" id="duration_${name}" placeholder="${languageData[currentLanguage].adurationPlaceholder}" min="0"> <!-- adurationPlaceholderを使用 -->
+            <input type="number" id="duration_${name}" placeholder="${durationPlaceholder}" min="0"> <!-- adurationPlaceholderをtotalEarningsに変更 -->
         `;
         checkboxContainer.appendChild(checkboxDiv);
 
@@ -184,4 +185,7 @@ export function updateLanguage() {
 
     updatePlaceholder(minorNameInput, languageData[currentLanguage].minorName);
     updatePlaceholder(minorAgeInput, languageData[currentLanguage].minorAge);
+        updatePlaceholder(minorItemLabel2, languageData[currentLanguage].aminorItemLabel;
+        updatePlaceholder(ageLabel2, languageData[currentLanguage].aageLabel);
+        updatePlaceholder(durationPlaceholder2, languageData[currentLanguage].adurationPlaceholder);
 }
