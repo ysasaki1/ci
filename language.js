@@ -107,9 +107,9 @@ export function updateLanguage() {
     updatePlaceholder(totalDurationLabel, languageData[currentLanguage].totalDuration);
     updatePlaceholder(minorNameInput, languageData[currentLanguage].minorName);
     updatePlaceholder(minorAgeInput, languageData[currentLanguage].minorAge);
-    updateTextContent(minorItemLabel2, languageData[currentLanguage].aminorItemLabel);
-    updateTextContent(ageLabel2, languageData[currentLanguage].aageLabel);
-    updateTextContent(durationPlaceholder2, languageData[currentLanguage].adurationPlaceholder);
+    updatePlaceholder(minorItemLabel2, languageData[currentLanguage].aminorItemLabel);
+    updatePlaceholder(ageLabel2, languageData[currentLanguage].aageLabel);
+    updatePlaceholder(durationPlaceholder2, languageData[currentLanguage].adurationPlaceholder);
 
     // 削除ボタンのラベルを更新
     const deleteButtons = document.querySelectorAll('.delete-button');
