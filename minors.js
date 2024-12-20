@@ -7,6 +7,20 @@ const { db } = initializeFirebase(); // Firebaseの初期化とdbの取得
 
 export const minors = [];
 
+// 要素の存在を確認してテキストを更新する関数
+function updateTextContent(element, text) {
+    if (element) {
+        element.innerText = text;
+    }
+}
+
+// 要素の存在を確認してプレースホルダーを更新する関数
+function updatePlaceholder(element, placeholder) {
+    if (element) {
+        element.placeholder = placeholder;
+    }
+}
+
 // 未成年者のデータをFirestoreに追加する関数
 export async function addMinorToFirestore(minor) {
     try {
@@ -39,7 +53,7 @@ export async function fetchMinorsFromFirestore(userId) {
 function displayMinor(minor) {
     const currentLanguage = getCurrentLanguage();
     const checkboxContainer = document.getElementById('minorCheckboxContainer');
-    
+
     // チェックボックスを生成
     const checkboxDiv = document.createElement('div');
     checkboxDiv.className = 'minor-checkbox';
@@ -156,13 +170,13 @@ export function setLanguage(lang) {
 // UIを更新する関数
 export function updateLanguage() {
     const currentLanguage = getCurrentLanguage();
-    
+
     // 言語に基づいて各要素を更新
     const deleteButtons = document.querySelectorAll('.delete-button');
     deleteButtons.forEach(button => {
         button.innerText = languageData[currentLanguage].delete; // 削除ボタンのラベルを更新
     });
-    
+
     // 各未成年者リストのラベルを更新
     const infoList = document.getElementById('infoList');
     const listItems = infoList.querySelectorAll('li');
@@ -172,10 +186,17 @@ export function updateLanguage() {
             item.textContent = `${languageData[currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[currentLanguage].aageLabel} ${minor.age}`;
         }
     });
-    
+
     // チェックボックスのプレースホルダーを更新
     const durationInputs = document.querySelectorAll('input[type="number"]');
     durationInputs.forEach(input => {
         input.placeholder = languageData[currentLanguage].adurationPlaceholder;
     });
+
+    // その他のUI要素の更新（必要に応じて追加）
+    const minorNameInput = document.getElementById('minorName');
+    const minorAgeInput = document.getElementById('minorAge');
+
+    updatePlaceholder(minorNameInput, languageData[currentLanguage].minorName);
+    updatePlaceholder(minorAgeInput, languageData[currentLanguage].minorAge);
 }
