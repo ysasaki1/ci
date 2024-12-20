@@ -22,6 +22,7 @@ export const languageData = {
         minorItemLabel: "Minor: ",
         ageLabel: "Age: ",
         durationPlaceholder: "Duration (minutes)",
+        errorMessage: "Please fill in all fields correctly.", // エラーメッセージ
     },
     ja: {
         title: "ブイログ情報管理",
@@ -43,12 +44,14 @@ export const languageData = {
         minorItemLabel: "未成年者: ",
         ageLabel: "年齢: ",
         durationPlaceholder: "出演時間 (分)",
+        errorMessage: "すべてのフィールドを正しく入力してください。" // エラーメッセージ
     }
 };
 
 // 現在の言語を設定
 let currentLanguage = 'ja'; // 初期言語
 
+// 言語を更新する関数
 export function updateLanguage() {
     const welcomeMessage = document.getElementById('welcomeMessage');
     const minorInfoTitle = document.getElementById('minorInfoTitle');
@@ -133,4 +136,9 @@ export function setLanguage(lang) {
         currentLanguage = lang;
         updateLanguage();
     }
+}
+
+// 現在の言語を取得する関数
+export function getCurrentLanguage() {
+    return currentLanguage;
 }
