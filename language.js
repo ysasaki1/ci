@@ -51,6 +51,20 @@ export const languageData = {
 // 現在の言語を設定
 let currentLanguage = 'ja'; // 初期言語
 
+// 要素の存在を確認してテキストを更新する関数
+function updateTextContent(element, text) {
+    if (element) {
+        element.innerText = text;
+    }
+}
+
+// 要素の存在を確認してプレースホルダーを更新する関数
+function updatePlaceholder(element, placeholder) {
+    if (element) {
+        element.placeholder = placeholder;
+    }
+}
+
 // 言語を更新する関数
 export function updateLanguage() {
     const welcomeMessage = document.getElementById('welcomeMessage');
@@ -72,56 +86,24 @@ export function updateLanguage() {
     const minorAgeInput = document.getElementById('minorAge');
 
     // 各要素のテキストを更新
-    if (welcomeMessage) {
-        const userEmail = auth.currentUser ? auth.currentUser.email : "";
-        welcomeMessage.innerText = currentLanguage === 'ja' 
-            ? `ようこそ, ${userEmail}さん！` 
-            : `Welcome, ${userEmail}!`;
-    }
-    if (minorInfoTitle) {
-        minorInfoTitle.innerText = languageData[currentLanguage].minorInfo;
-    }
-    if (vlogInfoTitle) {
-        vlogInfoTitle.innerText = languageData[currentLanguage].vlogInfo;
-    }
-    if (minorParticipantsTitle) {
-        minorParticipantsTitle.innerText = languageData[currentLanguage].minorParticipants;
-    }
-    if (addMinorButton) {
-        addMinorButton.innerText = languageData[currentLanguage].addMinor;
-    }
-    if (addVlogButton) {
-        addVlogButton.innerText = languageData[currentLanguage].addVlog;
-    }
-    if (downloadCSVButton) {
-        downloadCSVButton.innerText = languageData[currentLanguage].downloadCSV;
-    }
-    if (logoutButton) {
-        logoutButton.innerText = languageData[currentLanguage].logout;
-    }
-
-    // プレースホルダーのテキスト更新
-    if (vlogTitleLabel) {
-        vlogTitleLabel.placeholder = languageData[currentLanguage].vlogTitle;
-    }
-    if (totalEarningsLabel) {
-        totalEarningsLabel.placeholder = languageData[currentLanguage].totalEarnings;
-    }
-    if (totalDurationLabel) {
-        totalDurationLabel.placeholder = languageData[currentLanguage].totalDuration;
-    }
-    if (registeredMinorsTitle) {
-        registeredMinorsTitle.innerText = languageData[currentLanguage].registeredMinors;
-    }
-    if (registeredVlogsTitle) {
-        registeredVlogsTitle.innerText = languageData[currentLanguage].registeredVlogs;
-    }
-    if (minorNameInput) {
-        minorNameInput.placeholder = languageData[currentLanguage].minorName;
-    }
-    if (minorAgeInput) {
-        minorAgeInput.placeholder = languageData[currentLanguage].minorAge;
-    }
+    const userEmail = auth.currentUser ? auth.currentUser.email : "";
+    updateTextContent(welcomeMessage, currentLanguage === 'ja' 
+        ? `ようこそ, ${userEmail}さん！` 
+        : `Welcome, ${userEmail}!`);
+    updateTextContent(minorInfoTitle, languageData[currentLanguage].minorInfo);
+    updateTextContent(vlogInfoTitle, languageData[currentLanguage].vlogInfo);
+    updateTextContent(minorParticipantsTitle, languageData[currentLanguage].minorParticipants);
+    updateTextContent(addMinorButton, languageData[currentLanguage].addMinor);
+    updateTextContent(addVlogButton, languageData[currentLanguage].addVlog);
+    updateTextContent(downloadCSVButton, languageData[currentLanguage].downloadCSV);
+    updateTextContent(logoutButton, languageData[currentLanguage].logout);
+    updatePlaceholder(vlogTitleLabel, languageData[currentLanguage].vlogTitle);
+    updatePlaceholder(totalEarningsLabel, languageData[currentLanguage].totalEarnings);
+    updatePlaceholder(totalDurationLabel, languageData[currentLanguage].totalDuration);
+    updateTextContent(registeredMinorsTitle, languageData[currentLanguage].registeredMinors);
+    updateTextContent(registeredVlogsTitle, languageData[currentLanguage].registeredVlogs);
+    updatePlaceholder(minorNameInput, languageData[currentLanguage].minorName);
+    updatePlaceholder(minorAgeInput, languageData[currentLanguage].minorAge);
 
     // 削除ボタンのラベルを更新
     const deleteButtons = document.querySelectorAll('.delete-button');
