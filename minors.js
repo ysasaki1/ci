@@ -123,6 +123,7 @@ class MinorManager {
         if (languageData[lang]) {
             this.currentLanguage = lang;
             this.updateLanguage();
+            this.updateMinorDisplay(); // 言語切り替え後に表示を更新
         }
     }
 
