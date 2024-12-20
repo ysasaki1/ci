@@ -1,10 +1,11 @@
-import { initializeFirebase } from "./firebase.js";
+import { initializeFirebase, setupLogout } from "./firebase.js";
 import { updateLanguage } from "./language.js";
 import { fetchMinorsFromFirestore, addMinorEventListener } from "./minors.js";
 import { addVlogEventListener } from "./vlogs.js";
-import { setupLogout } from "./firebase.js";
 
-const { app, auth, db } = initializeFirebase(); // Firebaseの初期化
+const { auth, db } = initializeFirebase(); // Firebaseの初期化
+
+let currentLanguage = 'ja'; // 初期言語を日本語に設定
 
 // ユーザーの認証状態を監視
 auth.onAuthStateChanged(async (user) => {
