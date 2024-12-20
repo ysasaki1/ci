@@ -1,6 +1,6 @@
 import { initializeFirebase } from "./firebase.js";
 import { collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
-import { languageData, currentLanguage } from "./language.js"; // languageData と currentLanguage をインポート
+import { languageData, getCurrentLanguage } from "./language.js"; // 修正
 
 const { db } = initializeFirebase(); // Firebaseの初期化とdbの取得
 import { minors } from "./minors.js";
@@ -37,6 +37,8 @@ export function displayVlogs(vlogs) {
     const vlogList = document.getElementById('vlogList');
     vlogList.innerHTML = ""; // 既存のリストをクリア
 
+    const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
+
     vlogs.forEach(vlog => {
         const vlogItem = document.createElement('li');
         vlogItem.textContent = `${languageData[currentLanguage].vlogTitle}: ${vlog.title}, ${languageData[currentLanguage].totalEarnings}: ¥${vlog.totalEarnings}, ${languageData[currentLanguage].minors}: ${vlog.minors.join(', ')}`;
@@ -53,7 +55,7 @@ export function addVlogEventListener() {
 
         // バリデーション
         if (!vlogTitle || isNaN(totalEarnings) || isNaN(totalDuration) || totalDuration <= 0) {
-            alert(languageData[currentLanguage].errorMessage || "すべてのフィールドを正しく入力してください。"); // エラーメッセージを言語に応じて表示
+            alert(languageData[getCurrentLanguage()].errorMessage); // エラーメッセージを言語に応じて表示
             return;
         }
 
@@ -87,6 +89,7 @@ export function addVlogEventListener() {
 function displayVlogInfo(vlog) {
     const vlogList = document.getElementById('vlogList');
     const vlogItem = document.createElement('li');
+    const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
     vlogItem.textContent = `${languageData[currentLanguage].vlogTitle}: ${vlog.title}, ${languageData[currentLanguage].totalEarnings}: ¥${vlog.totalEarnings}, ${languageData[currentLanguage].minors}: ${vlog.minors.join(', ')}`;
     
     vlogList.appendChild(vlogItem);
