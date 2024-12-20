@@ -12,28 +12,44 @@ auth.onAuthStateChanged(async (user) => {
         const userId = user.uid;
 
         // Firestoreから未成年者データを取得
-        await fetchMinorsFromFirestore(userId);
+        await loadMinors(userId);
 
         // Firestoreからブイログデータを取得して表示
-        const vlogs = await fetchVlogsFromFirestore();
-        displayVlogs(vlogs); // 取得したブイログを表示
+        await loadVlogs();
     } else {
         // ユーザーがログインしていない場合、ログインページにリダイレクト
         window.location.href = 'index.html';
     }
 });
 
+// 未成年者データをロードする関数
+async function loadMinors(userId) {
+    try {
+        await fetchMinorsFromFirestore(userId);
+    } catch (error) {
+        console.error("未成年者データの取得に失敗しました:", error);
+    }
+}
+
+// ブイログデータをロードする関数
+async function loadVlogs() {
+    try {
+        const vlogs = await fetchVlogsFromFirestore();
+        displayVlogs(vlogs); // 取得したブイログを表示
+    } catch (error) {
+        console.error("ブイログデータの取得に失敗しました:", error);
+    }
+}
+
 // 言語切り替えボタンの設定
 document.getElementById('lang-en').addEventListener('click', async () => {
     setLanguage('en'); // 言語を英語に設定
-    const allVlogs = await fetchVlogsFromFirestore();
-    displayVlogs(allVlogs); // 言語切り替え後に再表示
+    await loadVlogs(); // 言語切り替え後に再表示
 });
 
 document.getElementById('lang-ja').addEventListener('click', async () => {
     setLanguage('ja'); // 言語を日本語に設定
-    const allVlogs = await fetchVlogsFromFirestore();
-    displayVlogs(allVlogs); // 言語切り替え後に再表示
+    await loadVlogs(); // 言語切り替え後に再表示
 });
 
 // 未成年者の情報を追加
