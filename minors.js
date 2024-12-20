@@ -1,3 +1,39 @@
+import { initializeFirebase } from "./firebase.js";
+import { collection, addDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js"; // Firestoreのインポート
+import { auth } from "./firebase.js"; // authのインポート
+import { languageData, getCurrentLanguage } from "./language.js"; // 言語データのインポート
+
+const { db } = initializeFirebase(); // Firebaseの初期化とdbの取得
+
+export const minors = [];
+
+// 新しい変数を定義
+const minorLabelJa = "未成年者: ";
+const ageLabelJa = "年齢: ";
+const durationPlaceholderJa = "出演時間 (分)";
+
+const minorLabelEn = "Minor: ";
+const ageLabelEn = "Age: ";
+const durationPlaceholderEn = "Duration (minutes)";
+
+// 現在の言語に応じたラベルを取得する関数
+function getLabels() {
+    const currentLanguage = getCurrentLanguage();
+    if (currentLanguage === "ja") {
+        return {
+            minorLabel: minorLabelJa,
+            ageLabel: ageLabelJa,
+            durationPlaceholder: durationPlaceholderJa,
+        };
+    } else {
+        return {
+            minorLabel: minorLabelEn,
+            ageLabel: ageLabelEn,
+            durationPlaceholder: durationPlaceholderEn,
+        };
+    }
+}
+
 import { getDocs, addDoc, deleteDoc, doc, collection } from "firebase/firestore"; // Firestore関連のインポート
 import { db, auth } from "./firebase.js"; // Firebaseの初期化をインポート
 import { getCurrentLanguage, languageData, getLabels } from "./language.js"; // 言語関連のインポート
