@@ -70,6 +70,12 @@ export async function fetchMinorsFromFirestore(userId) {
     }
 }
 
+// UIを言語に基づいて再描画する関数
+export function refreshMinors() {
+    const userId = auth.currentUser.uid; // 現在のユーザーIDを取得
+    fetchMinorsFromFirestore(userId); // 未成年者データを再取得
+}
+
 // 未成年者の追加ボタンのイベントリスナーを設定
 export function addMinorEventListener() {
     document.getElementById('addMinorInfoButton').addEventListener('click', async () => {
