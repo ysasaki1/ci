@@ -17,5 +17,9 @@ export function initializeFirebase() {
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    return { app, auth, db }; // dbを含めて返す
+    return { app, auth, db }; // app, auth, dbを含めて返す
 }
+
+// 直接的にauthとdbをエクスポートする場合
+const { auth, db } = initializeFirebase();
+export { auth, db }; // authとdbをエクスポート
