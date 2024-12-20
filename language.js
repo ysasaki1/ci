@@ -1,4 +1,4 @@
-// language.js
+import { auth } from "./firebase.js"; // authをインポート
 
 // 言語データの定義
 export const languageData = {
@@ -22,7 +22,7 @@ export const languageData = {
         aminorItemLabel: "Minor: ",
         aageLabel: "Age: ",
         adurationPlaceholder: "Duration (minutes)",
-        errorMessage: "Please fill in all fields correctly.",
+        errorMessage: "Please fill in all fields correctly.", // エラーメッセージ
     },
     ja: {
         title: "ブイログ情報管理",
@@ -44,22 +44,24 @@ export const languageData = {
         aminorItemLabel: "未成年者: ",
         aageLabel: "年齢: ",
         adurationPlaceholder: "出演時間 (分)",
-        errorMessage: "すべてのフィールドを正しく入力してください。",
+        errorMessage: "すべてのフィールドを正しく入力してください。" // エラーメッセージ
     }
 };
 
 // 現在の言語を設定
-let currentLanguage = 'ja'; // 初期言語の設定
+let currentLanguage = 'ja'; // 初期言語
 
-// 現在の言語を取得する関数
-export function getCurrentLanguage() {
-    return currentLanguage;
+// 要素の存在を確認してテキストを更新する関数
+function updateTextContent(element, text) {
+    if (element) {
+        element.innerText = text;
+    }
 }
 
-// 言語を設定する関数
-export function setLanguage(lang) {
-    if (languageData[lang]) {
-        currentLanguage = lang;
+// 要素の存在を確認してプレースホルダーを更新する関数
+function updatePlaceholder(element, placeholder) {
+    if (element) {
+        element.placeholder = placeholder;
     }
 }
 
@@ -83,6 +85,7 @@ export function updateLanguage() {
     const minorNameInput = document.getElementById('minorName');
     const minorAgeInput = document.getElementById('minorAge');
 
+
     // 各要素のテキストを更新
     const userEmail = auth.currentUser ? auth.currentUser.email : "";
     updateTextContent(welcomeMessage, currentLanguage === 'ja' 
@@ -103,7 +106,7 @@ export function updateLanguage() {
     updatePlaceholder(minorNameInput, languageData[currentLanguage].minorName);
     updatePlaceholder(minorAgeInput, languageData[currentLanguage].minorAge);
 
-    // 追加: aminorItemLabel, aageLabel, adurationPlaceholder の更新
+     // 追加: aminorItemLabel, aageLabel, adurationPlaceholder の更新
     const aminorItemLabel = document.getElementById('aminorItemLabel');
     const aageLabel = document.getElementById('aageLabel');
     const adurationPlaceholder = document.getElementById('adurationPlaceholder');
@@ -112,6 +115,8 @@ export function updateLanguage() {
     updateTextContent(aageLabel, languageData[currentLanguage].aageLabel);
     updatePlaceholder(adurationPlaceholder, languageData[currentLanguage].adurationPlaceholder);
 
+
+
     // 削除ボタンのラベルを更新
     const deleteButtons = document.querySelectorAll('.delete-button');
     deleteButtons.forEach(button => {
@@ -119,16 +124,15 @@ export function updateLanguage() {
     });
 }
 
-// テキストを更新する関数
-function updateTextContent(element, text) {
-    if (element) {
-        element.innerText = text;
+// 言語を切り替える関数
+export function setLanguage(lang) {
+    if (languageData[lang]) {
+        currentLanguage = lang;
+        updateLanguage();
     }
 }
 
-// プレースホルダーを更新する関数
-function updatePlaceholder(element, placeholder) {
-    if (element) {
-        element.placeholder = placeholder;
-    }
+// 現在の言語を取得する関数
+export function getCurrentLanguage() {
+    return currentLanguage;
 }
