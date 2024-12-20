@@ -145,6 +145,20 @@ class MinorManager {
         deleteButtons.forEach(button => {
             button.innerText = languageData[currentLanguage].delete;
         });
+
+        // 新しいコンテナに三要素を表示
+        this.updateMinorDisplay();
+    }
+
+    updateMinorDisplay() {
+        const displayContainer = document.getElementById('minorDisplay');
+        displayContainer.innerHTML = ''; // クリア
+
+        minors.forEach(minor => {
+            const minorInfo = document.createElement('div');
+            minorInfo.textContent = `${languageData[this.currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[this.currentLanguage].aageLabel} ${minor.age}, ${languageData[this.currentLanguage].adurationPlaceholder}`;
+            displayContainer.appendChild(minorInfo);
+        });
     }
 }
 
