@@ -270,16 +270,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Firestoreにデータを追加
         await addMinorToFirestore(minor);
 
-        // チェックボックスを生成
-        const checkboxContainer = document.getElementById('minorCheckboxContainer');
-        const checkbox = document.createElement('div');
-        checkbox.className = 'minor-checkbox'; // クラス名を追加
-        checkbox.innerHTML = `
-            <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
-            <label for="${name}">${name}</label>
-            <input type="number" id="duration_${name}" placeholder="出演時間 (分)" min="0">
-        `;
-        checkboxContainer.appendChild(checkbox);
+// チェックボックスを生成
+const checkboxContainer = document.getElementById('minorCheckboxContainer');
+const checkbox = document.createElement('div');
+checkbox.className = 'minor-checkbox'; // クラス名を追加
+checkbox.innerHTML = `
+    <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
+    <label for="${name}">${name}</label>
+    <input type="number" id="duration_${name}" placeholder="${languageData[currentLanguage].durationPlaceholder}" min="0">
+`;
+checkboxContainer.appendChild(checkbox);
+
 
         // 登録された未成年者リストに追加
         const infoList = document.getElementById('infoList');
