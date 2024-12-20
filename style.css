@@ -164,13 +164,30 @@ input {
 
 /* チェックボックスのスタイルを調整 */
 .minor-checkbox {
+    display: flex; /* フレックスボックスを使用して要素を整列 */
+    align-items: center; /* 縦方向に中央揃え */
     font-size: 1.4em; /* フォントサイズを40%大きくする */
     margin-bottom: 10px; /* チェックボックス間のスペースを追加 */
+    border: 2px solid #ccc; /* 枠線を追加 */
+    padding: 10px; /* 内側のスペースを追加 */
+    border-radius: 5px; /* 角を丸くする */
+    width: 100%; /* 幅を100%に設定 */
+    box-sizing: border-box; /* パディングとボーダーを含めたサイズを計算 */
 }
 
-.minor-checkbox input[type="number"] {
-    width: 120%; /* 入力フィールドの幅を40%増加 */
-    padding: 5px; /* 入力フィールド内のパディングを追加 */
-    margin-top: 5px; /* 上部にスペースを追加 */
+.minor-checkbox input[type="checkbox"] {
+    margin-right: 10px; /* チェックボックスとラベルの間にスペースを追加 */
 }
 
+.minor-checkbox input[type="text"], /* 名前の入力フィールド */
+.minor-checkbox input[type="number"] { /* 出演時間の入力フィールド */
+    flex: 1; /* 残りのスペースを占有 */
+    min-width: 150px; /* 最小幅を設定 */
+    padding: 5px; /* 内側のパディングを追加 */
+    margin-right: 10px; /* 入力フィールドとラベルの間にスペースを追加 */
+}
+
+.minor-checkbox label {
+    flex: 0 0 150px; /* 名前ラベルの幅を固定 */
+    margin-right: 10px; /* ラベルと入力フィールドの間にスペースを追加 */
+}
