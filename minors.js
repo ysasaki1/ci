@@ -1,5 +1,6 @@
-import { collection, addDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
-import { db } from "./firebase.js";
+import { initializeFirebase } from "./firebase.js";
+
+const { db } = initializeFirebase(); // Firebaseの初期化とdbの取得
 import { languageData } from "./language.js";
 
 export const minors = [];
