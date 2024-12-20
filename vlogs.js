@@ -94,6 +94,24 @@ export function displayMinors() {
     });
 }
 
+// 登録されたブイログ情報を表示する関数
+export function displayVlogs(vlogs) {
+    const vlogList = document.getElementById('vlogList');
+    vlogList.innerHTML = ""; // 既存のリストをクリア
+
+    const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
+
+    vlogs.forEach(vlog => {
+        const vlogItem = document.createElement('li');
+        const minorsText = vlog.minors && vlog.minors.length > 0 
+            ? vlog.minors.join(', ') 
+            : languageData[currentLanguage].registeredMinors; // 未成年者がいない場合のテキスト
+
+        vlogItem.textContent = `${languageData[currentLanguage].vlogTitle}: ${vlog.title}, ${languageData[currentLanguage].totalEarnings}: ¥${vlog.totalEarnings}, ${languageData[currentLanguage].registeredMinors}: ${minorsText}`;
+        vlogList.appendChild(vlogItem);
+    });
+}
+
 // 収益化ブイログ情報を追加するイベントリスナー
 export function addVlogEventListener() {
     document.getElementById('addVlogInfoButton').addEventListener('click', async () => {
@@ -115,9 +133,6 @@ export function addVlogEventListener() {
         // Firestoreに新しいコレクション「vlogs」を作成し、データを追加
         await addVlogToFirestore(vlog);
         data.vlogs.push(vlog); // ローカルのvlogs配列に追加
-
-        // 未成年者情報を表示
-        displayMinors(); // 更新された未成年者情報を表示
 
         // Firestore からのブイログを再読み込みして表示
         const allVlogs = await fetchVlogsFromFirestore();
@@ -143,8 +158,8 @@ export function addMinorEventListener() {
         const minor = { id: minorId, userId, name, age, createdDate, earnings: 0, vlogs: [] };
 
         // Firestoreにデータを追加
-        await addMinorToFirestore(minor);
-        data.minors.push(minor); // ローカルの未成年者配列に追加
+        const docRef = await addMinorToFirestore(minor);
+        data.minors.push({ ...minor, id: docRef.id }); // 未成年者をローカル配列に追加
 
         // チェックボックスを生成
         const checkboxContainer = document.getElementById('minorCheckboxContainer');
