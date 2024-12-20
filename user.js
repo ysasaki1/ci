@@ -40,10 +40,13 @@ const languageData = {
         totalDuration: "Total Duration (minutes)",
         registeredMinors: "Registered Minors",
         registeredVlogs: "Registered Vlogs",
-        minorName: "Name", // 年齢のラベル
+        minorName: "Name", // 名前のラベル
         minorAge: "Age", // 年齢のラベル
         delete: "Delete", // 削除ボタンのラベル
-        minorParticipants: "Minor Participants" // 出演未成年者のラベル
+        minorParticipants: "Minor Participants", // 出演未成年者のラベル
+        minorItemLabel: "Minor: ", // 登録された未成年者のラベル
+        ageLabel: "Age: ", // 年齢のラベル
+        durationPlaceholder: "Duration (minutes)", // 出演時間のプレースホルダー
     },
     ja: {
         title: "ブイログ情報管理",
@@ -58,10 +61,13 @@ const languageData = {
         totalDuration: "総出演時間 (分)",
         registeredMinors: "登録された未成年者",
         registeredVlogs: "登録されたブイログ",
-        minorName: "名前", // 年齢のラベル
+        minorName: "名前", // 名前のラベル
         minorAge: "年齢", // 年齢のラベル
         delete: "削除", // 削除ボタンのラベル
-        minorParticipants: "出演未成年者" // 出演未成年者のラベル
+        minorParticipants: "出演未成年者", // 出演未成年者のラベル
+        minorItemLabel: "未成年者: ", // 登録された未成年者のラベル
+        ageLabel: "年齢: ", // 年齢のラベル
+        durationPlaceholder: "出演時間 (分)", // 出演時間のプレースホルダー
     }
 };
 
@@ -77,12 +83,12 @@ function updateLanguage() {
     const downloadCSVButton = document.getElementById('downloadCSVButton');
     const logoutButton = document.getElementById('logoutButton');
 
-    const vlogTitleLabel = document.getElementById('vlogTitle'); // ID で取得
-    const totalEarningsLabel = document.getElementById('totalEarnings'); // ID で取得
-    const totalDurationLabel = document.getElementById('totalDuration'); // ID で取得
+    const vlogTitleLabel = document.getElementById('vlogTitle');
+    const totalEarningsLabel = document.getElementById('totalEarnings');
+    const totalDurationLabel = document.getElementById('totalDuration');
     const registeredMinorsTitle = document.getElementById('registeredMinorsTitle');
     const registeredVlogsTitle = document.getElementById('registeredVlogsTitle');
-    const minorAgeLabel = document.getElementById('minorAge'); // ID で取得
+    const minorAgeLabel = document.getElementById('minorAge');
     const minorParticipantsTitle = document.getElementById('minorParticipantsTitle');
     const minorNameInput = document.getElementById('minorName');
     const minorAgeInput = document.getElementById('minorAge');
@@ -95,13 +101,13 @@ function updateLanguage() {
             : `Welcome, ${userEmail}!`;
     }
     if (minorInfoTitle) {
-        minorInfoTitle.innerText = languageData[currentLanguage].minorInfo;  // 未成年者の情報
+        minorInfoTitle.innerText = languageData[currentLanguage].minorInfo;
     }
     if (vlogInfoTitle) {
-        vlogInfoTitle.innerText = languageData[currentLanguage].vlogInfo;  // 収益化ブイログ情報
+        vlogInfoTitle.innerText = languageData[currentLanguage].vlogInfo;
     }
-        if (minorParticipantsTitle) {
-        minorParticipantsTitle.innerText = languageData[currentLanguage].minorParticipants;  // 未成年者の情報
+    if (minorParticipantsTitle) {
+        minorParticipantsTitle.innerText = languageData[currentLanguage].minorParticipants;
     }
     if (addMinorButton) {
         addMinorButton.innerText = languageData[currentLanguage].addMinor;
@@ -118,25 +124,25 @@ function updateLanguage() {
 
     // プレースホルダーのテキスト更新
     if (vlogTitleLabel) {
-        vlogTitleLabel.placeholder = languageData[currentLanguage].vlogTitle; // ブイログタイトル
+        vlogTitleLabel.placeholder = languageData[currentLanguage].vlogTitle;
     }
     if (totalEarningsLabel) {
-        totalEarningsLabel.placeholder = languageData[currentLanguage].totalEarnings; // 総収益
+        totalEarningsLabel.placeholder = languageData[currentLanguage].totalEarnings;
     }
     if (totalDurationLabel) {
-        totalDurationLabel.placeholder = languageData[currentLanguage].totalDuration; // 総出演時間
+        totalDurationLabel.placeholder = languageData[currentLanguage].totalDuration;
     }
     if (registeredMinorsTitle) {
-        registeredMinorsTitle.innerText = languageData[currentLanguage].registeredMinors;  // 登録された未成年者
+        registeredMinorsTitle.innerText = languageData[currentLanguage].registeredMinors;
     }
     if (registeredVlogsTitle) {
-        registeredVlogsTitle.innerText = languageData[currentLanguage].registeredVlogs;  // 登録されたブイログ
+        registeredVlogsTitle.innerText = languageData[currentLanguage].registeredVlogs;
     }
     if (minorNameInput) {
-        minorNameInput.placeholder = languageData[currentLanguage].minorName; // 名前のプレースホルダー
+        minorNameInput.placeholder = languageData[currentLanguage].minorName;
     }
     if (minorAgeInput) {
-        minorAgeInput.placeholder = languageData[currentLanguage].minorAge; // 年齢のプレースホルダー
+        minorAgeInput.placeholder = languageData[currentLanguage].minorAge;
     }
 
     // 削除ボタンのラベルを更新
@@ -164,6 +170,7 @@ async function fetchMinorsFromFirestore(userId) {
             const minor = doc.data();
             if (minor.userId === userId) { // ユーザーIDでフィルター
                 minors.push(minor); // ローカルの minors 配列に追加
+
                 // チェックボックスを生成
                 const checkboxContainer = document.getElementById('minorCheckboxContainer');
                 const checkbox = document.createElement('div');
@@ -171,14 +178,14 @@ async function fetchMinorsFromFirestore(userId) {
                 checkbox.innerHTML = `
                     <input type="checkbox" name="minorSelect" value="${minor.name}" id="${minor.name}">
                     <label for="${minor.name}">${minor.name}</label>
-                    <input type="number" id="duration_${minor.name}" placeholder="出演時間 (分)" min="0">
+                    <input type="number" id="duration_${minor.name}" placeholder="${languageData[currentLanguage].durationPlaceholder}" min="0">
                 `;
                 checkboxContainer.appendChild(checkbox);
 
                 // 登録された未成年者リストに追加
                 const infoList = document.getElementById('infoList');
                 const listItem = document.createElement('li');
-                listItem.textContent = `未成年者: ${minor.name}, 年齢: ${minor.age}`;
+                listItem.textContent = `${languageData[currentLanguage].minorItemLabel}${minor.name}, ${languageData[currentLanguage].ageLabel}${minor.age}`; // 言語に応じてテキストを設定
 
                 // 削除ボタンを作成
                 const deleteButton = document.createElement('button');
@@ -200,6 +207,7 @@ async function fetchMinorsFromFirestore(userId) {
         console.error("Error fetching minors: ", error);
     }
 }
+
 
 // DOMContentLoadedイベントを使用して、DOMが読み込まれてから実行
 document.addEventListener('DOMContentLoaded', async () => {
