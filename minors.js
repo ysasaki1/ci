@@ -7,20 +7,6 @@ const { db } = initializeFirebase(); // Firebaseの初期化とdbの取得
 
 export const minors = [];
 
-// 要素の存在を確認してテキストを更新する関数
-function updateTextContent(element, text) {
-    if (element) {
-        element.innerText = text;
-    }
-}
-
-// 要素の存在を確認してプレースホルダーを更新する関数
-function updatePlaceholder(element, placeholder) {
-    if (element) {
-        element.placeholder = placeholder;
-    }
-}
-
 // 未成年者のデータをFirestoreに追加する関数
 export async function addMinorToFirestore(minor) {
     try {
@@ -53,21 +39,21 @@ export async function fetchMinorsFromFirestore(userId) {
 function displayMinor(minor) {
     const currentLanguage = getCurrentLanguage();
     const checkboxContainer = document.getElementById('minorCheckboxContainer');
-
+    
     // チェックボックスを生成
     const checkboxDiv = document.createElement('div');
     checkboxDiv.className = 'minor-checkbox';
     checkboxDiv.innerHTML = `
         <input type="checkbox" name="minorSelect" value="${minor.name}" id="${minor.name}">
         <label for="${minor.name}">${minor.name}</label>
-        <input type="number" id="duration_${minor.name}" placeholder="${languageData[currentLanguage].adurationPlaceholder}" min="0">
+        <input type="number" id="duration_${minor.name}" placeholder="${languageData[currentLanguage].totalEarnings}" min="0"> <!-- adurationPlaceholderをtotalEarningsに変更 -->
     `;
     checkboxContainer.appendChild(checkboxDiv);
 
     // 登録された未成年者リストに追加
     const infoList = document.getElementById('infoList');
     const listItem = document.createElement('li');
-    listItem.textContent = `${languageData[currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[currentLanguage].aageLabel} ${minor.age}`;
+    listItem.textContent = `${languageData[currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[currentLanguage].aageLabel} ${minor.age}`; // aminorItemLabelとaageLabelを使用
 
     // 削除ボタンを作成
     const deleteButton = document.createElement('button');
@@ -96,7 +82,7 @@ export function addMinorEventListener() {
         const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
         const minorItemLabel = languageData[currentLanguage].aminorItemLabel; // 取得
         const ageLabel = languageData[currentLanguage].aageLabel; // 取得
-        const durationPlaceholder = languageData[currentLanguage].adurationPlaceholder; // 取得
+        const durationPlaceholder = languageData[currentLanguage].totalEarnings; // adurationPlaceholderをtotalEarningsに変更
 
         const name = document.getElementById('minorName').value;
         const age = document.getElementById('minorAge').value;
@@ -123,14 +109,14 @@ export function addMinorEventListener() {
         checkboxDiv.innerHTML = `
             <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
             <label for="${name}">${name}</label>
-            <input type="number" id="duration_${name}" placeholder="${durationPlaceholder}" min="0">
+            <input type="number" id="duration_${name}" placeholder="${durationPlaceholder}" min="0"> <!-- adurationPlaceholderをtotalEarningsに変更 -->
         `;
         checkboxContainer.appendChild(checkboxDiv);
 
         // 登録された未成年者リストに追加
         const infoList = document.getElementById('infoList');
         const listItem = document.createElement('li');
-        listItem.textContent = `${minorItemLabel} ${name}, ${ageLabel} ${age}`;
+        listItem.textContent = `${minorItemLabel} ${name}, ${ageLabel} ${age}`; // aminorItemLabelとaageLabelを使用
 
         // 削除ボタンを作成
         const deleteButton = document.createElement('button');
@@ -170,27 +156,27 @@ export function setLanguage(lang) {
 // UIを更新する関数
 export function updateLanguage() {
     const currentLanguage = getCurrentLanguage();
-
+    
     // 言語に基づいて各要素を更新
     const deleteButtons = document.querySelectorAll('.delete-button');
     deleteButtons.forEach(button => {
         button.innerText = languageData[currentLanguage].delete; // 削除ボタンのラベルを更新
     });
-
+    
     // 各未成年者リストのラベルを更新
     const infoList = document.getElementById('infoList');
     const listItems = infoList.querySelectorAll('li');
     listItems.forEach((item, index) => {
         const minor = minors[index];
         if (minor) {
-            item.textContent = `${languageData[currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[currentLanguage].aageLabel} ${minor.age}`;
+            item.textContent = `${languageData[currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[currentLanguage].aageLabel} ${minor.age}`; // aminorItemLabelとaageLabelを使用
         }
     });
-
+    
     // チェックボックスのプレースホルダーを更新
     const durationInputs = document.querySelectorAll('input[type="number"]');
     durationInputs.forEach(input => {
-        input.placeholder = languageData[currentLanguage].adurationPlaceholder;
+        input.placeholder = languageData[currentLanguage].totalEarnings; // adurationPlaceholderをtotalEarningsに変更
     });
 
     // その他のUI要素の更新（必要に応じて追加）
