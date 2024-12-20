@@ -85,7 +85,11 @@ function updateLanguage() {
 
     // 各要素のテキストを更新
     if (welcomeMessage) {
-        welcomeMessage.innerText = languageData[currentLanguage].title;
+        // ユーザー名がある場合、ウェルカムメッセージを更新
+        const userEmail = auth.currentUser ? auth.currentUser.email : "";
+        welcomeMessage.innerText = currentLanguage === 'ja' 
+            ? `ようこそ, ${userEmail}さん！` 
+            : `Welcome, ${userEmail}!`;
     }
     if (minorInfoTitle) {
         minorInfoTitle.innerText = languageData[currentLanguage].minorInfo;  // 未成年者の情報
@@ -135,6 +139,7 @@ function updateLanguage() {
         button.innerText = languageData[currentLanguage].delete;
     });
 }
+
 
 // 未成年者のデータをFirestoreに追加する関数
 async function addMinorToFirestore(minor) {
