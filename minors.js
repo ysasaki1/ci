@@ -1,7 +1,7 @@
 import { initializeFirebase } from "./firebase.js";
 import { collection, addDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js"; // getDocsをインポート
 import { auth } from "./firebase.js"; // authをインポート
-import { languageData } from "./language.js";
+import { languageData, getCurrentLanguage } from "./language.js"; // 言語データをインポート
 
 const { db } = initializeFirebase(); // Firebaseの初期化とdbの取得
 
@@ -21,7 +21,7 @@ export async function addMinorToFirestore(minor) {
 // Firestoreから未成年者データを取得する関数
 export async function fetchMinorsFromFirestore(userId) {
     try {
-        const querySnapshot = await getDocs(collection(db, "minors")); // getDocsを使用
+        const querySnapshot = await getDocs(collection(db, "minors"));
         querySnapshot.forEach((doc) => {
             const minor = doc.data();
             if (minor.userId === userId) { // ユーザーIDでフィルター
@@ -34,18 +34,18 @@ export async function fetchMinorsFromFirestore(userId) {
                 checkbox.innerHTML = `
                     <input type="checkbox" name="minorSelect" value="${minor.name}" id="${minor.name}">
                     <label for="${minor.name}">${minor.name}</label>
-                    <input type="number" id="duration_${minor.name}" placeholder="期間" min="0">
+                    <input type="number" id="duration_${minor.name}" placeholder="${languageData[getCurrentLanguage()].durationPlaceholder}" min="0">
                 `;
                 checkboxContainer.appendChild(checkbox);
 
                 // 登録された未成年者リストに追加
                 const infoList = document.getElementById('infoList');
                 const listItem = document.createElement('li');
-                listItem.textContent = `未成年者: ${minor.name}, 年齢: ${minor.age}`;
+                listItem.textContent = `${languageData[getCurrentLanguage()].minorItemLabel} ${minor.name}, ${languageData[getCurrentLanguage()].ageLabel} ${minor.age}`;
 
                 // 削除ボタンを作成
                 const deleteButton = document.createElement('button');
-                deleteButton.textContent = "削除"; // 削除ボタンラベル
+                deleteButton.textContent = languageData[getCurrentLanguage()].delete; // 言語に応じた削除ボタンラベル
                 deleteButton.classList.add('delete-button');
 
                 // 削除ボタンのクリックイベント
@@ -76,7 +76,7 @@ export function addMinorEventListener() {
         const age = document.getElementById('minorAge').value;
 
         if (!name || !age) {
-            alert("名前と年齢を入力してください。");
+            alert(languageData[getCurrentLanguage()].errorMessage); // 言語に応じたエラーメッセージ
             return;
         }
 
@@ -97,18 +97,18 @@ export function addMinorEventListener() {
         checkbox.innerHTML = `
             <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
             <label for="${name}">${name}</label>
-            <input type="number" id="duration_${name}" placeholder="期間" min="0">
+            <input type="number" id="duration_${name}" placeholder="${languageData[getCurrentLanguage()].durationPlaceholder}" min="0">
         `;
         checkboxContainer.appendChild(checkbox);
 
         // 登録された未成年者リストに追加
         const infoList = document.getElementById('infoList');
         const listItem = document.createElement('li');
-        listItem.textContent = `未成年者: ${name}, 年齢: ${age}`;
+        listItem.textContent = `${languageData[getCurrentLanguage()].minorItemLabel} ${name}, ${languageData[getCurrentLanguage()].ageLabel} ${age}`;
 
         // 削除ボタンを作成
         const deleteButton = document.createElement('button');
-        deleteButton.textContent = "削除"; // 言語に応じた削除ボタンラベル
+        deleteButton.textContent = languageData[getCurrentLanguage()].delete; // 言語に応じた削除ボタンラベル
         deleteButton.classList.add('delete-button');
 
         // 削除ボタンのクリックイベント
