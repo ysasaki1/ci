@@ -1,8 +1,70 @@
-import { auth } from "./firebase.js"; // authをインポート
+// language.js
 
 // 言語データの定義
 export const languageData = {
     en: {
+        title: "Vlog Information Management",
+        minorInfo: "Minor Information",
+        vlogInfo: "Monetized Vlog Information",
+        addMinor: "Add Minor",
+        addVlog: "Add Vlog",
+        downloadCSV: "Download CSV",
+        logout: "Logout",
+        vlogTitle: "Vlog Title",
+        totalEarnings: "Total Earnings",
+        totalDuration: "Total Duration (minutes)",
+        registeredMinors: "Registered Minors",
+        registeredVlogs: "Registered Vlogs",
+        minorName: "Name",
+        minorAge: "Age",
+        delete: "Delete",
+        minorParticipants: "Minor Participants",
+        aminorItemLabel: "Minor: ",
+        aageLabel: "Age: ",
+        adurationPlaceholder: "Duration (minutes)",
+        errorMessage: "Please fill in all fields correctly.",
+    },
+    ja: {
+        title: "ブイログ情報管理",
+        minorInfo: "未成年者の情報",
+        vlogInfo: "収益化ブイログ情報",
+        addMinor: "追加",
+        addVlog: "追加",
+        downloadCSV: "CSV出力",
+        logout: "ログアウト",
+        vlogTitle: "ブイログタイトル",
+        totalEarnings: "総収益",
+        totalDuration: "総出演時間 (分)",
+        registeredMinors: "登録された未成年者",
+        registeredVlogs: "登録されたブイログ",
+        minorName: "名前",
+        minorAge: "年齢",
+        delete: "削除",
+        minorParticipants: "出演未成年者",
+        aminorItemLabel: "未成年者: ",
+        aageLabel: "年齢: ",
+        adurationPlaceholder: "出演時間 (分)",
+        errorMessage: "すべてのフィールドを正しく入力してください。",
+    }
+};
+
+// 現在の言語を設定
+let currentLanguage = 'ja'; // 初期言語の設定
+
+// 現在の言語を取得する関数
+export function getCurrentLanguage() {
+    return currentLanguage;
+}
+
+// 言語を設定する関数
+export function setLanguage(lang) {
+    if (languageData[lang]) {
+        currentLanguage = lang;
+    }
+}
+
+// 言語を更新する関数
+export function updateLanguage() {
     const welcomeMessage = document.getElementById('welcomeMessage');
     const minorInfoTitle = document.getElementById('minorInfoTitle');
     const vlogInfoTitle = document.getElementById('vlogInfoTitle');
@@ -57,16 +119,16 @@ export const languageData = {
     });
 }
 
-
-// 言語を切り替える関数
-export function setLanguage(lang) {
-    if (languageData[lang]) {
-        currentLanguage = lang;
-        updateLanguage();
+// テキストを更新する関数
+function updateTextContent(element, text) {
+    if (element) {
+        element.innerText = text;
     }
 }
 
-// 現在の言語を取得する関数
-export function getCurrentLanguage() {
-    return currentLanguage;
+// プレースホルダーを更新する関数
+function updatePlaceholder(element, placeholder) {
+    if (element) {
+        element.placeholder = placeholder;
+    }
 }
