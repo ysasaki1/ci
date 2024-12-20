@@ -84,8 +84,9 @@ export function addMinorEventListener() {
         const name = document.getElementById('minorName').value.trim();
         const age = document.getElementById('minorAge').value.trim();
 
+        // バリデーション
         if (!name || !age) {
-            alert(languageData[currentLanguage].errorMessage); // 言語に応じたエラーメッセージ
+            alert(languageData[currentLanguage].errorMessage); // エラーメッセージを言語に応じて表示
             return;
         }
 
