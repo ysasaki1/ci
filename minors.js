@@ -5,7 +5,7 @@ import { languageData, getCurrentLanguage } from "./language.js"; // 言語デ�
 
 const { db } = initializeFirebase(); // Firebaseの初期化とdbの取得
 
-export const minors = [];
+export const minors = []; // 未成年者データを格納する配列
 
 // 新しい変数を定義
 const minorLabelJa = "未成年者: ";
@@ -33,9 +33,6 @@ function getLabels() {
         };
     }
 }
-
-
-const minors = []; // 未成年者データを格納する配列
 
 // 未成年者のデータをFirestoreに追加する関数
 export async function addMinorToFirestore(minor) {
@@ -170,7 +167,7 @@ export function addMinorEventListener() {
             }
         });
 
-        // リストアイテムにボタンを追加
+           // リストアイテムにボタンを追加
         listItem.appendChild(deleteButton);
         infoList.appendChild(listItem);
 
