@@ -18,6 +18,32 @@ export async function addVlogToFirestore(vlog) {
     }
 }
 
+// 収益化ブイログ情報をFirestoreから取得する関数
+export async function fetchVlogsFromFirestore() {
+    try {
+        const querySnapshot = await getDocs(collection(db, "vlogs"));
+        const vlogs = [];
+        querySnapshot.forEach((doc) => {
+            vlogs.push({ id: doc.id, ...doc.data() });
+        });
+        return vlogs; // 取得したデータを返す
+    } catch (error) {
+        console.error("Error fetching vlogs: ", error);
+    }
+}
+
+// 取得したブイログ情報を表示する関数
+export function displayVlogs(vlogs) {
+    const vlogList = document.getElementById('vlogList');
+    vlogList.innerHTML = ""; // 既存のリストをクリア
+
+    vlogs.forEach(vlog => {
+        const vlogItem = document.createElement('li');
+        vlogItem.textContent = `ブイログタイトル: ${vlog.title}, 総収益: ¥${vlog.totalEarnings}, 出演未成年者: ${vlog.minors.join(', ')}`;
+        vlogList.appendChild(vlogItem);
+    });
+}
+
 // 収益化ブイログ情報を追加するイベントリスナー
 export function addVlogEventListener() {
     document.getElementById('addVlogInfoButton').addEventListener('click', async () => {
@@ -50,6 +76,10 @@ export function addVlogEventListener() {
         selectedMinors.forEach(minorName => {
             document.getElementById(`duration_${minorName}`).value = '';
         });
+
+        // Firestore からのブイログを再読み込みして表示
+        const allVlogs = await fetchVlogsFromFirestore();
+        displayVlogs(allVlogs); // すべてのブイログを表示
     });
 }
 
