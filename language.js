@@ -1,3 +1,5 @@
+import { auth } from "./firebase.js"; // authをインポート
+
 // 言語データの定義
 export const languageData = {
     en: {
