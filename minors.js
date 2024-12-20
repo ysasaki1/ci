@@ -34,9 +34,6 @@ function getLabels() {
     }
 }
 
-import { getDocs, addDoc, deleteDoc, doc, collection } from "firebase/firestore"; // Firestore関連のインポート
-import { db, auth } from "./firebase.js"; // Firebaseの初期化をインポート
-import { getCurrentLanguage, languageData, getLabels } from "./language.js"; // 言語関連のインポート
 
 const minors = []; // 未成年者データを格納する配列
 
