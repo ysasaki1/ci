@@ -34,6 +34,12 @@ function getLabels() {
     }
 }
 
+import { getDocs, addDoc, deleteDoc, doc, collection } from "firebase/firestore"; // Firestore関連のインポート
+import { db, auth } from "./firebase.js"; // Firebaseの初期化をインポート
+import { getCurrentLanguage, languageData, getLabels } from "./language.js"; // 言語関連のインポート
+
+const minors = []; // 未成年者データを格納する配列
+
 // 未成年者のデータをFirestoreに追加する関数
 export async function addMinorToFirestore(minor) {
     try {
@@ -50,6 +56,11 @@ export async function fetchMinorsFromFirestore(userId) {
     try {
         const querySnapshot = await getDocs(collection(db, "minors"));
         minors.length = 0; // 配列をクリア
+
+        // 既存のリストをクリア
+        const infoList = document.getElementById('infoList');
+        infoList.innerHTML = ''; // ここでリストをクリア
+
         querySnapshot.forEach((doc) => {
             const minor = doc.data();
             if (minor.userId === userId) { // ユーザーIDでフィルター
