@@ -42,6 +42,7 @@ const languageData = {
         registeredVlogs: "Registered Vlogs",
         minorAge: "Age:", // 年齢のラベル
         delete: "Delete", // 削除ボタンのラベル
+        minorParticipants: "Minor Participants" // 出演未成年者のラベル
     },
     ja: {
         title: "ブイログ情報管理",
@@ -58,6 +59,7 @@ const languageData = {
         registeredVlogs: "登録されたブイログ",
         minorAge: "年齢:", // 年齢のラベル
         delete: "削除", // 削除ボタンのラベル
+        minorParticipants: "出演未成年者" // 出演未成年者のラベル
     }
 };
 
