@@ -1,6 +1,5 @@
 import { initializeFirebase, setupLogout } from "./firebase.js";
-import { setLanguage } from "./language.js"; // setLanguage をインポート
-import { fetchMinorsFromFirestore, addMinorEventListener } from "./minors.js";
+import { setLanguage, fetchMinorsFromFirestore, addMinorEventListener } from "./minors.js"; // setLanguage をインポート
 import { fetchVlogsFromFirestore, displayVlogs, addVlogEventListener } from "./vlogs.js"; // 追加
 
 const { auth, db } = initializeFirebase(); // Firebaseの初期化
@@ -15,8 +14,13 @@ auth.onAuthStateChanged(async (user) => {
         await fetchMinorsFromFirestore(userId);
 
         // Firestoreからブイログデータを取得して表示
-        const vlogs = await fetchVlogsFromFirestore();
-        displayVlogs(vlogs); // 取得したブイログを表示
+        try {
+            const vlogs = await fetchVlogsFromFirestore();
+            displayVlogs(vlogs); // 取得したブイログを表示
+        } catch (error) {
+            console.error("ブイログの取得中にエラーが発生しました:", error);
+            alert("データの取得に失敗しました。");
+        }
     } else {
         // ユーザーがログインしていない場合、ログインページにリダイレクト
         window.location.href = 'index.html';
@@ -26,14 +30,28 @@ auth.onAuthStateChanged(async (user) => {
 // 言語切り替えボタンの設定
 document.getElementById('lang-en').addEventListener('click', async () => {
     setLanguage('en'); // 言語を英語に設定
-    const allVlogs = await fetchVlogsFromFirestore();
-    displayVlogs(allVlogs); // 言語切り替え後に再表示
+    const userId = auth.currentUser.uid; // 現在のユーザーIDを取得
+    await fetchMinorsFromFirestore(userId); // 未成年者を再取得
+    try {
+        const allVlogs = await fetchVlogsFromFirestore();
+        displayVlogs(allVlogs); // 言語切り替え後に再表示
+    } catch (error) {
+        console.error("ブイログの取得中にエラーが発生しました:", error);
+        alert("データの取得に失敗しました。");
+    }
 });
 
 document.getElementById('lang-ja').addEventListener('click', async () => {
     setLanguage('ja'); // 言語を日本語に設定
-    const allVlogs = await fetchVlogsFromFirestore();
-    displayVlogs(allVlogs); // 言語切り替え後に再表示
+    const userId = auth.currentUser.uid; // 現在のユーザーIDを取得
+    await fetchMinorsFromFirestore(userId); // 未成年者を再取得
+    try {
+        const allVlogs = await fetchVlogsFromFirestore();
+        displayVlogs(allVlogs); // 言語切り替え後に再表示
+    } catch (error) {
+        console.error("ブイログの取得中にエラーが発生しました:", error);
+        alert("データの取得に失敗しました。");
+    }
 });
 
 // 未成年者の情報を追加
