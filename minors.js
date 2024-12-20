@@ -26,49 +26,43 @@ export async function fetchMinorsFromFirestore(userId) {
             const minor = doc.data();
             if (minor.userId === userId) { // ユーザーIDでフィルター
                 minors.push(minor); // ローカルの minors 配列に追加
-
-                // チェックボックスを生成
-                const checkboxContainer = document.getElementById('minorCheckboxContainer');
-                const checkbox = document.createElement('div');
-                checkbox.className = 'minor-checkbox';
-                checkbox.innerHTML = `
-                    <input type="checkbox" name="minorSelect" value="${minor.name}" id="${minor.name}">
-                    <label for="${minor.name}">${minor.name}</label>
-                    <input type="number" id="duration_${minor.name}" placeholder="${languageData[getCurrentLanguage()].durationPlaceholder}" min="0"> <!-- 言語に応じたプレースホルダー -->
-                `;
-                checkboxContainer.appendChild(checkbox);
-
-                // 登録された未成年者リストに追加
-                const infoList = document.getElementById('infoList');
-                const listItem = document.createElement('li');
-                // 言語に応じた表示
-                listItem.textContent = `${languageData[getCurrentLanguage()].minorItemLabel} ${minor.name}, ${languageData[getCurrentLanguage()].ageLabel} ${minor.age}`;
-
-                // 削除ボタンを作成
-                const deleteButton = document.createElement('button');
-                // 言語に応じた削除ボタンラベル
-                deleteButton.textContent = languageData[getCurrentLanguage()].delete; 
-                deleteButton.classList.add('delete-button');
-
-                // 削除ボタンのクリックイベント
-                deleteButton.addEventListener('click', async () => {
-                    try {
-                        await deleteDoc(doc.ref); // Firestoreから未成年者データを削除
-                        infoList.removeChild(listItem);
-                        minors.splice(minors.indexOf(minor), 1); // 未成年者をローカル配列から削除
-                        checkboxContainer.removeChild(checkbox); // チェックボックスも削除
-                    } catch (error) {
-                        console.error("未成年者の削除中にエラーが発生しました:", error);
-                    }
-                });
-
-                listItem.appendChild(deleteButton);
-                infoList.appendChild(listItem); // 言語に応じた内容を持つリストアイテムを追加
             }
         });
     } catch (error) {
         console.error("Error fetching minors: ", error);
     }
+}
+
+// 登録された未成年者情報を表示する関数
+export function displayMinors() {
+    const infoList = document.getElementById('infoList');
+    infoList.innerHTML = ""; // 既存のリストをクリア
+
+    const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
+
+    minors.forEach(minor => {
+        const listItem = document.createElement('li');
+        listItem.textContent = `${languageData[currentLanguage].minorItemLabel} ${minor.name}, ${languageData[currentLanguage].ageLabel} ${minor.age}`; // 言語に応じた表示
+
+        // 削除ボタンを作成
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = languageData[currentLanguage].delete; // 言語に応じた削除ボタンラベル
+        deleteButton.classList.add('delete-button');
+
+        // 削除ボタンのクリックイベント
+        deleteButton.addEventListener('click', async () => {
+            try {
+                const docRef = await deleteDoc(minor.id); // Firestoreから未成年者データを削除
+                infoList.removeChild(listItem);
+                minors.splice(minors.indexOf(minor), 1); // 未成年者をローカル配列から削除
+            } catch (error) {
+                console.error("未成年者の削除中にエラーが発生しました:", error);
+            }
+        });
+
+        listItem.appendChild(deleteButton);
+        infoList.appendChild(listItem); // 言語に応じた内容を持つリストアイテムを追加
+    });
 }
 
 // 未成年者の追加ボタンのイベントリスナーを設定
