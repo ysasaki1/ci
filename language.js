@@ -114,18 +114,7 @@ export function updateLanguage() {
 
 
 
-let currentLanguage = localStorage.getItem('language') || 'ja'; // 初期値をローカルストレージから取得
 
-const languageData = {
-    ja: {
-        delete: "削除",
-        errorMessage: "すべてのフィールドを入力してください。"
-    },
-    en: {
-        delete: "Delete",
-        errorMessage: "Please fill out all fields."
-    }
-};
 
 // 言語を切り替える関数
 export function setLanguage(lang) {
