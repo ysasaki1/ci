@@ -110,9 +110,9 @@ export function updateLanguage() {
     updatePlaceholder(totalDurationLabel, languageData[currentLanguage].totalDuration);
     updatePlaceholder(minorNameInput, languageData[currentLanguage].minorName);
     updatePlaceholder(minorAgeInput, languageData[currentLanguage].minorAge);
-    updatePlaceholder(minorItemLabel2, languageData[currentLanguage].minorItemLabel);
-    updatePlaceholder(ageLabel2, languageData[currentLanguage].ageLabel);
-    updatePlaceholder(durationPlaceholder2, languageData[currentLanguage].durationPlaceholder);
+    updateTextContent(minorItemLabel2, languageData[currentLanguage].minorItemLabel);
+    updateTextContent(ageLabel2, languageData[currentLanguage].ageLabel);
+    updateTextContent(durationPlaceholder2, languageData[currentLanguage].durationPlaceholder);
 
 
 
