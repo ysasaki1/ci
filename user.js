@@ -93,6 +93,12 @@ function updateLanguage() {
     const minorNameInput = document.getElementById('minorName');
     const minorAgeInput = document.getElementById('minorAge');
 
+
+    const minorItemLabelInput = document.getElementById('minorItemLabel');
+    const ageLabelInput = document.getElementById('ageLabel');
+    const durationPlaceholderInput = document.getElementById('durationPlaceholder');
+    
+
     // 各要素のテキストを更新
     if (welcomeMessage) {
         const userEmail = auth.currentUser ? auth.currentUser.email : "";
@@ -143,6 +149,16 @@ function updateLanguage() {
     }
     if (minorAgeInput) {
         minorAgeInput.placeholder = languageData[currentLanguage].minorAge;
+    }
+
+        if (minorItemLabelInput) {
+        minorItemLabelInput.placeholder = languageData[currentLanguage].minorItemLabel;
+    }
+        if (ageLabelInput) {
+        minorAgeInput.placeholder = languageData[currentLanguage].ageLabel;
+    }
+        if (durationPlaceholderInput) {
+        durationPlaceholderInput.placeholder = languageData[currentLanguage].durationPlaceholder;
     }
 
     // 削除ボタンのラベルを更新
