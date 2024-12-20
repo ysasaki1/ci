@@ -2,6 +2,10 @@ import { initializeFirebase, setupLogout } from "./firebase.js";
 import { setLanguage } from "./language.js"; // setLanguage をインポート
 import { fetchMinorsFromFirestore, addMinorEventListener } from "./minors.js";
 import { fetchVlogsFromFirestore, displayVlogs, addVlogEventListener } from "./vlogs.js"; // 追加
+import MinorManager from './minors.js';
+
+const minorManager = new MinorManager();
+
 
 const { auth, db } = initializeFirebase(); // Firebaseの初期化
 
