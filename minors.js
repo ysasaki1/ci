@@ -25,7 +25,7 @@ export async function fetchMinorsFromFirestore(userId) {
         querySnapshot.forEach((doc) => {
             const minor = doc.data();
             if (minor.userId === userId) { // ユーザーIDでフィルター
-                minors.push({ ...minor, id: doc.id }); // IDを含めてローカルの minors 配列に追加
+                minors.push({ ...minor, id: doc.id }); // ローカルの minors 配列に追加
             }
         });
         displayMinors(); // 取得したデータを表示
@@ -41,18 +41,19 @@ export function displayMinors() {
 
     const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
 
+    // Minor Participantsのタイトルを表示
+    const title = document.createElement('h3');
+    title.textContent = languageData[currentLanguage].minorParticipants; // 言語に応じたタイトル
+    infoList.appendChild(title);
+
     minors.forEach(minor => {
         const listItem = document.createElement('li');
-
-        // 言語に応じた表示
-        listItem.textContent = `${languageData[currentLanguage].minorItemLabel} ${minor.name}, ${languageData[currentLanguage].ageLabel} ${minor.age}`;
+        listItem.textContent = `${languageData[currentLanguage].minorItemLabel} ${minor.name}, ${languageData[currentLanguage].ageLabel} ${minor.age}`; // 言語に応じた表示
 
         // 削除ボタンを作成
         const deleteButton = document.createElement('button');
+        deleteButton.textContent = languageData[currentLanguage].delete; // 言語に応じた削除ボタンラベル
         deleteButton.classList.add('delete-button');
-
-        // 言語に応じた削除ボタンラベルを設定
-        deleteButton.textContent = languageData[currentLanguage].delete; 
 
         // 削除ボタンのクリックイベント
         deleteButton.addEventListener('click', async () => {
@@ -111,7 +112,8 @@ export function addMinorEventListener() {
 
         // 削除ボタンを作成
         const deleteButton = document.createElement('button');
-        deleteButton.textContent = languageData[getCurrentLanguage()].delete; // 言語に応じた削除ボタンラベル
+        // 言語に応じた削除ボタンラベル
+        deleteButton.textContent = languageData[getCurrentLanguage()].delete; 
         deleteButton.classList.add('delete-button');
 
         // 削除ボタンのクリックイベント
