@@ -131,7 +131,7 @@ export function getCurrentLanguage() {
 }
 
 // 言語更新のための関数
-function updateLanguage() {
+function updateLanguageUI() {
     // UIの各要素を更新
     updateUI(); // UIを再表示
 }
