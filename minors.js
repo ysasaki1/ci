@@ -49,8 +49,10 @@ export function displayMinors() {
 
         // 削除ボタンを作成
         const deleteButton = document.createElement('button');
-        deleteButton.textContent = languageData[currentLanguage].delete; // 言語に応じた削除ボタンラベル
         deleteButton.classList.add('delete-button');
+
+        // 言語に応じた削除ボタンラベルを設定
+        deleteButton.textContent = languageData[currentLanguage].delete; 
 
         // 削除ボタンのクリックイベント
         deleteButton.addEventListener('click', async () => {
