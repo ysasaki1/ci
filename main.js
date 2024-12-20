@@ -25,6 +25,7 @@ async function loadVlogs() {
         displayVlogs(vlogs); // 取得したブイログを表示
     } catch (error) {
         console.error("ブイログデータの取得に失敗しました:", error);
+        alert("データの取得に失敗しました。再試行してください。"); // ユーザーへのフィードバック
     }
 }
 
