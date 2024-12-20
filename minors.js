@@ -46,14 +46,14 @@ function displayMinor(minor) {
     checkboxDiv.innerHTML = `
         <input type="checkbox" name="minorSelect" value="${minor.name}" id="${minor.name}">
         <label for="${minor.name}">${minor.name}</label>
-        <input type="number" id="duration_${minor.name}" placeholder="${languageData[currentLanguage].totalEarnings}" min="0"> <!-- adurationPlaceholderをtotalEarningsに変更 -->
+        <input type="number" id="duration_${minor.name}" placeholder="${languageData[currentLanguage].adurationPlaceholder}" min="0">
     `;
     checkboxContainer.appendChild(checkboxDiv);
 
     // 登録された未成年者リストに追加
     const infoList = document.getElementById('infoList');
     const listItem = document.createElement('li');
-    listItem.textContent = `${languageData[currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[currentLanguage].aageLabel} ${minor.age}`; // aminorItemLabelとaageLabelを使用
+    listItem.textContent = `${languageData[currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[currentLanguage].aageLabel} ${minor.age}`;
 
     // 削除ボタンを作成
     const deleteButton = document.createElement('button');
@@ -82,7 +82,7 @@ export function addMinorEventListener() {
         const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
         const minorItemLabel = languageData[currentLanguage].aminorItemLabel; // 取得
         const ageLabel = languageData[currentLanguage].aageLabel; // 取得
-        const durationPlaceholder = languageData[currentLanguage].totalEarnings; // adurationPlaceholderをtotalEarningsに変更
+        const durationPlaceholder = languageData[currentLanguage].adurationPlaceholder; // 取得
 
         const name = document.getElementById('minorName').value;
         const age = document.getElementById('minorAge').value;
@@ -109,14 +109,14 @@ export function addMinorEventListener() {
         checkboxDiv.innerHTML = `
             <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
             <label for="${name}">${name}</label>
-            <input type="number" id="duration_${name}" placeholder="${durationPlaceholder}" min="0"> <!-- adurationPlaceholderをtotalEarningsに変更 -->
+            <input type="number" id="duration_${name}" placeholder="${durationPlaceholder}" min="0">
         `;
         checkboxContainer.appendChild(checkboxDiv);
 
         // 登録された未成年者リストに追加
         const infoList = document.getElementById('infoList');
         const listItem = document.createElement('li');
-        listItem.textContent = `${minorItemLabel} ${name}, ${ageLabel} ${age}`; // aminorItemLabelとaageLabelを使用
+        listItem.textContent = `${minorItemLabel} ${name}, ${ageLabel} ${age}`;
 
         // 削除ボタンを作成
         const deleteButton = document.createElement('button');
@@ -169,21 +169,13 @@ export function updateLanguage() {
     listItems.forEach((item, index) => {
         const minor = minors[index];
         if (minor) {
-            item.textContent = `${languageData[currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[currentLanguage].aageLabel} ${minor.age}`; // aminorItemLabelとaageLabelを使用
+            item.textContent = `${languageData[currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[currentLanguage].aageLabel} ${minor.age}`;
         }
     });
     
     // チェックボックスのプレースホルダーを更新
     const durationInputs = document.querySelectorAll('input[type="number"]');
     durationInputs.forEach(input => {
-        input.placeholder = languageData[currentLanguage].totalEarnings; // adurationPlaceholderをtotalEarningsに変更
+        input.placeholder = languageData[currentLanguage].adurationPlaceholder;
     });
-
-    // その他のUI要素の更新（必要に応じて追加）
-    const minorNameInput = document.getElementById('minorName');
-    const minorAgeInput = document.getElementById('minorAge');
-
-    updatePlaceholder(minorNameInput, languageData[currentLanguage].minorName);
-    updatePlaceholder(minorAgeInput, languageData[currentLanguage].minorAge);
-
 }
