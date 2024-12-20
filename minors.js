@@ -25,7 +25,7 @@ export async function fetchMinorsFromFirestore(userId) {
         querySnapshot.forEach((doc) => {
             const minor = doc.data();
             if (minor.userId === userId) { // ユーザーIDでフィルター
-                minors.push(minor); // ローカルの minors 配列に追加
+                minors.push({ ...minor, id: doc.id }); // IDを含めてローカルの minors 配列に追加
             }
         });
         displayMinors(); // 取得したデータを表示
@@ -43,7 +43,9 @@ export function displayMinors() {
 
     minors.forEach(minor => {
         const listItem = document.createElement('li');
-        listItem.textContent = `${languageData[currentLanguage].minorItemLabel} ${minor.name}, ${languageData[currentLanguage].ageLabel} ${minor.age}`; // 言語に応じた表示
+
+        // 言語に応じた表示
+        listItem.textContent = `${languageData[currentLanguage].minorItemLabel} ${minor.name}, ${languageData[currentLanguage].ageLabel} ${minor.age}`;
 
         // 削除ボタンを作成
         const deleteButton = document.createElement('button');
@@ -107,8 +109,7 @@ export function addMinorEventListener() {
 
         // 削除ボタンを作成
         const deleteButton = document.createElement('button');
-        // 言語に応じた削除ボタンラベル
-        deleteButton.textContent = languageData[getCurrentLanguage()].delete; 
+        deleteButton.textContent = languageData[getCurrentLanguage()].delete; // 言語に応じた削除ボタンラベル
         deleteButton.classList.add('delete-button');
 
         // 削除ボタンのクリックイベント
