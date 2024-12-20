@@ -155,6 +155,26 @@ class MinorManager {
         this.updateMinorDisplay();
     }
 
+
+    setupEventListeners() {
+    document.getElementById('addMinorInfoButton').addEventListener('click', () => {
+        const name = document.getElementById('minorName').value.trim();
+        const age = document.getElementById('minorAge').value.trim();
+
+        if (!name || !age) {
+            alert(languageData[this.currentLanguage].errorMessage);
+            return;
+        }
+
+        this.addMinor(name, age);
+    });
+
+    document.getElementById('languageToggle').addEventListener('change', (e) => {
+        this.setLanguage(e.target.value);
+    });
+}
+
+
     updateMinorDisplay() {
         const displayContainer = document.getElementById('minorDisplay');
         displayContainer.innerHTML = ''; // クリア
