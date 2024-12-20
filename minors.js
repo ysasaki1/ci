@@ -1,22 +1,19 @@
 import { initializeFirebase } from "./firebase.js";
 import { collection, addDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
-import { auth } from "./firebase.js";
-import { languageData, getCurrentLanguage } from "./language.js";
+import { languageData, getCurrentLanguage } from "./language.js"; // 言語データをインポート
 
-// Firebaseの初期化
-const { db } = initializeFirebase();
+const { db } = initializeFirebase(); // Firebaseの初期化とdbの取得
 
-// 未成年者のデータを保持する配列
 export const minors = [];
 
 // 未成年者のデータをFirestoreに追加する関数
 export async function addMinorToFirestore(minor) {
     try {
         const docRef = await addDoc(collection(db, "minors"), minor);
-        console.log("Document written with ID: ", docRef.id);
-        return docRef;
+        console.log("Minor added with ID: ", docRef.id);
+        return docRef; // 追加したドキュメントの参照を返す
     } catch (e) {
-        console.error("Error adding document: ", e);
+        console.error("Error adding minor: ", e);
     }
 }
 
