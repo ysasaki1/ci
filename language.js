@@ -19,9 +19,9 @@ export const languageData = {
         minorAge: "Age",
         delete: "Delete",
         minorParticipants: "Minor Participants",
-        minorItemLabel: "Minor: ",
-        ageLabel: "Age: ",
-        durationPlaceholder: "Duration (minutes)",
+        1minorItemLabel: "Minor: ",
+        1ageLabel: "Age: ",
+        1durationPlaceholder: "Duration (minutes)",
         errorMessage: "Please fill in all fields correctly.", // エラーメッセージ
     },
     ja: {
@@ -41,9 +41,9 @@ export const languageData = {
         minorAge: "年齢",
         delete: "削除",
         minorParticipants: "出演未成年者",
-        minorItemLabel: "未成年者: ",
-        ageLabel: "年齢: ",
-        durationPlaceholder: "出演時間 (分)",
+        1minorItemLabel: "未成年者: ",
+        1ageLabel: "年齢: ",
+        1durationPlaceholder: "出演時間 (分)",
         errorMessage: "すべてのフィールドを正しく入力してください。" // エラーメッセージ
     }
 };
