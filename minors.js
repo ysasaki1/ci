@@ -75,7 +75,6 @@ export function addMinorEventListener() {
         const name = document.getElementById('minorName').value;
         const age = document.getElementById('minorAge').value;
 
-        // 入力バリデーション
         if (!name || !age) {
             alert(languageData[getCurrentLanguage()].errorMessage); // 言語に応じたエラーメッセージ
             return;
@@ -86,7 +85,7 @@ export function addMinorEventListener() {
         const minorId = `${userId}-${Date.now()}`; // ユニークな未成年者IDを生成
 
         const minor = { id: minorId, userId, name, age, createdDate, earnings: 0, vlogs: [] };
-        minors.push(minor); // 未成年者をローカル配列に追加
+        minors.push(minor); // 未成年者を追加
 
         // Firestoreにデータを追加
         const docRef = await addMinorToFirestore(minor);
