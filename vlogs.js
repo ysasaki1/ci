@@ -1,44 +1,97 @@
 import { initializeFirebase } from "./firebase.js";
 import { collection, addDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
-import { auth } from "./firebase.js"; // authをインポート
 import { languageData, getCurrentLanguage } from "./language.js"; // 言語データをインポート
+import { auth } from "./firebase.js"; // authをインポート
 
 const { db } = initializeFirebase(); // Firebaseの初期化とdbの取得
 
-export const minors = [];
+export const data = {
+    vlogs: [] // vlogs に未成年者情報も含める
+};
 
-// 未成年者のデータをFirestoreに追加する関数
-export async function addMinorToFirestore(minor) {
+// 収益化ブイログ情報をFirestoreに追加する関数
+export async function addVlogToFirestore(vlog) {
     try {
-        const docRef = await addDoc(collection(db, "minors"), minor);
-        console.log("Document written with ID: ", docRef.id);
-        return docRef; // 追加したドキュメントの参照を返す
+        const docRef = await addDoc(collection(db, "vlogs"), vlog);
+        console.log("Vlog added with ID: ", docRef.id);
     } catch (e) {
-        console.error("Error adding document: ", e);
+        console.error("Error adding vlog: ", e);
     }
 }
 
-// Firestoreから未成年者データを取得する関数
-export async function fetchMinorsFromFirestore(userId) {
+// 収益化ブイログ情報をFirestoreから取得する関数
+export async function fetchVlogsFromFirestore() {
     try {
-        const querySnapshot = await getDocs(collection(db, "minors"));
-        minors.length = 0; // 配列をクリア
+        const querySnapshot = await getDocs(collection(db, "vlogs"));
+        data.vlogs = []; // 配列をクリア
         querySnapshot.forEach((doc) => {
-            const minor = doc.data();
-            if (minor.userId === userId) { // ユーザーIDでフィルター
-                minors.push({ id: doc.id, ...minor }); // ローカルの minors 配列に追加
-            }
+            data.vlogs.push({ id: doc.id, ...doc.data() });
         });
-        displayMinors(); // 取得したデータを表示
+        return data.vlogs; // 取得したデータを返す
     } catch (error) {
-        console.error("Error fetching minors: ", error);
+        console.error("Error fetching vlogs: ", error);
     }
 }
 
-// 登録された未成年者情報を表示する関数
-export function displayMinors() {
-    const infoList = document.getElementById('infoList');
-    infoList.innerHTML = ""; // 既存のリストをクリア
+// 登録されたブイログ情報を表示する関数
+export function displayVlogs(vlogs) {
+    const vlogList = document.getElementById('vlogList');
+    vlogList.innerHTML = ""; // 既存のリストをクリア
+
+    const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
+
+    vlogs.forEach(vlog => {
+        const vlogItem = document.createElement('li');
+        const minorsText = vlog.minors && vlog.minors.length > 0 
+            ? vlog.minors.join(', ') 
+            : languageData[currentLanguage].registeredMinors; // 未成年者がいない場合のテキスト
+
+        vlogItem.textContent = `${languageData[currentLanguage].vlogTitle}: ${vlog.title}, ${languageData[currentLanguage].totalEarnings}: ¥${vlog.totalEarnings}, ${languageData[currentLanguage].registeredMinors}: ${minorsText}`;
+        vlogList.appendChild(vlogItem);
+    });
+}
+
+// 収益化ブイログ情報を追加するイベントリスナー
+export function addVlogEventListener() {
+    document.getElementById('addVlogInfoButton').addEventListener('click', async () => {
+        const vlogTitle = document.getElementById('vlogTitle').value.trim();
+        const totalEarnings = parseFloat(document.getElementById('totalEarnings').value);
+        const totalDuration = parseFloat(document.getElementById('totalDuration').value);
+
+        // バリデーション
+        if (!vlogTitle || isNaN(totalEarnings) || isNaN(totalDuration) || totalDuration <= 0) {
+            alert(languageData[getCurrentLanguage()].errorMessage); // エラーメッセージを言語に応じて表示
+            return;
+        }
+
+        const selectedMinors = Array.from(document.querySelectorAll('input[name="minorSelect"]:checked')).map(input => input.value);
+        const selectedDurations = selectedMinors.map(minorName => parseFloat(document.getElementById(`duration_${minorName}`).value));
+
+        const vlog = { title: vlogTitle, totalEarnings, totalDuration, minors: selectedMinors, selectedDurations };
+
+        // Firestoreに新しいコレクション「vlogs」を作成し、データを追加
+        await addVlogToFirestore(vlog);
+        data.vlogs.push(vlog); // ローカルのvlogs配列に追加
+
+        // Firestore からのブイログを再読み込みして表示
+        const allVlogs = await fetchVlogsFromFirestore();
+        displayVlogs(allVlogs); // すべてのブイログを表示
+    });
+}
+
+// 未成年者を追加する関数
+export async function addMinorToVlog(vlogId, minor) {
+    const vlog = data.vlogs.find(v => v.id === vlogId);
+    if (vlog) {
+        vlog.minors.push(minor); // 未成年者を追加
+        await addVlogToFirestore(vlog); // Firestoreにも更新
+    }
+}
+
+// 未成年者情報を表示する関数
+export function displayMinors(minors) {
+    const minorList = document.getElementById('infoList');
+    minorList.innerHTML = ""; // 既存のリストをクリア
 
     const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
 
@@ -55,19 +108,18 @@ export function displayMinors() {
         deleteButton.addEventListener('click', async () => {
             try {
                 await deleteDoc(collection(db, "minors").doc(minor.id)); // Firestoreから未成年者データを削除
-                infoList.removeChild(listItem);
-                minors.splice(minors.indexOf(minor), 1); // 未成年者をローカル配列から削除
+                minorList.removeChild(listItem);
             } catch (error) {
                 console.error("未成年者の削除中にエラーが発生しました:", error);
             }
         });
 
         listItem.appendChild(deleteButton);
-        infoList.appendChild(listItem); // 言語に応じた内容を持つリストアイテムを追加
+        minorList.appendChild(listItem); // 言語に応じた内容を持つリストアイテムを追加
     });
 }
 
-// 未成年者の追加ボタンのイベントリスナーを設定
+// 未成年者を追加するイベントリスナー
 export function addMinorEventListener() {
     document.getElementById('addMinorInfoButton').addEventListener('click', async () => {
         const name = document.getElementById('minorName').value.trim();
@@ -85,8 +137,7 @@ export function addMinorEventListener() {
         const minor = { id: minorId, userId, name, age, createdDate, earnings: 0, vlogs: [] };
 
         // Firestoreにデータを追加
-        const docRef = await addMinorToFirestore(minor);
-        minors.push({ ...minor, id: docRef.id }); // 未成年者を追加し、FirestoreのIDを設定
+        await addDoc(collection(db, "minors"), minor);
 
         // チェックボックスを生成
         const checkboxContainer = document.getElementById('minorCheckboxContainer');
@@ -95,34 +146,12 @@ export function addMinorEventListener() {
         checkbox.innerHTML = `
             <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
             <label for="${name}">${name}</label>
-            <input type="number" id="duration_${name}" placeholder="${languageData[getCurrentLanguage()].durationPlaceholder}" min="0"> <!-- 言語に応じたプレースホルダー -->
+            <input type="number" id="duration_${name}" placeholder="${languageData[getCurrentLanguage()].durationPlaceholder}" min="0">
         `;
         checkboxContainer.appendChild(checkbox);
 
         // 登録された未成年者リストに追加
-        const infoList = document.getElementById('infoList');
-        const listItem = document.createElement('li');
-        listItem.textContent = `${languageData[getCurrentLanguage()].minorItemLabel} ${name}, ${languageData[getCurrentLanguage()].ageLabel} ${age}`;
-
-        // 削除ボタンを作成
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = languageData[getCurrentLanguage()].delete; 
-        deleteButton.classList.add('delete-button');
-
-        // 削除ボタンのクリックイベント
-        deleteButton.addEventListener('click', async () => {
-            try {
-                await deleteDoc(docRef); // Firestoreから未成年者データを削除
-                infoList.removeChild(listItem);
-                minors.splice(minors.indexOf(minor), 1); // 未成年者をローカル配列から削除
-                checkboxContainer.removeChild(checkbox); // チェックボックスも削除
-            } catch (error) {
-                console.error("未成年者の削除中にエラーが発生しました:", error);
-            }
-        });
-
-        listItem.appendChild(deleteButton);
-        infoList.appendChild(listItem); // 言語に応じた内容を持つリストアイテムを追加
+        displayMinors([minor]); // 新しい未成年者をリストに表示
 
         // 入力フィールドをクリア
         document.getElementById('minorName').value = '';
