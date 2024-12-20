@@ -185,7 +185,5 @@ export function updateLanguage() {
 
     updatePlaceholder(minorNameInput, languageData[currentLanguage].minorName);
     updatePlaceholder(minorAgeInput, languageData[currentLanguage].minorAge);
-        updatePlaceholder(minorItemLabel2, languageData[currentLanguage].aminorItemLabel;
-        updatePlaceholder(ageLabel2, languageData[currentLanguage].aageLabel);
-        updatePlaceholder(durationPlaceholder2, languageData[currentLanguage].adurationPlaceholder);
+
 }
