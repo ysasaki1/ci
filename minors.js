@@ -74,9 +74,9 @@ export async function fetchMinorsFromFirestore(userId) {
 export function addMinorEventListener() {
     document.getElementById('addMinorInfoButton').addEventListener('click', async () => {
         const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
-        const minorItemLabel = languageData[currentLanguage].minorItemLabel; // 取得
-        const ageLabel = languageData[currentLanguage].ageLabel; // 取得
-        const durationPlaceholder = languageData[currentLanguage].durationPlaceholder; // 取得
+        const minorItemLabel = languageData[currentLanguage].aminorItemLabel; // 取得
+        const ageLabel = languageData[currentLanguage].aageLabel; // 取得
+        const durationPlaceholder = languageData[currentLanguage].adurationPlaceholder; // 取得
 
         const name = document.getElementById('minorName').value;
         const age = document.getElementById('minorAge').value;
