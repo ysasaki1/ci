@@ -131,6 +131,7 @@ export function addMinorEventListener() {
         const checkboxContainer = document.getElementById('minorCheckboxContainer');
         const checkboxDiv = document.createElement('div');
         checkboxDiv.className = 'minor-checkbox';
+        const labels = getLabels(); // 新しいラベルを取得
         checkboxDiv.innerHTML = `
             <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
             <label for="${name}">${name}</label>
@@ -176,6 +177,7 @@ export function updateUI() {
     const currentLanguage = getCurrentLanguage();
     const infoList = document.getElementById('infoList');
     const listItems = infoList.querySelectorAll('li');
+
     listItems.forEach((item, index) => {
         const minor = minors[index];
         if (minor) {
@@ -184,7 +186,7 @@ export function updateUI() {
         }
     });
 
-      // チェックボックスのプレースホルダーを更新
+    // チェックボックスのプレースホルダーを更新
     const durationInputs = document.querySelectorAll('input[type="number"]');
     durationInputs.forEach(input => {
         input.placeholder = getLabels().durationPlaceholder; // プレースホルダーを更新
