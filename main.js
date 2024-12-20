@@ -28,12 +28,24 @@ document.getElementById('lang-en').addEventListener('click', async () => {
     setLanguage('en'); // 言語を英語に設定
     const allVlogs = await fetchVlogsFromFirestore();
     displayVlogs(allVlogs); // 言語切り替え後に再表示
+
+    // 未成年者情報も再取得して表示
+    const user = auth.currentUser;
+    if (user) {
+        await fetchMinorsFromFirestore(user.uid);
+    }
 });
 
 document.getElementById('lang-ja').addEventListener('click', async () => {
     setLanguage('ja'); // 言語を日本語に設定
     const allVlogs = await fetchVlogsFromFirestore();
     displayVlogs(allVlogs); // 言語切り替え後に再表示
+
+    // 未成年者情報も再取得して表示
+    const user = auth.currentUser;
+    if (user) {
+        await fetchMinorsFromFirestore(user.uid);
+    }
 });
 
 // 未成年者の情報を追加
