@@ -191,3 +191,9 @@ input {
     flex: 0 0 150px; /* 名前ラベルの幅を固定 */
     margin-right: 10px; /* ラベルと入力フィールドの間にスペースを追加 */
 }
+
+/* 出演時間の入力フィールドを中央寄せ */
+.minor-checkbox input[type="number"] {
+    text-align: center; /* テキストを中央寄せ */
+    width: 120px; /* 幅を固定 */
+}
