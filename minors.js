@@ -39,7 +39,7 @@ export async function fetchMinorsFromFirestore(userId) {
 function displayMinor(minor) {
     const currentLanguage = getCurrentLanguage();
     const checkboxContainer = document.getElementById('minorCheckboxContainer');
-    
+
     // チェックボックスを生成
     const checkboxDiv = document.createElement('div');
     checkboxDiv.className = 'minor-checkbox';
@@ -80,13 +80,9 @@ function displayMinor(minor) {
 export function addMinorEventListener() {
     document.getElementById('addMinorInfoButton').addEventListener('click', async () => {
         const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
-        
-        const minorItemLabel = languageData[currentLanguage].aminorItemLabel; // 取得
-        const ageLabel = languageData[currentLanguage].aageLabel; // 取得
-        const durationPlaceholder = languageData[currentLanguage].adurationPlaceholder; // 取得
 
-        const name = document.getElementById('minorName').value;
-        const age = document.getElementById('minorAge').value;
+        const name = document.getElementById('minorName').value.trim();
+        const age = document.getElementById('minorAge').value.trim();
 
         if (!name || !age) {
             alert(languageData[currentLanguage].errorMessage); // 言語に応じたエラーメッセージ
@@ -110,14 +106,14 @@ export function addMinorEventListener() {
         checkboxDiv.innerHTML = `
             <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
             <label for="${name}">${name}</label>
-            <input type="number" id="duration_${name}" placeholder="${durationPlaceholder}" min="0">
+            <input type="number" id="duration_${name}" placeholder="${languageData[currentLanguage].adurationPlaceholder}" min="0">
         `;
         checkboxContainer.appendChild(checkboxDiv);
 
         // 登録された未成年者リストに追加
         const infoList = document.getElementById('infoList');
         const listItem = document.createElement('li');
-        listItem.textContent = `${minorItemLabel} ${name}, ${ageLabel} ${age}`;
+        listItem.textContent = `${languageData[currentLanguage].aminorItemLabel} ${name}, ${languageData[currentLanguage].aageLabel} ${age}`;
 
         // 削除ボタンを作成
         const deleteButton = document.createElement('button');
@@ -157,14 +153,8 @@ export function setLanguage(lang) {
 // UIを更新する関数
 export function updateLanguage() {
     const currentLanguage = getCurrentLanguage();
-    
-    // 言語に基づいて各要素を更新
-    const deleteButtons = document.querySelectorAll('.delete-button');
-    deleteButtons.forEach(button => {
-        button.innerText = languageData[currentLanguage].delete; // 削除ボタンのラベルを更新
-    });
-    
-    // 各未成年者リストのラベルを更新
+
+    // 各要素のテキストを一括更新
     const infoList = document.getElementById('infoList');
     const listItems = infoList.querySelectorAll('li');
     listItems.forEach((item, index) => {
@@ -173,10 +163,16 @@ export function updateLanguage() {
             item.textContent = `${languageData[currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[currentLanguage].aageLabel} ${minor.age}`;
         }
     });
-    
+
     // チェックボックスのプレースホルダーを更新
     const durationInputs = document.querySelectorAll('input[type="number"]');
     durationInputs.forEach(input => {
         input.placeholder = languageData[currentLanguage].adurationPlaceholder; // プレースホルダーを更新
+    });
+
+    // 削除ボタンのラベルを更新
+    const deleteButtons = document.querySelectorAll('.delete-button');
+    deleteButtons.forEach(button => {
+        button.innerText = languageData[currentLanguage].delete; // 削除ボタンのラベルを更新
     });
 }
