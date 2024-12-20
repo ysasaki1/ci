@@ -110,71 +110,79 @@ function displayMinor(minor, docId) {
 
 // 未成年者の追加ボタンのイベントリスナーを設定
 export function addMinorEventListener() {
-    document.getElementById('addMinorInfoButton').addEventListener('click', async () => {
-        const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
+    const addButton = document.getElementById('addMinorInfoButton');
 
-        const name = document.getElementById('minorName').value.trim();
-        const age = document.getElementById('minorAge').value.trim();
+    // 既存のイベントリスナーを削除（重複登録を防ぐため）
+    addButton.removeEventListener('click', handleAddMinor);
+    
+    // 新しいイベントリスナーを追加
+    addButton.addEventListener('click', handleAddMinor);
+}
 
-        // バリデーション
-        if (!name || !age) {
-            alert(languageData[currentLanguage].errorMessage); // エラーメッセージを言語に応じて表示
-            return;
+async function handleAddMinor() {
+    const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
+
+    const name = document.getElementById('minorName').value.trim();
+    const age = document.getElementById('minorAge').value.trim();
+
+    // バリデーション
+    if (!name || !age) {
+        alert(languageData[currentLanguage].errorMessage); // エラーメッセージを言語に応じて表示
+        return;
+    }
+
+    const userId = auth.currentUser.uid; // 現在のユーザーIDを取得
+    const createdDate = new Date().toISOString(); // 登録日を取得
+    const minorId = `${userId}-${Date.now()}`; // ユニークな未成年者IDを生成
+
+    const minor = { id: minorId, userId, name, age, createdDate, earnings: 0, vlogs: [] };
+    minors.push(minor); // 未成年者を追加
+
+    // Firestoreにデータを追加
+    const docRef = await addMinorToFirestore(minor);
+
+    // チェックボックスを生成
+    const checkboxContainer = document.getElementById('minorCheckboxContainer');
+    const checkboxDiv = document.createElement('div');
+    checkboxDiv.className = 'minor-checkbox';
+    const labels = getLabels(); // 新しいラベルを取得
+    checkboxDiv.innerHTML = `
+        <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
+        <label for="${name}">${name}</label>
+        <input type="number" id="duration_${name}" placeholder="${labels.durationPlaceholder}" min="0">
+    `;
+    checkboxContainer.appendChild(checkboxDiv);
+
+    // 登録された未成年者リストに追加
+    const infoList = document.getElementById('infoList');
+    const listItem = document.createElement('li');
+    listItem.textContent = `${labels.minorLabel} ${name}, ${labels.ageLabel} ${age}`;
+
+    // 削除ボタンを作成
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = languageData[currentLanguage].delete; // 言語に応じた削除ボタンラベル
+    deleteButton.classList.add('delete-button');
+
+    // 削除ボタンのクリックイベント
+    deleteButton.addEventListener('click', async () => {
+        try {
+            await deleteDoc(docRef); // Firestoreから未成年者データを削除
+            infoList.removeChild(listItem);
+            minors.splice(minors.indexOf(minor), 1); // 未成年者をローカル配列から削除
+            checkboxContainer.removeChild(checkboxDiv); // チェックボックスも削除
+        } catch (error) {
+            console.error("未成年者の削除中にエラーが発生しました:", error);
+            alert(languageData[currentLanguage].errorMessage); // エラー時にユーザーへのフィードバック
         }
-
-        const userId = auth.currentUser.uid; // 現在のユーザーIDを取得
-        const createdDate = new Date().toISOString(); // 登録日を取得
-        const minorId = `${userId}-${Date.now()}`; // ユニークな未成年者IDを生成
-
-        const minor = { id: minorId, userId, name, age, createdDate, earnings: 0, vlogs: [] };
-        minors.push(minor); // 未成年者を追加
-
-        // Firestoreにデータを追加
-        const docRef = await addMinorToFirestore(minor);
-
-        // チェックボックスを生成
-        const checkboxContainer = document.getElementById('minorCheckboxContainer');
-        const checkboxDiv = document.createElement('div');
-        checkboxDiv.className = 'minor-checkbox';
-        const labels = getLabels(); // 新しいラベルを取得
-        checkboxDiv.innerHTML = `
-            <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
-            <label for="${name}">${name}</label>
-            <input type="number" id="duration_${name}" placeholder="${labels.durationPlaceholder}" min="0">
-        `;
-        checkboxContainer.appendChild(checkboxDiv);
-
-        // 登録された未成年者リストに追加
-        const infoList = document.getElementById('infoList');
-        const listItem = document.createElement('li');
-        listItem.textContent = `${labels.minorLabel} ${name}, ${labels.ageLabel} ${age}`;
-
-        // 削除ボタンを作成
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = languageData[currentLanguage].delete; // 言語に応じた削除ボタンラベル
-        deleteButton.classList.add('delete-button');
-
-        // 削除ボタンのクリックイベント
-        deleteButton.addEventListener('click', async () => {
-            try {
-                await deleteDoc(docRef); // Firestoreから未成年者データを削除
-                infoList.removeChild(listItem);
-                minors.splice(minors.indexOf(minor), 1); // 未成年者をローカル配列から削除
-                checkboxContainer.removeChild(checkboxDiv); // チェックボックスも削除
-            } catch (error) {
-                console.error("未成年者の削除中にエラーが発生しました:", error);
-                alert(languageData[currentLanguage].errorMessage); // エラー時にユーザーへのフィードバック
-            }
-        });
-
-           // リストアイテムにボタンを追加
-        listItem.appendChild(deleteButton);
-        infoList.appendChild(listItem);
-
-        // 入力フィールドをクリア
-        document.getElementById('minorName').value = '';
-        document.getElementById('minorAge').value = '';
     });
+
+    // リストアイテムにボタンを追加
+    listItem.appendChild(deleteButton);
+    infoList.appendChild(listItem);
+
+    // 入力フィールドをクリア
+    document.getElementById('minorName').value = '';
+    document.getElementById('minorAge').value = '';
 }
 
 // 各要素のテキストを一括更新
