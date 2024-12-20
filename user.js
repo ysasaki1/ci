@@ -100,6 +100,9 @@ function updateLanguage() {
     if (vlogInfoTitle) {
         vlogInfoTitle.innerText = languageData[currentLanguage].vlogInfo;  // 収益化ブイログ情報
     }
+        if (minorParticipantsTitle) {
+        minorParticipantsTitle.innerText = languageData[currentLanguage].minorParticipants;  // 未成年者の情報
+    }
     if (addMinorButton) {
         addMinorButton.innerText = languageData[currentLanguage].addMinor;
     }
