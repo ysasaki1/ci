@@ -81,6 +81,7 @@ function updateLanguage() {
     const registeredMinorsTitle = document.getElementById('registeredMinorsTitle');
     const registeredVlogsTitle = document.getElementById('registeredVlogsTitle');
     const minorAgeLabel = document.querySelector('input[placeholder="年齢"]'); // 年齢のプレースホルダー
+    const minorParticipantsTitle = document.getElementById('minorParticipantsTitle'); // 出演未成年者のタイトル
 
     // 各要素のテキストを更新
     if (welcomeMessage) {
@@ -123,6 +124,9 @@ function updateLanguage() {
     }
     if (minorAgeLabel) {
         minorAgeLabel.placeholder = languageData[currentLanguage].minorAge;
+    }
+    if (minorParticipantsTitle) {
+        minorParticipantsTitle.innerText = languageData[currentLanguage].minorParticipants; // 出演未成年者のタイトル
     }
 
     // 削除ボタンのラベルを更新
