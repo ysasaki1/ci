@@ -143,3 +143,35 @@ export function addMinorEventListener() {
         document.getElementById('minorAge').value = '';
     });
 }
+
+// 言語を切り替える関数
+export function setLanguage(lang) {
+    if (languageData[lang]) {
+        currentLanguage = lang;
+        updateLanguage(); // UIを更新
+        refreshMinors(); // 未成年者情報を再表示
+    }
+}
+
+// UIを更新する関数
+export function updateLanguage() {
+    const currentLanguage = getCurrentLanguage();
+    
+    // 言語に基づいて各要素を更新
+    const deleteButtons = document.querySelectorAll('.delete-button');
+    deleteButtons.forEach(button => {
+        button.innerText = languageData[currentLanguage].delete; // 削除ボタンのラベルを更新
+    });
+    
+    // 各未成年者リストのラベルを更新
+    const infoList = document.getElementById('infoList');
+    const listItems = infoList.querySelectorAll('li');
+    listItems.forEach((item, index) => {
+        const minor = minors[index];
+        if (minor) {
+            item.textContent = `${languageData[currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[currentLanguage].aageLabel} ${minor.age}`;
+        }
+    });
+    
+    // その他の要素も更新するロジックを追加
+}
