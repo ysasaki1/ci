@@ -3,6 +3,7 @@ import { collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/
 import { languageData, getCurrentLanguage } from "./language.js"; // 言語データをインポート
 
 const { db } = initializeFirebase(); // Firebaseの初期化とdbの取得
+import { minors } from "./minors.js"; // minors.jsのデータを使用する場合
 
 // ブイログのデータを格納する配列
 export const vlogs = [];
@@ -40,19 +41,15 @@ export function displayVlogs(vlogs) {
 
     vlogs.forEach(vlog => {
         const vlogItem = document.createElement('li');
-
-        // 未成年者情報は表示しない
         const minorsText = vlog.minors && vlog.minors.length > 0 
             ? vlog.minors.join(', ') 
-            : "N/A"; // 未成年者がいない場合のテキスト
+            : languageData[currentLanguage].registeredMinors; // 未成年者がいない場合のテキスト
 
-        // 年齢情報も表示しない
         const agesText = vlog.selectedDurations && vlog.selectedDurations.length > 0 
-            ? `${languageData[currentLanguage].ageLabel}: ${vlog.selectedDurations.join(', ')}` 
-            : `${languageData[currentLanguage].ageLabel}: N/A`; // 年齢がない場合のテキスト
+            ? `${languageData[currentLanguage].minorAge}: ${vlog.selectedDurations.join(', ')}` 
+            : `${languageData[currentLanguage].minorAge}: N/A`; // 年齢がない場合のテキスト
 
-        // 表示内容を更新
-        vlogItem.textContent = `${languageData[currentLanguage].vlogTitle}: ${vlog.title}, ${languageData[currentLanguage].totalEarnings}: ¥${vlog.totalEarnings}`;
+        vlogItem.textContent = `${languageData[currentLanguage].vlogTitle}: ${vlog.title}, ${languageData[currentLanguage].totalEarnings}: ¥${vlog.totalEarnings}, ${languageData[currentLanguage].registeredMinors}: ${minorsText}, ${agesText}`;
         vlogList.appendChild(vlogItem);
     });
 }
@@ -101,8 +98,16 @@ function displayVlogInfo(vlog) {
     const vlogList = document.getElementById('vlogList');
     const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
 
+    const minorsText = vlog.minors && vlog.minors.length > 0 
+        ? vlog.minors.join(', ') 
+        : languageData[currentLanguage].registeredMinors; // 未成年者がいない場合のテキスト
+
+    const agesText = vlog.selectedDurations && vlog.selectedDurations.length > 0 
+        ? `${languageData[currentLanguage].minorAge}: ${vlog.selectedDurations.join(', ')}` 
+        : `${languageData[currentLanguage].minorAge}: N/A`; // 年齢がない場合のテキスト
+
     const vlogItem = document.createElement('li');
-    vlogItem.textContent = `${languageData[currentLanguage].vlogTitle}: ${vlog.title}, ${languageData[currentLanguage].totalEarnings}: ¥${vlog.totalEarnings}`;
+    vlogItem.textContent = `${languageData[currentLanguage].vlogTitle}: ${vlog.title}, ${languageData[currentLanguage].totalEarnings}: ¥${vlog.totalEarnings}, ${languageData[currentLanguage].registeredMinors}: ${minorsText}, ${agesText}`;
     
     vlogList.appendChild(vlogItem);
 }
