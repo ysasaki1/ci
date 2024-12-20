@@ -13,11 +13,6 @@ class MinorManager {
     }
 
     async init() {
-        if (!auth.currentUser) {
-            console.error("User is not authenticated.");
-            return; // ユーザーが認証されていない場合は処理を中止
-        }
-
         const userId = auth.currentUser.uid;
         await this.fetchMinorsFromFirestore(userId);
         this.setupEventListeners();
@@ -45,6 +40,7 @@ class MinorManager {
 
         checkboxContainer.appendChild(listItem.checkboxDiv);
         document.getElementById('infoList').appendChild(listItem.listItem);
+        this.updateMinorDisplay(); // 新しい情報が追加された後に表示を更新
     }
 
     createMinorListItem(minor, docId) {
@@ -77,6 +73,7 @@ class MinorManager {
             await deleteDoc(docId);
             document.getElementById('infoList').removeChild(listItem);
             document.getElementById('minorCheckboxContainer').removeChild(checkboxDiv);
+            this.updateMinorDisplay(); // 表示を更新する
         } catch (error) {
             console.error("Error deleting minor: ", error);
             alert(languageData[this.currentLanguage].errorMessage);
@@ -155,37 +152,13 @@ class MinorManager {
         this.updateMinorDisplay();
     }
 
-
-    setupEventListeners() {
-    document.getElementById('addMinorInfoButton').addEventListener('click', () => {
-        const name = document.getElementById('minorName').value.trim();
-        const age = document.getElementById('minorAge').value.trim();
-
-        if (!name || !age) {
-            alert(languageData[this.currentLanguage].errorMessage);
-            return;
-        }
-
-        this.addMinor(name, age);
-    });
-
-    document.getElementById('languageToggle').addEventListener('change', (e) => {
-        this.setLanguage(e.target.value);
-    });
-}
-
-
     updateMinorDisplay() {
         const displayContainer = document.getElementById('minorDisplay');
         displayContainer.innerHTML = ''; // クリア
 
         minors.forEach(minor => {
             const minorInfo = document.createElement('div');
-            minorInfo.textContent = `
-                ${languageData[this.currentLanguage].aminorItemLabel} ${minor.name}, 
-                ${languageData[this.currentLanguage].aageLabel} ${minor.age}, 
-                ${languageData[this.currentLanguage].adurationPlaceholder}
-            `;
+            minorInfo.textContent = `${languageData[this.currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[this.currentLanguage].aageLabel} ${minor.age}, ${languageData[this.currentLanguage].adurationPlaceholder}`;
             displayContainer.appendChild(minorInfo);
         });
     }
