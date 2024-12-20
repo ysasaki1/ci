@@ -40,7 +40,7 @@ document.getElementById('lang-ja').addEventListener('click', async () => {
 });
 
 // 未成年者の情報を追加
-minorManager.addMinorEventListener(); // MinorManager のメソッドを呼び出す
+minorManager.setupEventListeners(); // 修正: MinorManager のメソッドを呼び出す
 
 // 収益化ブイログ情報を追加
 addVlogEventListener();
