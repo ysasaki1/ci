@@ -25,7 +25,7 @@ export async function fetchMinorsFromFirestore(userId) {
         querySnapshot.forEach((doc) => {
             const minor = doc.data();
             if (minor.userId === userId) { // ユーザーIDでフィルター
-                minors.push({ ...minor, id: doc.id }); // ローカルの minors 配列に追加
+                minors.push(minor); // ローカルの minors 配列に追加
             }
         });
         displayMinors(); // 取得したデータを表示
@@ -40,11 +40,6 @@ export function displayMinors() {
     infoList.innerHTML = ""; // 既存のリストをクリア
 
     const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
-
-    // Minor Participantsのタイトルを表示
-    const title = document.createElement('h3');
-    title.textContent = languageData[currentLanguage].minorParticipants; // 言語に応じたタイトル
-    infoList.appendChild(title);
 
     minors.forEach(minor => {
         const listItem = document.createElement('li');
