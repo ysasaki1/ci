@@ -28,7 +28,7 @@ export async function fetchVlogsFromFirestore() {
         querySnapshot.forEach((doc) => {
             data.vlogs.push({ id: doc.id, ...doc.data() });
         });
-        console.log("Fetched Vlogs: ", data.vlogs); // 追加: 取得したデータを表示
+        console.log("Fetched Vlogs: ", data.vlogs); // 取得したデータを表示
         return data.vlogs; // 取得したデータを返す
     } catch (error) {
         console.error("Error fetching vlogs: ", error);
@@ -36,7 +36,7 @@ export async function fetchVlogsFromFirestore() {
 }
 
 // 登録されたブイログ情報を表示する関数
-export function displayVlogs(vlogs) { // displayVlogs をエクスポート
+export function displayVlogs(vlogs) {
     const vlogList = document.getElementById('vlogList');
     vlogList.innerHTML = ""; // 既存のリストをクリア
 
@@ -44,7 +44,9 @@ export function displayVlogs(vlogs) { // displayVlogs をエクスポート
 
     vlogs.forEach(vlog => {
         const vlogItem = document.createElement('li');
-        const minorsText = vlog.minors && vlog.minors.length > 0 
+        
+        // minorsTextを取得
+        const minorsText = vlog.minors && Array.isArray(vlog.minors) && vlog.minors.length > 0 
             ? vlog.minors.join(', ') 
             : languageData[currentLanguage].registeredMinors; // 未成年者がいない場合のテキスト
 
@@ -97,7 +99,7 @@ function displayVlogInfo(vlog) {
     const vlogList = document.getElementById('vlogList');
     const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
 
-    const minorsText = vlog.minors && vlog.minors.length > 0 
+    const minorsText = vlog.minors && Array.isArray(vlog.minors) && vlog.minors.length > 0 
         ? vlog.minors.join(', ') 
         : languageData[currentLanguage].registeredMinors; // 未成年者がいない場合のテキスト
 
