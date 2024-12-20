@@ -17,5 +17,5 @@ export function initializeFirebase() {
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    return { app, auth, db };
+    return { app, auth, db }; // dbを含めて返す
 }
