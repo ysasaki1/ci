@@ -135,9 +135,6 @@ function updateLanguage() {
     if (minorAgeInput) {
         minorAgeInput.placeholder = languageData[currentLanguage].minorAge; // 年齢のプレースホルダー
     }
-}
-
-
 
     // 削除ボタンのラベルを更新
     const deleteButtons = document.querySelectorAll('.delete-button');
@@ -145,7 +142,6 @@ function updateLanguage() {
         button.innerText = languageData[currentLanguage].delete;
     });
 }
-
 
 // 未成年者のデータをFirestoreに追加する関数
 async function addMinorToFirestore(minor) {
@@ -165,7 +161,6 @@ async function fetchMinorsFromFirestore(userId) {
             const minor = doc.data();
             if (minor.userId === userId) { // ユーザーIDでフィルター
                 minors.push(minor); // ローカルの minors 配列に追加
-
                 // チェックボックスを生成
                 const checkboxContainer = document.getElementById('minorCheckboxContainer');
                 const checkbox = document.createElement('div');
@@ -357,7 +352,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (errorModal) {
                 errorModal.style.display = 'none';
             }
-        }
+        };
     }
 
     // CSV出力の関数
@@ -383,7 +378,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // CSV出力ボタンを設定
     document.getElementById('downloadCSVButton').addEventListener('click', downloadCSV);
 
-      // サムネイルを取得する関数
+    // サムネイルを取得する関数
     function getThumbnailFromUrl(url) {
         const videoId = url.split('v=')[1];
         const ampersandPosition = videoId ? videoId.indexOf('&') : -1;
