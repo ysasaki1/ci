@@ -12,38 +12,38 @@
         <h1 id="mainTitle">ブイログ情報管理</h1>
         <p id="welcomeMessage"></p>
 
-<div class="form-section">
-    <h2 id="minorInfoTitle">未成年者の情報</h2>
-    <input type="text" id="minorName" placeholder="名前" required>
-    <input type="number" id="minorAge" placeholder="年齢" min="0" required>
-    <button id="addMinorInfoButton" class="small-button">追加</button>
-</div>
-
-<div class="form-section">
-    <h2 id="vlogInfoTitle">収益化ブイログ情報</h2>
-    <input type="text" id="vlogTitle" placeholder="ブイログタイトル" required>
-    <input type="number" id="totalEarnings" placeholder="総収益" min="0" required>
-    <input type="number" id="totalDuration" placeholder="総出演時間 (分)" min="0" required>
-    <div>
-<div class="form-section">
-    <h3 id="minorParticipantsTitle">出演未成年者</h3>
-    <div id="minorCheckboxContainer" class="minor-container">
-        <!-- 未成年者のチェックボックスがここに動的に追加されます -->
+        <div class="form-section">
+            <h2 id="minorInfoTitle">未成年者の情報</h2>
+            <input type="text" id="minorName" placeholder="名前" required>
+            <input type="number" id="minorAge" placeholder="年齢" min="0" required>
+            <button id="addMinorInfoButton" class="small-button">追加</button>
         </div>
-    </div>
-    <button id="addVlogInfoButton" class="small-button">追加</button>
-</div>
 
-<div class="form-section">
-    <h2 id="registeredMinorsTitle">登録された未成年者</h2>
-    <ul id="infoList"></ul>
-</div>
+        <div class="form-section">
+            <h2 id="vlogInfoTitle">収益化ブイログ情報</h2>
+            <input type="text" id="vlogTitle" placeholder="ブイログタイトル" required>
+            <input type="number" id="totalEarnings" placeholder="総収益" min="0" required>
+            <input type="number" id="totalDuration" placeholder="総出演時間 (分)" min="0" required>
+        </div>
 
-<div class="form-section">
-    <h2 id="registeredVlogsTitle">登録されたブイログ</h2>
-    <ul id="vlogList"></ul>
-</div>
-        
+        <div class="form-section">
+            <h3 id="minorParticipantsTitle">出演未成年者</h3>
+            <div id="minorCheckboxContainer" class="minor-container">
+                <!-- 未成年者のチェックボックスがここに動的に追加されます -->
+            </div>
+            <button id="addVlogInfoButton" class="small-button">追加</button>
+        </div>
+
+        <div class="form-section">
+            <h2 id="registeredMinorsTitle">登録された未成年者</h2>
+            <ul id="infoList"></ul>
+        </div>
+
+        <div class="form-section">
+            <h2 id="registeredVlogsTitle">登録されたブイログ</h2>
+            <ul id="vlogList"></ul>
+        </div>
+
         <button id="downloadCSVButton" class="small-button">CSV出力</button>
     </div>
 
