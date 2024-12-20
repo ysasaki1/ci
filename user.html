@@ -1,177 +1,63 @@
-import { initializeFirebase } from "./firebase.js";
-import { collection, addDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js"; // getDocsをインポート
-import { auth } from "./firebase.js"; // authをインポート
-import { languageData, getCurrentLanguage } from "./language.js"; // 言語データをインポート
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ユーザーページ</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="main.js"></script>
+</head>
+<body>
+    <div class="container">
+        <p id="welcomeMessage"></p>
 
-const { db } = initializeFirebase(); // Firebaseの初期化とdbの取得
+        <div class="form-section">
+            <h2 id="minorInfoTitle">未成年者の情報</h2>
+            <input type="text" id="minorName" placeholder="名前" required>
+            <input type="number" id="minorAge" placeholder="年齢" min="0" required>
+            <button id="addMinorInfoButton" class="small-button">追加</button>
+        </div>
 
-export const minors = [];
+        <div class="form-section">
+            <h2 id="vlogInfoTitle">収益化ブイログ情報</h2>
+            <input type="text" id="vlogTitle" placeholder="ブイログタイトル" required>
+            <input type="number" id="totalEarnings" placeholder="総収益" min="0" required>
+            <input type="number" id="totalDuration" placeholder="総出演時間 (分)" min="0" required>
+            
+            <div class="form-section">
+                <h2 id="minorParticipantsTitle">出演未成年者</h2>
+                <div id="minorCheckboxContainer" class="minor-container">
+                    <!-- 未成年者のチェックボックスがここに動的に追加されます -->
+                </div>
+                <button id="addVlogInfoButton" class="small-button">追加</button>
+            </div>
+        </div>
 
-// 未成年者のデータをFirestoreに追加する関数
-export async function addMinorToFirestore(minor) {
-    try {
-        const docRef = await addDoc(collection(db, "minors"), minor);
-        console.log("Document written with ID: ", docRef.id);
-        return docRef; // 追加したドキュメントの参照を返す
-    } catch (e) {
-        console.error("Error adding document: ", e);
-    }
-}
+        <div class="form-section">
+            <h2 id="registeredMinorsTitle">登録された未成年者</h2>
+            <ul id="infoList"></ul>
+        </div>
 
-// Firestoreから未成年者データを取得する関数
-export async function fetchMinorsFromFirestore(userId) {
-    try {
-        const querySnapshot = await getDocs(collection(db, "minors"));
-        minors.length = 0; // 配列をクリア
-        querySnapshot.forEach((doc) => {
-            const minor = doc.data();
-            if (minor.userId === userId) { // ユーザーIDでフィルター
-                minors.push(minor); // ローカルの minors 配列に追加
+        <div class="form-section">
+            <h2 id="registeredVlogsTitle">登録されたブイログ</h2>
+            <ul id="vlogList"></ul>
+        </div>
 
-                // チェックボックスを生成
-                const checkboxContainer = document.getElementById('minorCheckboxContainer');
-                const checkbox = document.createElement('div');
-                checkbox.className = 'minor-checkbox';
-                checkbox.innerHTML = `
-                    <input type="checkbox" name="minorSelect" value="${minor.name}" id="${minor.name}">
-                    <label for="${minor.name}">${minor.name}</label>
-                    <input type="number" id="duration_${minor.name}" placeholder="${languageData[getCurrentLanguage()].adurationPlaceholder}" min="0">
-                `;
-                checkboxContainer.appendChild(checkbox);
+        <button id="downloadCSVButton" class="small-button">CSV出力</button>
+    </div>
 
-                // 登録された未成年者リストに追加
-                const infoList = document.getElementById('infoList');
-                const listItem = document.createElement('li');
-                listItem.textContent = `${languageData[getCurrentLanguage()].aminorItemLabel} ${minor.name}, ${languageData[getCurrentLanguage()].aageLabel} ${minor.age}`;
+    <div class="lang-buttons">
+        <button id="lang-en" class="lang-button">EN</button>
+        <button id="lang-ja" class="lang-button">JP</button>
+    </div>
 
-                // 削除ボタンを作成
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = languageData[getCurrentLanguage()].delete; // 言語に応じた削除ボタンラベル
-                deleteButton.classList.add('delete-button');
+    <button id="logoutButton" class="small-button">ログアウト</button>
 
-                // 削除ボタンのクリックイベント
-                deleteButton.addEventListener('click', async () => {
-                    try {
-                        await deleteDoc(doc.ref); // Firestoreから未成年者データを削除
-                        infoList.removeChild(listItem);
-                        minors.splice(minors.indexOf(minor), 1); // 未成年者をローカル配列から削除
-                        checkboxContainer.removeChild(checkbox); // チェックボックスも削除
-                    } catch (error) {
-                        console.error("未成年者の削除中にエラーが発生しました:", error);
-                    }
-                });
-
-                listItem.appendChild(deleteButton);
-                infoList.appendChild(listItem);
-            }
-        });
-    } catch (error) {
-        console.error("Error fetching minors: ", error);
-    }
-}
-
-// UIを言語に基づいて再描画する関数
-export function refreshMinors() {
-    const userId = auth.currentUser.uid; // 現在のユーザーIDを取得
-    fetchMinorsFromFirestore(userId); // 未成年者データを再取得
-}
-
-// 未成年者の追加ボタンのイベントリスナーを設定
-export function addMinorEventListener() {
-    document.getElementById('addMinorInfoButton').addEventListener('click', async () => {
-        const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
-        const minorItemLabel = languageData[currentLanguage].aminorItemLabel; // 取得
-        const ageLabel = languageData[currentLanguage].aageLabel; // 取得
-        const durationPlaceholder = languageData[currentLanguage].adurationPlaceholder; // 取得
-
-        const name = document.getElementById('minorName').value;
-        const age = document.getElementById('minorAge').value;
-
-        if (!name || !age) {
-            alert(languageData[currentLanguage].errorMessage); // 言語に応じたエラーメッセージ
-            return;
-        }
-
-        const userId = auth.currentUser.uid; // 現在のユーザーIDを取得
-        const createdDate = new Date().toISOString(); // 登録日を取得
-        const minorId = `${userId}-${Date.now()}`; // ユニークな未成年者IDを生成
-
-        const minor = { id: minorId, userId, name, age, createdDate, earnings: 0, vlogs: [] };
-        minors.push(minor); // 未成年者を追加
-
-        // Firestoreにデータを追加
-        const docRef = await addMinorToFirestore(minor);
-
-        // チェックボックスを生成
-        const checkboxContainer = document.getElementById('minorCheckboxContainer');
-        const checkbox = document.createElement('div');
-        checkbox.className = 'minor-checkbox';
-        checkbox.innerHTML = `
-            <input type="checkbox" name="minorSelect" value="${name}" id="${name}">
-            <label for="${name}">${name}</label>
-            <input type="number" id="duration_${name}" placeholder="${durationPlaceholder}" min="0">
-        `;
-        checkboxContainer.appendChild(checkbox);
-
-        // 登録された未成年者リストに追加
-        const infoList = document.getElementById('infoList');
-        const listItem = document.createElement('li');
-        listItem.textContent = `${minorItemLabel} ${name}, ${ageLabel} ${age}`;
-
-        // 削除ボタンを作成
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = languageData[currentLanguage].delete; // 言語に応じた削除ボタンラベル
-        deleteButton.classList.add('delete-button');
-
-        // 削除ボタンのクリックイベント
-        deleteButton.addEventListener('click', async () => {
-            try {
-                await deleteDoc(docRef); // Firestoreから未成年者データを削除
-                infoList.removeChild(listItem);
-                minors.splice(minors.indexOf(minor), 1); // 未成年者をローカル配列から削除
-                checkboxContainer.removeChild(checkbox); // チェックボックスも削除
-            } catch (error) {
-                console.error("未成年者の削除中にエラーが発生しました:", error);
-            }
-        });
-
-        listItem.appendChild(deleteButton);
-        infoList.appendChild(listItem);
-
-        // 入力フィールドをクリア
-        document.getElementById('minorName').value = '';
-        document.getElementById('minorAge').value = '';
-    });
-}
-
-// 言語を切り替える関数
-export function setLanguage(lang) {
-    if (languageData[lang]) {
-        currentLanguage = lang;
-        updateLanguage(); // UIを更新
-        refreshMinors(); // 未成年者情報を再表示
-    }
-}
-
-// UIを更新する関数
-export function updateLanguage() {
-    const currentLanguage = getCurrentLanguage();
-    
-    // 言語に基づいて各要素を更新
-    const deleteButtons = document.querySelectorAll('.delete-button');
-    deleteButtons.forEach(button => {
-        button.innerText = languageData[currentLanguage].delete; // 削除ボタンのラベルを更新
-    });
-    
-    // 各未成年者リストのラベルを更新
-    const infoList = document.getElementById('infoList');
-    const listItems = infoList.querySelectorAll('li');
-    listItems.forEach((item, index) => {
-        const minor = minors[index];
-        if (minor) {
-            item.textContent = `${languageData[currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[currentLanguage].aageLabel} ${minor.age}`;
-        }
-    });
-    
-    // その他の要素も更新するロジックを追加
-}
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <p id="modalMessage"></p>
+        </div>
+    </div>
+</body>
+</html>
