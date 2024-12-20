@@ -1,8 +1,8 @@
 import { initializeFirebase, setupLogout } from "./firebase.js";
 import { setLanguage } from "./language.js"; // setLanguage をインポート
-import { fetchVlogsFromFirestore, displayVlogs, addVlogEventListener } from "./vlogs.js"; // 追加
+import { fetchVlogsFromFirestore, displayVlogs, addVlogEventListener } from "./vlogs.js"; // minors は削除
 
-const { auth, db } = initializeFirebase(); // Firebaseの初期化
+const { auth } = initializeFirebase(); // Firebaseの初期化
 
 // ユーザーの認証状態を監視
 auth.onAuthStateChanged(async (user) => {
@@ -10,25 +10,13 @@ auth.onAuthStateChanged(async (user) => {
         document.getElementById('welcomeMessage').innerText = `ようこそ, ${user.email}さん！`;
         const userId = user.uid;
 
-        // Firestoreから未成年者データを取得
-        await loadMinors(userId);
-
         // Firestoreからブイログデータを取得して表示
-        await loadVlogs();
+        await loadVlogs(); // vlogs のみを読み込む
     } else {
         // ユーザーがログインしていない場合、ログインページにリダイレクト
         window.location.href = 'index.html';
     }
 });
-
-// 未成年者データをロードする関数
-async function loadMinors(userId) {
-    try {
-        await fetchMinorsFromFirestore(userId);
-    } catch (error) {
-        console.error("未成年者データの取得に失敗しました:", error);
-    }
-}
 
 // ブイログデータをロードする関数
 async function loadVlogs() {
@@ -51,11 +39,8 @@ document.getElementById('lang-ja').addEventListener('click', async () => {
     await loadVlogs(); // 言語切り替え後に再表示
 });
 
-// 未成年者の情報を追加
-addMinorEventListener();
-
 // 収益化ブイログ情報を追加
-addVlogEventListener();
+addVlogEventListener(); // minors の処理は削除
 
 // ログアウト処理
 setupLogout();
