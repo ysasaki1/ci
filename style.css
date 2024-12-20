@@ -161,3 +161,16 @@ input {
     background-color: #0056b3; /* ホバー時の色 */
 }
 
+
+/* チェックボックスのスタイルを調整 */
+.minor-checkbox {
+    font-size: 1.4em; /* フォントサイズを40%大きくする */
+    margin-bottom: 10px; /* チェックボックス間のスペースを追加 */
+}
+
+.minor-checkbox input[type="number"] {
+    width: 120%; /* 入力フィールドの幅を40%増加 */
+    padding: 5px; /* 入力フィールド内のパディングを追加 */
+    margin-top: 5px; /* 上部にスペースを追加 */
+}
+
