@@ -1,5 +1,5 @@
 import { initializeFirebase } from "./firebase.js";
-import { collection, addDoc, getDocs, deleteDoc } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
+import { collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 import { languageData, getCurrentLanguage } from "./language.js"; // 言語データをインポート
 import { auth } from "./firebase.js"; // authをインポート
 
@@ -7,8 +7,7 @@ const { db } = initializeFirebase(); // Firebaseの初期化とdbの取得
 
 // データを格納するオブジェクト
 export const data = {
-    vlogs: [],
-    minors: []
+    vlogs: []
 };
 
 // 収益化ブイログ情報をFirestoreに追加する関数
