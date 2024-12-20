@@ -35,14 +35,14 @@ export async function fetchMinorsFromFirestore(userId) {
                 checkbox.innerHTML = `
                     <input type="checkbox" name="minorSelect" value="${minor.name}" id="${minor.name}">
                     <label for="${minor.name}">${minor.name}</label>
-                    <input type="number" id="duration_${minor.name}" placeholder="${languageData[getCurrentLanguage()].1durationPlaceholder}" min="0">
+                    <input type="number" id="duration_${minor.name}" placeholder="${languageData[getCurrentLanguage()].adurationPlaceholder}" min="0">
                 `;
                 checkboxContainer.appendChild(checkbox);
 
                 // 登録された未成年者リストに追加
                 const infoList = document.getElementById('infoList');
                 const listItem = document.createElement('li');
-                listItem.textContent = `${languageData[getCurrentLanguage()].1minorItemLabel} ${minor.name}, ${languageData[getCurrentLanguage()].1ageLabel} ${minor.age}`;
+                listItem.textContent = `${languageData[getCurrentLanguage()].aminorItemLabel} ${minor.name}, ${languageData[getCurrentLanguage()].aageLabel} ${minor.age}`;
 
                 // 削除ボタンを作成
                 const deleteButton = document.createElement('button');
