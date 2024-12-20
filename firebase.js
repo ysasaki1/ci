@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -23,3 +23,17 @@ export function initializeFirebase() {
 // 直接的にauthとdbをエクスポートする場合
 const { auth, db } = initializeFirebase();
 export { auth, db }; // authとdbをエクスポート
+
+// ログアウト処理の設定
+export function setupLogout() {
+    document.getElementById('logoutButton').addEventListener('click', async () => {
+        try {
+            await signOut(auth);
+            alert("ログアウトしました。");
+            window.location.href = 'index.html'; // ログインページにリダイレクト
+        } catch (error) {
+            console.error("ログアウト中のエラー:", error);
+            alert("ログアウトに失敗しました。");
+        }
+    });
+}
