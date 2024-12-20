@@ -5,10 +5,11 @@ import { collection, addDoc, getDocs, deleteDoc } from "https://www.gstatic.com/
 import { auth } from "./firebase.js";
 import { languageData } from "./language.js";
 
+export const minors = []; // ここで未成年者の配列をエクスポート
+
 class MinorManager {
     constructor() {
         this.db = initializeFirebase().db;
-        this.minors = [];
         this.currentLanguage = 'ja'; // 初期言語の設定
         this.init();
     }
@@ -22,11 +23,11 @@ class MinorManager {
     async fetchMinorsFromFirestore(userId) {
         try {
             const querySnapshot = await getDocs(collection(this.db, "minors"));
-            this.minors.length = 0; // 配列をクリア
+            minors.length = 0; // 配列をクリア
             querySnapshot.forEach((doc) => {
                 const minor = doc.data();
                 if (minor.userId === userId) {
-                    this.minors.push({ ...minor, id: doc.id });
+                    minors.push({ ...minor, id: doc.id });
                     this.displayMinor(minor, doc.id);
                 }
             });
@@ -73,7 +74,7 @@ class MinorManager {
             await deleteDoc(docId);
             document.getElementById('infoList').removeChild(listItem);
             document.getElementById('minorCheckboxContainer').removeChild(checkboxDiv);
-            this.minors = this.minors.filter(minor => minor.id !== docId);
+            // minors配列から削除は不要
         } catch (error) {
             console.error("Error deleting minor: ", error);
             alert(languageData[this.currentLanguage].errorMessage);
@@ -87,7 +88,7 @@ class MinorManager {
 
         try {
             const docRef = await addDoc(collection(this.db, "minors"), minor);
-            this.minors.push({ ...minor, id: docRef.id });
+            minors.push({ ...minor, id: docRef.id });
             this.displayMinor(minor, docRef.id);
             this.clearInputFields();
         } catch (error) {
@@ -132,7 +133,7 @@ class MinorManager {
         const listItems = infoList.querySelectorAll('li');
 
         listItems.forEach((item, index) => {
-            const minor = this.minors[index];
+            const minor = minors[index];
             if (minor) {
                 item.textContent = `${languageData[currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[currentLanguage].aageLabel} ${minor.age}`;
             }
