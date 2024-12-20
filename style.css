@@ -140,7 +140,7 @@ input {
 .lang-buttons {
     position: absolute; /* 絶対位置に配置 */
     top: 10px; /* 上からの距離 */
-    right: 40px; /* 右からの距離 */
+    right: 80px; /* 右からの距離 */
 }
 
 .lang-button {
