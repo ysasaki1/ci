@@ -180,18 +180,7 @@ document.getElementById('minorName').value = '';
 document.getElementById('minorAge').value = '';
 });
 
-// 言語を切り替える関数
-export function setLanguage(lang) {
-    if (languageData[lang]) {
-        currentLanguage = lang;
-        updateLanguage(); // UIを更新
-        refreshMinors(); // 未成年者情報を再表示
-    }
-}
 
-// UIを更新する関数
-export function updateLanguage() {
-    const currentLanguage = getCurrentLanguage();
 
     // 各要素のテキストを一括更新
     const infoList = document.getElementById('infoList');
