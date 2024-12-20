@@ -154,7 +154,7 @@ export function setLanguage(lang) {
 }
 
 // UIを更新する関数
-export function updateLanguage() {
+export function refreshLanguageUI() {
     const currentLanguage = getCurrentLanguage();
     
     // 言語に基づいて各要素を更新
