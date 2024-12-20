@@ -1,7 +1,7 @@
 import { initializeFirebase, setupLogout } from "./firebase.js";
 import { setLanguage } from "./language.js"; // setLanguage をインポート
 import { fetchMinorsFromFirestore, addMinorEventListener } from "./minors.js";
-import { addVlogEventListener } from "./vlogs.js";
+import { fetchVlogsFromFirestore, displayVlogs, addVlogEventListener } from "./vlogs.js"; // 追加
 
 const { auth, db } = initializeFirebase(); // Firebaseの初期化
 
@@ -13,6 +13,10 @@ auth.onAuthStateChanged(async (user) => {
 
         // Firestoreから未成年者データを取得
         await fetchMinorsFromFirestore(userId);
+
+        // Firestoreからブイログデータを取得して表示
+        const vlogs = await fetchVlogsFromFirestore();
+        displayVlogs(vlogs); // 取得したブイログを表示
     } else {
         // ユーザーがログインしていない場合、ログインページにリダイレクト
         window.location.href = 'index.html';
