@@ -1,11 +1,9 @@
 import { initializeFirebase, setupLogout } from "./firebase.js";
-import { updateLanguage } from "./language.js";
+import { setLanguage } from "./language.js"; // setLanguage をインポート
 import { fetchMinorsFromFirestore, addMinorEventListener } from "./minors.js";
 import { addVlogEventListener } from "./vlogs.js";
 
 const { auth, db } = initializeFirebase(); // Firebaseの初期化
-
-let currentLanguage = 'ja'; // 初期言語を日本語に設定
 
 // ユーザーの認証状態を監視
 auth.onAuthStateChanged(async (user) => {
@@ -23,13 +21,11 @@ auth.onAuthStateChanged(async (user) => {
 
 // 言語切り替えボタンの設定
 document.getElementById('lang-en').addEventListener('click', () => {
-    currentLanguage = 'en';
-    updateLanguage();
+    setLanguage('en'); // setLanguage 関数を使用
 });
 
 document.getElementById('lang-ja').addEventListener('click', () => {
-    currentLanguage = 'ja';
-    updateLanguage();
+    setLanguage('ja'); // setLanguage 関数を使用
 });
 
 // 未成年者の情報を追加
