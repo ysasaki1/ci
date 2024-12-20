@@ -22,6 +22,7 @@ export async function addMinorToFirestore(minor) {
 export async function fetchMinorsFromFirestore(userId) {
     try {
         const querySnapshot = await getDocs(collection(db, "minors"));
+        minors.length = 0; // 配列をクリア
         querySnapshot.forEach((doc) => {
             const minor = doc.data();
             if (minor.userId === userId) { // ユーザーIDでフィルター
@@ -58,7 +59,7 @@ export function displayMinors() {
         // 削除ボタンのクリックイベント
         deleteButton.addEventListener('click', async () => {
             try {
-                await deleteDoc(doc.ref); // Firestoreから未成年者データを削除
+                await deleteDoc(collection(db, "minors").doc(minor.id)); // Firestoreから未成年者データを削除
                 infoList.removeChild(listItem);
                 minors.splice(minors.indexOf(minor), 1); // 未成年者をローカル配列から削除
             } catch (error) {
@@ -88,10 +89,10 @@ export function addMinorEventListener() {
         const minorId = `${userId}-${Date.now()}`; // ユニークな未成年者IDを生成
 
         const minor = { id: minorId, userId, name, age, createdDate, earnings: 0, vlogs: [] };
-        minors.push(minor); // 未成年者を追加
-
+        
         // Firestoreにデータを追加
         const docRef = await addMinorToFirestore(minor);
+        minors.push({ ...minor, id: docRef.id }); // 未成年者をローカル配列に追加
 
         // チェックボックスを生成
         const checkboxContainer = document.getElementById('minorCheckboxContainer');
@@ -107,13 +108,11 @@ export function addMinorEventListener() {
         // 登録された未成年者リストに追加
         const infoList = document.getElementById('infoList');
         const listItem = document.createElement('li');
-        // 言語に応じた表示
-        listItem.textContent = `${languageData[getCurrentLanguage()].minorItemLabel} ${name}, ${languageData[getCurrentLanguage()].ageLabel} ${age}`;
+        listItem.textContent = `${languageData[getCurrentLanguage()].minorItemLabel} ${name}, ${languageData[getCurrentLanguage()].ageLabel} ${age}`; // 言語に応じた表示
 
         // 削除ボタンを作成
         const deleteButton = document.createElement('button');
-        // 言語に応じた削除ボタンラベル
-        deleteButton.textContent = languageData[getCurrentLanguage()].delete; 
+        deleteButton.textContent = languageData[getCurrentLanguage()].delete; // 言語に応じた削除ボタンラベル
         deleteButton.classList.add('delete-button');
 
         // 削除ボタンのクリックイベント
