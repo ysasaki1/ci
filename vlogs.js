@@ -45,11 +45,8 @@ export function displayVlogs(vlogs) {
             ? vlog.minors.join(', ') 
             : languageData[currentLanguage].registeredMinors; // 未成年者がいない場合のテキスト
 
-        const agesText = vlog.selectedDurations && vlog.selectedDurations.length > 0 
-            ? `${languageData[currentLanguage].minorAge}: ${vlog.selectedDurations.join(', ')}` 
-            : `${languageData[currentLanguage].minorAge}: N/A`; // 年齢がない場合のテキスト
-
-        vlogItem.textContent = `${languageData[currentLanguage].vlogTitle}: ${vlog.title}, ${languageData[currentLanguage].totalEarnings}: ¥${vlog.totalEarnings}, ${languageData[currentLanguage].registeredMinors}: ${minorsText}, ${agesText}`;
+        // 年齢情報の部分を削除
+        vlogItem.textContent = `${languageData[currentLanguage].vlogTitle}: ${vlog.title}, ${languageData[currentLanguage].totalEarnings}: ¥${vlog.totalEarnings}, ${languageData[currentLanguage].registeredMinors}: ${minorsText}`;
         vlogList.appendChild(vlogItem);
     });
 }
@@ -102,12 +99,8 @@ function displayVlogInfo(vlog) {
         ? vlog.minors.join(', ') 
         : languageData[currentLanguage].registeredMinors; // 未成年者がいない場合のテキスト
 
-    const agesText = vlog.selectedDurations && vlog.selectedDurations.length > 0 
-        ? `${languageData[currentLanguage].minorAge}: ${vlog.selectedDurations.join(', ')}` 
-        : `${languageData[currentLanguage].minorAge}: N/A`; // 年齢がない場合のテキスト
-
     const vlogItem = document.createElement('li');
-    vlogItem.textContent = `${languageData[currentLanguage].vlogTitle}: ${vlog.title}, ${languageData[currentLanguage].totalEarnings}: ¥${vlog.totalEarnings}, ${languageData[currentLanguage].registeredMinors}: ${minorsText}, ${agesText}`;
+    vlogItem.textContent = `${languageData[currentLanguage].vlogTitle}: ${vlog.title}, ${languageData[currentLanguage].totalEarnings}: ¥${vlog.totalEarnings}, ${languageData[currentLanguage].registeredMinors}: ${minorsText}`;
     
     vlogList.appendChild(vlogItem);
 }
