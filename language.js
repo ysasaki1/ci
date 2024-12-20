@@ -84,6 +84,12 @@ export function updateLanguage() {
     const minorParticipantsTitle = document.getElementById('minorParticipantsTitle');
     const minorNameInput = document.getElementById('minorName');
     const minorAgeInput = document.getElementById('minorAge');
+        const minorItemLabel2 = document.getElementById('minorItemLabel');
+    const ageLabel2 = document.getElementById('ageLabel');
+    const durationPlaceholder2 = document.getElementById('durationPlaceholder');
+
+
+    
 
     // 各要素のテキストを更新
     const userEmail = auth.currentUser ? auth.currentUser.email : "";
@@ -104,7 +110,13 @@ export function updateLanguage() {
     updatePlaceholder(totalDurationLabel, languageData[currentLanguage].totalDuration);
     updatePlaceholder(minorNameInput, languageData[currentLanguage].minorName);
     updatePlaceholder(minorAgeInput, languageData[currentLanguage].minorAge);
+    updatePlaceholder(minorItemLabel2, languageData[currentLanguage].minorItemLabel);
+    updatePlaceholder(ageLabel2, languageData[currentLanguage].ageLabel);
+    updatePlaceholder(durationPlaceholder2, languageData[currentLanguage].durationPlaceholder);
 
+
+
+           
     // 削除ボタンのラベルを更新
     const deleteButtons = document.querySelectorAll('.delete-button');
     deleteButtons.forEach(button => {
