@@ -41,7 +41,7 @@ const languageData = {
         registeredMinors: "Registered Minors",
         registeredVlogs: "Registered Vlogs",
         minorName: "Name", // 年齢のラベル
-        minorAge: "Age:", // 年齢のラベル
+        minorAge: "Age", // 年齢のラベル
         delete: "Delete", // 削除ボタンのラベル
         minorParticipants: "Minor Participants" // 出演未成年者のラベル
     },
@@ -77,9 +77,9 @@ function updateLanguage() {
     const downloadCSVButton = document.getElementById('downloadCSVButton');
     const logoutButton = document.getElementById('logoutButton');
 
-    const vlogTitleLabel = document.querySelector('input[placeholder="ブイログタイトル"]');
-    const totalEarningsLabel = document.querySelector('input[placeholder="総収益"]');
-    const totalDurationLabel = document.querySelector('input[placeholder="総出演時間 (分)"]');
+    const vlogTitleLabel = document.getElementById('input[placeholder="ブイログタイトル"]');
+    const totalEarningsLabel = document.getElementById('input[placeholder="総収益"]');
+    const totalDurationLabel = document.getElementById('input[placeholder="総出演時間 (分)"]');
     const registeredMinorsTitle = document.getElementById('registeredMinorsTitle');
     const registeredVlogsTitle = document.getElementById('registeredVlogsTitle');
     const minorAgeLabel = document.querySelector('input[placeholder="年齢"]'); // 年齢のプレースホルダー
