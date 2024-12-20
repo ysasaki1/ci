@@ -72,7 +72,25 @@ function displayMinor(minor, docId) {
         }
     });
 
+    // 新しい削除ボタンを作成
+    const deleteButton2 = document.createElement('button');
+    deleteButton2.textContent = `${languageData[currentLanguage].aminorItemLabel} ${minor.name}`; // 言語に応じたラベル
+    deleteButton2.classList.add('delete-button');
+
+    // 新しい削除ボタンのクリックイベント
+    deleteButton2.addEventListener('click', async () => {
+        try {
+            await deleteDoc(docId); // Firestoreから未成年者データを削除
+            infoList.removeChild(listItem);
+            minors.splice(minors.indexOf(minor), 1); // 未成年者をローカル配列から削除
+            checkboxContainer.removeChild(checkboxDiv); // チェックボックスも削除
+        } catch (error) {
+            console.error("未成年者の削除中にエラーが発生しました:", error);
+        }
+    });
+
     listItem.appendChild(deleteButton);
+    listItem.appendChild(deleteButton2); // 新しい削除ボタンを追加
     infoList.appendChild(listItem);
 }
 
@@ -121,7 +139,7 @@ export function addMinorEventListener() {
         deleteButton.textContent = languageData[currentLanguage].delete; // 言語に応じた削除ボタンラベル
         deleteButton.classList.add('delete-button');
 
-            // 削除ボタンのクリックイベント
+        // 削除ボタンのクリックイベント
         deleteButton.addEventListener('click', async () => {
             try {
                 await deleteDoc(docRef); // Firestoreから未成年者データを削除
@@ -134,47 +152,25 @@ export function addMinorEventListener() {
             }
         });
 
-        listItem.appendChild(deleteButton);
-        infoList.appendChild(listItem);
+      // 新しい削除ボタンを作成
+const deleteButton2 = document.createElement('button');
+deleteButton2.textContent = `${languageData[currentLanguage].aminorItemLabel} ${name}`; // 言語に応じたラベル
+deleteButton2.classList.add('delete-button');
 
-        // 入力フィールドをクリア
-        document.getElementById('minorName').value = '';
-        document.getElementById('minorAge').value = '';
-    });
-}
-
-// 言語を切り替える関数
-export function setLanguage(lang) {
-    if (languageData[lang]) {
-        currentLanguage = lang;
-        updateLanguage(); // UIを更新
-        refreshMinors(); // 未成年者情報を再表示
+// 新しい削除ボタンのクリックイベント
+deleteButton2.addEventListener('click', async () => {
+    try {
+        await deleteDoc(docRef); // Firestoreから未成年者データを削除
+        infoList.removeChild(listItem);
+        minors.splice(minors.indexOf(minor), 1); // 未成年者をローカル配列から削除
+        checkboxContainer.removeChild(checkboxDiv); // チェックボックスも削除
+    } catch (error) {
+        console.error("未成年者の削除中にエラーが発生しました:", error);
+        alert(languageData[currentLanguage].errorMessage); // エラー時にユーザーへのフィードバック
     }
-}
+});
 
-// UIを更新する関数
-export function updateLanguage() {
-    const currentLanguage = getCurrentLanguage();
-
-    // 各要素のテキストを一括更新
-    const infoList = document.getElementById('infoList');
-    const listItems = infoList.querySelectorAll('li');
-    listItems.forEach((item, index) => {
-        const minor = minors[index];
-        if (minor) {
-            item.textContent = `${languageData[currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[currentLanguage].aageLabel} ${minor.age}`;
-        }
-    });
-
-    // チェックボックスのプレースホルダーを更新
-    const durationInputs = document.querySelectorAll('input[type="number"]');
-    durationInputs.forEach(input => {
-        input.placeholder = languageData[currentLanguage].adurationPlaceholder; // プレースホルダーを更新
-    });
-
-    // 削除ボタンのラベルを更新
-    const deleteButtons = document.querySelectorAll('.delete-button');
-    deleteButtons.forEach(button => {
-        button.innerText = languageData[currentLanguage].delete; // 削除ボタンのラベルを更新
-    });
-}
+// リストアイテムにボタンを追加
+listItem.appendChild(deleteButton); // 既存の削除ボタンを追加
+listItem.appendChild(deleteButton2); // 新しい削除ボタンを追加
+infoList.appendChild(listItem);
