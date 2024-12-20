@@ -28,6 +28,7 @@ export async function fetchVlogsFromFirestore() {
         querySnapshot.forEach((doc) => {
             data.vlogs.push({ id: doc.id, ...doc.data() });
         });
+        console.log("Fetched Vlogs: ", data.vlogs); // 追加: 取得したデータを表示
         return data.vlogs; // 取得したデータを返す
     } catch (error) {
         console.error("Error fetching vlogs: ", error);
