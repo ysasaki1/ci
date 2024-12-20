@@ -35,63 +35,21 @@ export async function fetchVlogsFromFirestore() {
     }
 }
 
-// 未成年者のデータをFirestoreに追加する関数
-export async function addMinorToFirestore(minor) {
-    try {
-        const docRef = await addDoc(collection(db, "minors"), minor);
-        console.log("Minor added with ID: ", docRef.id);
-        return docRef; // 追加したドキュメントの参照を返す
-    } catch (e) {
-        console.error("Error adding minor: ", e);
-    }
-}
-
-// Firestoreから未成年者データを取得する関数
-export async function fetchMinorsFromFirestore(userId) {
-    try {
-        const querySnapshot = await getDocs(collection(db, "minors"));
-        data.minors = []; // 配列をクリア
-        querySnapshot.forEach((doc) => {
-            const minor = doc.data();
-            if (minor.userId === userId) {
-                data.minors.push({ ...minor, id: doc.id }); // IDを含めてローカルの配列に追加
-            }
-        });
-        displayMinors(); // 取得したデータを表示
-    } catch (error) {
-        console.error("Error fetching minors: ", error);
-    }
-}
-
-// 登録された未成年者情報を表示する関数
-export function displayMinors() {
-    const infoList = document.getElementById('infoList');
-    infoList.innerHTML = ""; // 既存のリストをクリア
+// 登録されたブイログ情報を表示する関数
+export function displayVlogs(vlogs) { // displayVlogs をエクスポート
+    const vlogList = document.getElementById('vlogList');
+    vlogList.innerHTML = ""; // 既存のリストをクリア
 
     const currentLanguage = getCurrentLanguage(); // 現在の言語を取得
 
-    data.minors.forEach(minor => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${languageData[currentLanguage].minorItemLabel} ${minor.name}, ${languageData[currentLanguage].ageLabel} ${minor.age}`;
+    vlogs.forEach(vlog => {
+        const vlogItem = document.createElement('li');
+        const minorsText = vlog.minors && vlog.minors.length > 0 
+            ? vlog.minors.join(', ') 
+            : languageData[currentLanguage].registeredMinors; // 未成年者がいない場合のテキスト
 
-        // 削除ボタンを作成
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = languageData[currentLanguage].delete; // 言語に応じた削除ボタンラベル
-        deleteButton.classList.add('delete-button');
-
-        // 削除ボタンのクリックイベント
-        deleteButton.addEventListener('click', async () => {
-            try {
-                await deleteDoc(doc.ref); // Firestoreから未成年者データを削除
-                infoList.removeChild(listItem);
-                data.minors.splice(data.minors.indexOf(minor), 1); // 未成年者をローカル配列から削除
-            } catch (error) {
-                console.error("未成年者の削除中にエラーが発生しました:", error);
-            }
-        });
-
-        listItem.appendChild(deleteButton);
-        infoList.appendChild(listItem); // リストに追加
+        vlogItem.textContent = `${languageData[currentLanguage].vlogTitle}: ${vlog.title}, ${languageData[currentLanguage].totalEarnings}: ¥${vlog.totalEarnings}, ${languageData[currentLanguage].registeredMinors}: ${minorsText}`;
+        vlogList.appendChild(vlogItem);
     });
 }
 
