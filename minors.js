@@ -171,7 +171,7 @@ export function updateLanguage() {
             item.textContent = `${languageData[currentLanguage].aminorItemLabel} ${minor.name}, ${languageData[currentLanguage].aageLabel} ${minor.age}`; // aminorItemLabelとaageLabelを使用
         }
     });
-    
+   
 
     // チェックボックスのプレースホルダーを更新
     const durationInputs = document.querySelectorAll('input[type="number"]');
