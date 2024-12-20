@@ -40,6 +40,7 @@ const languageData = {
         totalDuration: "Total Duration (minutes)",
         registeredMinors: "Registered Minors",
         registeredVlogs: "Registered Vlogs",
+        minorName: "Name", // 年齢のラベル
         minorAge: "Age:", // 年齢のラベル
         delete: "Delete", // 削除ボタンのラベル
         minorParticipants: "Minor Participants" // 出演未成年者のラベル
@@ -57,7 +58,8 @@ const languageData = {
         totalDuration: "総出演時間 (分)",
         registeredMinors: "登録された未成年者",
         registeredVlogs: "登録されたブイログ",
-        minorAge: "年齢:", // 年齢のラベル
+        minorName: "名前", // 年齢のラベル
+        minorAge: "年齢", // 年齢のラベル
         delete: "削除", // 削除ボタンのラベル
         minorParticipants: "出演未成年者" // 出演未成年者のラベル
     }
@@ -82,6 +84,9 @@ function updateLanguage() {
     const registeredVlogsTitle = document.getElementById('registeredVlogsTitle');
     const minorAgeLabel = document.querySelector('input[placeholder="年齢"]'); // 年齢のプレースホルダー
     const minorParticipantsTitle = document.getElementById('minorParticipantsTitle'); // 出演未成年者のタイトル
+    const minorNameInput = document.getElementById('minorName');
+const minorAgeInput = document.getElementById('minorAge');
+
 
     // 各要素のテキストを更新
     if (welcomeMessage) {
@@ -126,12 +131,13 @@ function updateLanguage() {
     if (registeredVlogsTitle) {
         registeredVlogsTitle.innerText = languageData[currentLanguage].registeredVlogs;  // 登録されたブイログ
     }
-    if (minorAgeLabel) {
-        minorAgeLabel.placeholder = languageData[currentLanguage].minorAge;
-    }
-    if (minorParticipantsTitle) {
-        minorParticipantsTitle.innerText = languageData[currentLanguage].minorParticipants; // 出演未成年者のタイトル
-    }
+if (minorNameInput) {
+    minorNameInput.placeholder = languageData[currentLanguage].minorName; // 言語に応じたプレースホルダー
+}
+if (minorAgeInput) {
+    minorAgeInput.placeholder = languageData[currentLanguage].minorAge; // 言語に応じたプレースホルダー
+}
+
 
     // 削除ボタンのラベルを更新
     const deleteButtons = document.querySelectorAll('.delete-button');
