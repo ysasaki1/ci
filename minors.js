@@ -22,6 +22,7 @@ export async function addMinorToFirestore(minor) {
 export async function fetchMinorsFromFirestore(userId) {
     try {
         const querySnapshot = await getDocs(collection(db, "minors"));
+        minors.length = 0; // 配列をクリア
         querySnapshot.forEach((doc) => {
             const minor = doc.data();
             if (minor.userId === userId) { // ユーザーIDでフィルター
