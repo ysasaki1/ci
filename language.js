@@ -20,7 +20,8 @@ export const languageData = {
         delete: "Delete",
         minorParticipants: "Minor Participants",
         errorMessage: "Please fill in all fields correctly.", // エラーメッセージ
-        welcomeMessage: "Welcome, {user}!", // ウェルカムメッセージ
+        welcomeMessagePart1: "Welcome, ", // ウェルカムメッセージの一部
+        welcomeMessagePart2: "!", // ウェルカムメッセージの一部
         registerTitle: "User Registration",
         loginTitle: "Login",
         registerButton: "Register",
@@ -53,7 +54,8 @@ export const languageData = {
         delete: "削除",
         minorParticipants: "出演未成年者",
         errorMessage: "すべてのフィールドを正しく入力してください。", // エラーメッセージ
-        welcomeMessage: "ようこそ, {user}さん！", // ウェルカムメッセージ
+        welcomeMessagePart1: "ようこそ, ", // ウェルカムメッセージの一部
+        welcomeMessagePart2: "さん！", // ウェルカムメッセージの一部
         registerTitle: "ユーザー登録",
         loginTitle: "ログイン",
         registerButton: "登録",
@@ -75,11 +77,13 @@ let currentLanguage = localStorage.getItem('language') || 'ja'; // デフォル�
 
 // UIを更新する関数
 export function updateLanguage() {
-    const welcomeMessage = document.getElementById('welcomeMessage');
+    const welcomeMessageElement = document.getElementById('welcomeMessage');
     const userEmail = auth.currentUser ? auth.currentUser.email : "ゲスト"; // ユーザー名を取得
 
     // ウェルカムメッセージの更新
-    updateTextContent(welcomeMessage, languageData[currentLanguage].welcomeMessage.replace("{user}", userEmail));
+    const welcomeMessage = 
+        languageData[currentLanguage].welcomeMessagePart1 + userEmail + languageData[currentLanguage].welcomeMessagePart2;
+    updateTextContent(welcomeMessageElement, welcomeMessage);
 
     // 各要素の取得
     const minorInfoTitle = document.getElementById('minorInfoTitle');
@@ -108,7 +112,6 @@ export function updateLanguage() {
     const loginpasswordPlaceholder = document.getElementById('loginPassword');
 
     // 各要素のテキストを更新
-    updateTextContent(welcomeMessage, languageData[currentLanguage].welcomeMessage);
     updateTextContent(minorInfoTitle, languageData[currentLanguage].minorInfo);
     updateTextContent(vlogInfoTitle, languageData[currentLanguage].vlogInfo);
     updateTextContent(registeredMinorsTitle, languageData[currentLanguage].registeredMinors);
@@ -118,9 +121,9 @@ export function updateLanguage() {
     updateTextContent(addVlogButton, languageData[currentLanguage].addVlog);
     updateTextContent(downloadCSVButton, languageData[currentLanguage].downloadCSV);
     updateTextContent(logoutButton, languageData[currentLanguage].logout);
-    updatePlaceholder(vlogTitleLabel, languageData[currentLanguage].vlogTitle);
-    updatePlaceholder(totalEarningsLabel, languageData[currentLanguage].totalEarnings);
-    updatePlaceholder(totalDurationLabel, languageData[currentLanguage].totalDuration);
+    updateTextContent(vlogTitleLabel, languageData[currentLanguage].vlogTitle);
+    updateTextContent(totalEarningsLabel, languageData[currentLanguage].totalEarnings);
+    updateTextContent(totalDurationLabel, languageData[currentLanguage].totalDuration);
     updateTextContent(minorNameInput, languageData[currentLanguage].minorName);
     updateTextContent(minorAgeInput, languageData[currentLanguage].minorAge);
     updateTextContent(registerTitle, languageData[currentLanguage].registerTitle);
