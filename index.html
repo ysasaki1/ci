@@ -8,6 +8,7 @@
     <script type="module" src="https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js"></script>
     <script type="module" src="./firebase.js"></script>
     <script type="module" src="./auth.js"></script>
+    <script type="module" src="./language.js"></script> <!-- language.jsをインポート -->
 </head>
 <body>
     <div class="lang-buttons">
@@ -37,5 +38,22 @@
             </div>
         </div>
     </div>
+
+    <script type="module">
+        import { setLanguage, getCurrentLanguage, updateLanguage } from './language.js'; // language.jsをインポート
+
+        // 初期言語の設定
+        const initialLanguage = getCurrentLanguage();
+        updateLanguage(); // 初期UIの更新
+
+        // 言語切替のイベントリスナー
+        document.getElementById('lang-ja').addEventListener('click', () => {
+            setLanguage('ja'); // 日本語に設定
+        });
+
+        document.getElementById('lang-en').addEventListener('click', () => {
+            setLanguage('en'); // 英語に設定
+        });
+    </script>
 </body>
 </html>
