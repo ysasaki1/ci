@@ -71,22 +71,17 @@
 
         let currentLanguage = localStorage.getItem('language') || 'ja'; // ローカルストレージから取得
 
- async function getUserEmail() {
+        async function getUserEmail() {
             const user = auth.currentUser; // 現在のユーザーを取得
             return user.email; // ユーザー名を取得（必ずログインしている前提）
         }
 
         async function updateUI() {
             const userEmail = await getUserEmail(); // ユーザー名を取得
+            document.getElementById('welcomeMessagePart1').textContent = languageData[currentLanguage].welcomeMessagePart1;
             document.getElementById('userEmail').textContent = userEmail; // ユーザー名を表示
-        }
+            document.getElementById('welcomeMessagePart2').textContent = languageData[currentLanguage].welcomeMessagePart2; // 固定テキスト
 
-        async function updateUI() {
-            const userEmail = await getUserEmail();
-            document.getElementById('welcomeMessagePart1').textContent = languageData[currentLanguage].welcomeMessage;
-            document.getElementById('userEmail').textContent = userEmail; // ユーザー名を表示
-            document.getElementById('welcomeMessagePart2').textContent = "さん！";
-            
             // 他のUI要素は変更しない
         }
 
