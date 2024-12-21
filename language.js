@@ -104,7 +104,7 @@ export function updateLanguage() {
     const modalClose = document.getElementById('modalClose');
     const emailPlaceholder = document.getElementById('email');
     const passwordPlaceholder = document.getElementById('password');
-        const loginemailPlaceholder = document.getElementById('loginEmail');
+    const loginemailPlaceholder = document.getElementById('loginEmail');
     const loginpasswordPlaceholder = document.getElementById('loginPassword');
 
     // 各要素のテキストを更新
@@ -130,10 +130,10 @@ export function updateLanguage() {
 
     // プレースホルダーの更新
     updatePlaceholder(minorAgeLabel, languageData[currentLanguage].minorAge);
-    updatePlaceholder(document.getElementById('email'), languageData[currentLanguage].emailPlaceholder);
-    updatePlaceholder(document.getElementById('password'), languageData[currentLanguage].passwordPlaceholder);
-        updatePlaceholder(document.getElementById('loginEmail'), languageData[currentLanguage].loginemailPlaceholder);
-    updatePlaceholder(document.getElementById('loginPassword'), languageData[currentLanguage].loginpasswordPlaceholder);
+    updatePlaceholder(emailPlaceholder, languageData[currentLanguage].emailPlaceholder);
+    updatePlaceholder(passwordPlaceholder, languageData[currentLanguage].passwordPlaceholder);
+    updatePlaceholder(loginemailPlaceholder, languageData[currentLanguage].loginemailPlaceholder);
+    updatePlaceholder(loginpasswordPlaceholder, languageData[currentLanguage].loginpasswordPlaceholder);
 }
 
 // テキストを更新する関数
