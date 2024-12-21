@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -47,7 +46,9 @@
                 registerButton: "登録",
                 loginButton: "ログイン",
                 modalClose: "閉じる",
-                errorMessage: "エラーが発生しました。すべてのフィールドを正しく入力してください。"
+                errorMessage: "エラーが発生しました。すべてのフィールドを正しく入力してください。",
+                emailPlaceholder: "メールアドレス",
+                passwordPlaceholder: "パスワード",
             },
             en: {
                 registerTitle: "User Registration",
@@ -55,11 +56,13 @@
                 registerButton: "Register",
                 loginButton: "Login",
                 modalClose: "Close",
-                errorMessage: "An error occurred. Please fill in all fields correctly."
+                errorMessage: "An error occurred. Please fill in all fields correctly.",
+                emailPlaceholder: "Email Address",
+                passwordPlaceholder: "Password",
             }
         };
 
-        let currentLanguage = 'ja'; // 初期言語を日本語に設定
+        let currentLanguage = localStorage.getItem('language') || 'ja'; // ローカルストレージから取得
 
         document.getElementById('lang-ja').addEventListener('click', () => {
             currentLanguage = 'ja';
@@ -79,6 +82,12 @@
             document.getElementById('registerButton').textContent = languageData[currentLanguage].registerButton;
             document.getElementById('loginButton').textContent = languageData[currentLanguage].loginButton;
             document.getElementById('closeModal').textContent = languageData[currentLanguage].modalClose;
+
+            // プレースホルダーの更新
+            document.getElementById('email').placeholder = languageData[currentLanguage].emailPlaceholder;
+            document.getElementById('password').placeholder = languageData[currentLanguage].passwordPlaceholder;
+            document.getElementById('loginEmail').placeholder = languageData[currentLanguage].emailPlaceholder;
+            document.getElementById('loginPassword').placeholder = languageData[currentLanguage].passwordPlaceholder;
         }
 
         // 初期UIの更新
