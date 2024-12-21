@@ -2,6 +2,16 @@
 
 // CSV出力の関数
 export function downloadCSV(minors, vlogs) {
+    // データがない場合のエラーハンドリング
+    if (!minors || !Array.isArray(minors) || minors.length === 0) {
+        console.error("未成年者データがありません");
+        return;
+    }
+    if (!vlogs || !Array.isArray(vlogs) || vlogs.length === 0) {
+        console.error("ブイログデータがありません");
+        return;
+    }
+
     // 未成年者のデータをCSV形式に変換
     const minorsCSV = minors.map(minor => `${minor.name},${minor.age},${minor.earnings},${minor.vlogs.join('; ')}`).join('\n');
     const vlogsCSV = vlogs.map(vlog => `${vlog.title},${vlog.totalEarnings},${vlog.totalDuration},${vlog.minors.join('; ')}`).join('\n');
