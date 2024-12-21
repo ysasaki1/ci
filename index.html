@@ -88,7 +88,20 @@
             document.getElementById('password').placeholder = languageData[currentLanguage].passwordPlaceholder;
             document.getElementById('loginEmail').placeholder = languageData[currentLanguage].emailPlaceholder;
             document.getElementById('loginPassword').placeholder = languageData[currentLanguage].passwordPlaceholder;
+
+            // モーダルメッセージのエラーメッセージを更新
+            document.getElementById('modalMessage').textContent = languageData[currentLanguage].errorMessage;
         }
+
+        // エラーメッセージを表示する関数
+        function showError() {
+            document.getElementById('modalMessage').textContent = languageData[currentLanguage].errorMessage;
+            document.getElementById('errorModal').style.display = 'block';
+        }
+
+        document.getElementById('closeModal').onclick = function() {
+            document.getElementById('errorModal').style.display = 'none';
+        };
 
         // 初期UIの更新
         updateUI();
