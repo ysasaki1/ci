@@ -33,6 +33,8 @@ export const languageData = {
         passwordPlaceholder: "Password",
         loginemailPlaceholder: "Email Address",
         loginpasswordPlaceholder: "Password",
+        welcomeMessagePart1: "Welcome",
+        welcomeMessagePart2: "!",
     },
     ja: {
         title: "ブイログ情報管理",
@@ -65,6 +67,8 @@ export const languageData = {
         passwordPlaceholder: "パスワード",
         loginemailPlaceholder: "メールアドレス",
         loginpasswordPlaceholder: "パスワード",
+        welcomeMessagePart1: "Welcome",
+        welcomeMessagePart2: "!",
     }
 };
 
@@ -98,8 +102,10 @@ export function updateLanguage() {
     const modalClose = document.getElementById('modalClose');
     const emailPlaceholder = document.getElementById('email');
     const passwordPlaceholder = document.getElementById('password');
-        const loginemailPlaceholder = document.getElementById('loginEmail');
+    const loginemailPlaceholder = document.getElementById('loginEmail');
     const loginpasswordPlaceholder = document.getElementById('loginPassword');
+        const welcomeMessagePart1 = document.getElementById('welcomeMessagePart1');
+    const welcomeMessagePart2 = document.getElementById('welcomeMessagePart2');
 
     // 各要素のテキストを更新
     updateTextContent(minorInfoTitle, languageData[currentLanguage].minorInfo);
@@ -121,6 +127,8 @@ export function updateLanguage() {
     updateTextContent(registerButton, languageData[currentLanguage].registerButton);
     updateTextContent(loginButton, languageData[currentLanguage].loginButton);
     updateTextContent(modalClose, languageData[currentLanguage].modalClose);
+     updateTextContent(welcomeMessagePart1, languageData[currentLanguage].welcomeMessagePart1);
+    updateTextContent(welcomeMessagePart2, languageData[currentLanguage].welcomeMessagePart2);
 
     // プレースホルダーの更新
     updatePlaceholder(minorAgeLabel, languageData[currentLanguage].minorAge);
