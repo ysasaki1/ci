@@ -45,7 +45,7 @@ export const languageData = {
 };
 
 // 現在の言語を設定
-let currentLanguage = localStorage.getItem('language') || 'ja'; // ローカルストレージから取得、初期言語は日本語
+let currentLanguage = localStorage.getItem('language'); 
 
 // 要素の存在を確認してテキストを更新する関数
 function updateTextContent(element, text) {
