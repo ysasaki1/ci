@@ -53,7 +53,7 @@ export function displayVlogs(vlogs) {
 
 // 収益化ブイログ情報を追加するイベントリスナー
 export function addVlogEventListener() {
-    document.getElementById('addVlogInfoButton').addEventListener('click', async () => {
+    document.getElementById('addVlogButton').addEventListener('click', async () => {
         const vlogTitle = document.getElementById('vlogTitle').value.trim();
         const totalEarnings = parseFloat(document.getElementById('totalEarnings').value);
         const totalDuration = parseFloat(document.getElementById('totalDuration').value);
