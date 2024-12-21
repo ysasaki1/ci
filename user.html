@@ -73,7 +73,11 @@
 
         async function getUserEmail() {
             const user = auth.currentUser; // 現在のユーザーを取得
-            return user.email; // ユーザー名を取得（必ずログインしている前提）
+            if (user) {
+                return user.email; // ユーザー名を取得
+            } else {
+                return "ゲスト"; // ログインしていない場合
+            }
         }
 
         async function updateUI() {
@@ -81,8 +85,6 @@
             document.getElementById('welcomeMessagePart1').textContent = languageData[currentLanguage].welcomeMessagePart1;
             document.getElementById('userEmail').textContent = userEmail; // ユーザー名を表示
             document.getElementById('welcomeMessagePart2').textContent = languageData[currentLanguage].welcomeMessagePart2; // 固定テキスト
-
-            // 他のUI要素は変更しない
         }
 
         // 初期UIの更新
