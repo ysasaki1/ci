@@ -18,7 +18,7 @@ auth.onAuthStateChanged(async (user) => {
         displayVlogs(vlogs); // 取得したブイログを表示
 
         // CSVダウンロードのセットアップ
-        setupCSVDownload(minors, vlogs); // 取得した未成年者とブイログを渡してCSVダウンロード機能を設定
+        setupCSVDownload(userId); // userIdを渡してCSVダウンロード機能を設定
     } else {
         // ユーザーがログインしていない場合、ログインページにリダイレクト
         window.location.href = 'index.html';
@@ -34,7 +34,8 @@ document.getElementById('lang-en').addEventListener('click', async () => {
     // 未成年者情報も再取得して表示
     const user = auth.currentUser;
     if (user) {
-        await fetchMinorsFromFirestore(user.uid);
+        const minors = await fetchMinorsFromFirestore(user.uid);
+        // ここで未成年者情報を表示する処理が必要なら追加
     }
 });
 
@@ -46,7 +47,8 @@ document.getElementById('lang-ja').addEventListener('click', async () => {
     // 未成年者情報も再取得して表示
     const user = auth.currentUser;
     if (user) {
-        await fetchMinorsFromFirestore(user.uid);
+        const minors = await fetchMinorsFromFirestore(user.uid);
+        // ここで未成年者情報を表示する処理が必要なら追加
     }
 });
 
