@@ -39,8 +39,10 @@
     </div>
 
     <script type="module">
-        import { auth } from './firebase.js'; // authをインポート
+        import { initializeFirebase } from './firebase.js'; // initializeFirebaseをインポート
         import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+
+        const { auth } = initializeFirebase(); // Firebaseの初期化
 
         const languageData = {
             ja: {
