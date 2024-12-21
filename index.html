@@ -39,26 +39,9 @@
     </div>
 
     <script>
-        const languageData = {
-            ja: {
-                registerTitle: "ユーザー登録",
-                loginTitle: "ログイン",
-                registerButton: "登録",
-                loginButton: "ログイン",
-                modalClose: "閉じる",
-                errorMessage: "エラーが発生しました。すべてのフィールドを正しく入力してください。"
-            },
-            en: {
-                registerTitle: "User Registration",
-                loginTitle: "Login",
-                registerButton: "Register",
-                loginButton: "Login",
-                modalClose: "Close",
-                errorMessage: "An error occurred. Please fill in all fields correctly."
-            }
-        };
+        import { languageData, getCurrentLanguage } from "./language.js"; // 言語データをインポート
 
-        let currentLanguage = 'ja'; // 初期言語を日本語に設定
+        let currentLanguage = getCurrentLanguage(); // 初期言語を取得
 
         function updateUI() {
             document.getElementById('registerTitle').textContent = languageData[currentLanguage].registerTitle;
