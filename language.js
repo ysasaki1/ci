@@ -20,7 +20,7 @@ export const languageData = {
         delete: "Delete",
         minorParticipants: "Minor Participants",
         errorMessage: "Please fill in all fields correctly.", // エラーメッセージ
-        welcomeMessage: "Welcome, {user}!" // ウェルカムメッセージ
+        welcomeMessage: "Welcome, {user}!", // ウェルカムメッセージ
         registerTitle: "User Registration",
         loginTitle: "Login",
         registerButton: "Register",
@@ -51,7 +51,7 @@ export const languageData = {
         delete: "削除",
         minorParticipants: "出演未成年者",
         errorMessage: "すべてのフィールドを正しく入力してください。", // エラーメッセージ
-        welcomeMessage: "ようこそ, {user}さん！" // ウェルカムメッセージ
+        welcomeMessage: "ようこそ, {user}さん！", // ウェルカムメッセージ
         registerTitle: "ユーザー登録",
         loginTitle: "ログイン",
         registerButton: "登録",
@@ -67,73 +67,10 @@ export const languageData = {
 };
 
 // 現在の言語を設定
-let currentLanguage = localStorage.getItem('language'); 
-
-
-
-// 言語データの定義
-export const languageData = {
-    ja: {
-        welcomeMessage: "ようこそ, {user}さん！",
-        minorInfo: "未成年者の情報",
-        vlogInfo: "収益化ブイログ情報",
-        addMinor: "追加",
-        addVlog: "追加",
-        downloadCSV: "CSV出力",
-        logout: "ログアウト",
-        vlogTitle: "ブイログタイトル",
-        totalEarnings: "総収益",
-        totalDuration: "総出演時間 (分)",
-        registeredMinors: "登録された未成年者",
-        registeredVlogs: "登録されたブイログ",
-        minorName: "名前",
-        minorAge: "年齢",
-        minorParticipants: "出演未成年者",
-        registerTitle: "ユーザー登録",
-        loginTitle: "ログイン",
-        registerButton: "登録",
-        loginButton: "ログイン",
-        modalClose: "閉じる",
-        registrationSuccess: "ユーザー登録が成功しました。",
-        registrationError: "登録に失敗しました。",
-        loginSuccess: "ログイン成功",
-        loginError: "ログインに失敗しました。",
-        emailPlaceholder: "メールアドレス",
-        passwordPlaceholder: "パスワード",
-    },
-    en: {
-        welcomeMessage: "Welcome, {user}!",
-        minorInfo: "Minor Information",
-        vlogInfo: "Monetized Vlog Information",
-        addMinor: "Add Minor",
-        addVlog: "Add Vlog",
-        downloadCSV: "Download CSV",
-        logout: "Logout",
-        vlogTitle: "Vlog Title",
-        totalEarnings: "Total Earnings",
-        totalDuration: "Total Duration (minutes)",
-        registeredMinors: "Registered Minors",
-        registeredVlogs: "Registered Vlogs",
-        minorName: "Name",
-        minorAge: "Age",
-        minorParticipants: "Minor Participants",
-        registerTitle: "User Registration",
-        loginTitle: "Login",
-        registerButton: "Register",
-        loginButton: "Login",
-        modalClose: "Close",
-        registrationSuccess: "User registration was successful.",
-        registrationError: "Registration failed.",
-        loginSuccess: "Login successful.",
-        loginError: "Login failed.",
-        emailPlaceholder: "Email Address",
-        passwordPlaceholder: "Password",
-    }
-};
+let currentLanguage = localStorage.getItem('language') || 'ja'; // デフォルトは日本語
 
 // UIを更新する関数
 export function updateLanguage() {
-    const currentLanguage = getCurrentLanguage();
     const welcomeMessage = document.getElementById('welcomeMessage');
     const userEmail = auth.currentUser ? auth.currentUser.email : "ゲスト"; // ユーザー名を取得
 
@@ -144,7 +81,7 @@ export function updateLanguage() {
     const minorInfoTitle = document.getElementById('minorInfoTitle');
     const vlogInfoTitle = document.getElementById('vlogInfoTitle');
     const addMinorButton = document.getElementById('addMinorInfoButton');
-    const addVlogButton = document.getElementById('addVlogInfoButton');
+    const addVlogButton = document.getElementById('addVlogButton');
     const downloadCSVButton = document.getElementById('downloadCSVButton');
     const logoutButton = document.getElementById('logoutButton');
     const vlogTitleLabel = document.getElementById('vlogTitle');
@@ -187,6 +124,12 @@ export function updateLanguage() {
     updatePlaceholder(minorAgeLabel, languageData[currentLanguage].minorAge);
     updatePlaceholder(document.getElementById('email'), languageData[currentLanguage].emailPlaceholder);
     updatePlaceholder(document.getElementById('password'), languageData[currentLanguage].passwordPlaceholder);
+
+    // 削除ボタンのラベルを更新
+    const deleteButtons = document.querySelectorAll('.delete-button');
+    deleteButtons.forEach(button => {
+        button.innerText = languageData[currentLanguage].delete;
+    });
 }
 
 // テキストを更新する関数
@@ -201,14 +144,6 @@ function updatePlaceholder(element, placeholder) {
     if (element) {
         element.placeholder = placeholder;
     }
-}
-
-
-    // 削除ボタンのラベルを更新
-    const deleteButtons = document.querySelectorAll('.delete-button');
-    deleteButtons.forEach(button => {
-        button.innerText = languageData[currentLanguage].delete;
-    });
 }
 
 // 言語を切り替える関数
