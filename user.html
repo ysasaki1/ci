@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ユーザーページ</title>
     <link rel="stylesheet" href="style.css">
-    <script type="module" src="main.js"></script>
+    <script type="module" src="./language.js"></script>
 </head>
 <body>
     <div class="lang-buttons">
@@ -60,60 +60,11 @@
         </div>
     </div>
 
-    <script>
-        const languageData = {
-            ja: {
-                welcomeMessage: "ようこそ",
-                minorInfoTitle: "未成年者の情報",
-                vlogInfoTitle: "収益化ブイログ情報",
-                addMinorButton: "追加",
-                addVlogButton: "追加",
-                registeredMinorsTitle: "登録された未成年者",
-                registeredVlogsTitle: "登録されたブイログ",
-                errorMessage: "エラーが発生しました。すべてのフィールドを正しく入力してください。"
-            },
-            en: {
-                welcomeMessage: "Welcome",
-                minorInfoTitle: "Minor Information",
-                vlogInfoTitle: "Monetized Vlog Information",
-                addMinorButton: "Add Minor",
-                addVlogButton: "Add Vlog",
-                registeredMinorsTitle: "Registered Minors",
-                registeredVlogsTitle: "Registered Vlogs",
-                errorMessage: "An error occurred. Please fill in all fields correctly."
-            }
-        };
-
-        let currentLanguage = localStorage.getItem('language') || 'ja'; // ローカルストレージから取得
-
-        function updateUI() {
-            document.getElementById('welcomeMessage').textContent = languageData[currentLanguage].welcomeMessage;
-            document.getElementById('minorInfoTitle').textContent = languageData[currentLanguage].minorInfoTitle;
-            document.getElementById('vlogInfoTitle').textContent = languageData[currentLanguage].vlogInfoTitle;
-            document.getElementById('addMinorInfoButton').textContent = languageData[currentLanguage].addMinorButton;
-            document.getElementById('addVlogInfoButton').textContent = languageData[currentLanguage].addVlogButton;
-            document.getElementById('registeredMinorsTitle').textContent = languageData[currentLanguage].registeredMinorsTitle;
-            document.getElementById('registeredVlogsTitle').textContent = languageData[currentLanguage].registeredVlogsTitle;
-        }
-
-        document.getElementById('lang-ja').addEventListener('click', () => {
-            currentLanguage = 'ja';
-            localStorage.setItem('language', 'ja'); // ローカルストレージに保存
-            updateUI();
-        });
-
-        document.getElementById('lang-en').addEventListener('click', () => {
-            currentLanguage = 'en';
-            localStorage.setItem('language', 'en'); // ローカルストレージに保存
-            updateUI();
-        });
-
-        document.getElementById('closeModal').onclick = function() {
-            document.getElementById('errorModal').style.display = 'none';
-        };
+    <script type="module">
+        import { updateLanguage } from './language.js';
 
         // 初期UIの更新
-        updateUI();
+        updateLanguage();
     </script>
 </body>
 </html>
