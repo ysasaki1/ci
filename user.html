@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ユーザーページ</title>
     <link rel="stylesheet" href="style.css">
-    <script type="module" src="./language.js"></script>
+    <script type="module" src="./firebase.js"></script> <!-- Firebaseの読み込み -->
 </head>
 <body>
     <div class="lang-buttons">
@@ -61,23 +61,40 @@
     </div>
 
     <script type="module">
-        import { updateLanguage } from './language.js';
-        import { auth } from './firebase.js'; // authをインポート
+        import { auth } from './firebase.js'; // Firebaseの初期化とauthの取得
+        import { languageData } from './language.js'; // 言語データのインポート
+
+        let currentLanguage = localStorage.getItem('language') || 'ja'; // ローカルストレージから取得
+
+        function updateUI() {
+            const userEmail = auth.currentUser ? auth.currentUser.email : "ゲスト"; // ユーザー名を取得
+            document.getElementById('welcomeMessage').textContent = languageData[currentLanguage].welcomeMessage.replace("{user}", userEmail);
+            document.getElementById('minorInfoTitle').textContent = languageData[currentLanguage].minorInfoTitle;
+            document.getElementById('vlogInfoTitle').textContent = languageData[currentLanguage].vlogInfoTitle;
+            document.getElementById('addMinorInfoButton').textContent = languageData[currentLanguage].addMinorButton;
+            document.getElementById('addVlogInfoButton').textContent = languageData[currentLanguage].addVlogButton;
+            document.getElementById('registeredMinorsTitle').textContent = languageData[currentLanguage].registeredMinorsTitle;
+            document.getElementById('registeredVlogsTitle').textContent = languageData[currentLanguage].registeredVlogsTitle;
+        }
+
+        document.getElementById('lang-ja').addEventListener('click', () => {
+            currentLanguage = 'ja';
+            localStorage.setItem('language', 'ja'); // ローカルストレージに保存
+            updateUI();
+        });
+
+        document.getElementById('lang-en').addEventListener('click', () => {
+            currentLanguage = 'en';
+            localStorage.setItem('language', 'en'); // ローカルストレージに保存
+            updateUI();
+        });
+
+        document.getElementById('closeModal').onclick = function() {
+            document.getElementById('errorModal').style.display = 'none';
+        };
 
         // 初期UIの更新
-        updateLanguage();
-
-        // ログアウト処理
-        document.getElementById('logoutButton').addEventListener('click', async () => {
-            try {
-                await auth.signOut();
-                alert("ログアウトしました。");
-                window.location.href = 'login.html'; // ログインページにリダイレクト
-            } catch (error) {
-                console.error("ログアウト中のエラー:", error);
-                alert("ログアウトに失敗しました。");
-            }
-        });
+        updateUI();
     </script>
 </body>
 </html>
