@@ -118,7 +118,7 @@ export function updateLanguage() {
     updatePlaceholder(vlogTitleLabel, languageData[currentLanguage].vlogTitle);
     updatePlaceholder(totalEarningsLabel, languageData[currentLanguage].totalEarnings);
     updatePlaceholder(totalDurationLabel, languageData[currentLanguage].totalDuration);
-    updatePlaceholder(minorNameInput, languageData[currentLanguage].minorName);
+    updateTextContent(minorNameInput, languageData[currentLanguage].minorName);
     updateTextContent(minorAgeInput, languageData[currentLanguage].minorAge);
     updateTextContent(registerTitle, languageData[currentLanguage].registerTitle);
     updateTextContent(loginTitle, languageData[currentLanguage].loginTitle);
