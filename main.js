@@ -1,14 +1,13 @@
 import { initializeFirebase, setupLogout } from "./firebase.js";
-import { setLanguage } from "./language.js"; // setLanguage をインポート
+import { setLanguage } from "./language.js"; 
 import { fetchMinorsFromFirestore, addMinorEventListener } from "./minors.js";
-import { fetchVlogsFromFirestore, displayVlogs, addVlogEventListener } from "./vlogs.js"; // 追加
+import { fetchVlogsFromFirestore, displayVlogs, addVlogEventListener } from "./vlogs.js"; 
 
 const { auth, db } = initializeFirebase(); // Firebaseの初期化
 
 // ユーザーの認証状態を監視
 auth.onAuthStateChanged(async (user) => {
     if (user) {
-        document.getElementById('welcomeMessage').innerText = `ようこそ, ${user.email}さん！`;
         const userId = user.uid;
 
         // Firestoreから未成年者データを取得
