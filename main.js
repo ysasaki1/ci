@@ -5,10 +5,7 @@ import { fetchVlogsFromFirestore, displayVlogs, addVlogEventListener } from "./v
 
 import { setupCSVDownload } from "./csv.js"; // CSV出力機能を管理するファイルをインポート
 
-const userId = auth.currentUser.uid; // 現在のユーザーIDを取得
 
-// CSV出力ボタンを設定
-setupCSVDownload(userId);
 
 
 const { auth, db } = initializeFirebase(); // Firebaseの初期化
