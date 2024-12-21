@@ -3,8 +3,8 @@ import { initializeFirebase } from "./firebase.js";
 
 const { auth } = initializeFirebase(); // Firebaseの初期化とauthの取得
 
-// 言語データの定義
-const languageData = {
+// 言語データをインポート
+export const languageData = {
     ja: {
         registrationSuccess: "ユーザー登録が成功しました。",
         registrationError: "登録に失敗しました。",
