@@ -108,6 +108,7 @@ export function updateLanguage() {
     const loginpasswordPlaceholder = document.getElementById('loginPassword');
 
     // 各要素のテキストを更新
+    updateTextContent(welcomeMessage, languageData[currentLanguage].welcomeMessage);
     updateTextContent(minorInfoTitle, languageData[currentLanguage].minorInfo);
     updateTextContent(vlogInfoTitle, languageData[currentLanguage].vlogInfo);
     updateTextContent(registeredMinorsTitle, languageData[currentLanguage].registeredMinors);
