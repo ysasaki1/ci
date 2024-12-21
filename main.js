@@ -2,13 +2,7 @@ import { initializeFirebase, setupLogout } from "./firebase.js";
 import { setLanguage } from "./language.js"; 
 import { fetchMinorsFromFirestore, addMinorEventListener } from "./minors.js";
 import { fetchVlogsFromFirestore, displayVlogs, addVlogEventListener } from "./vlogs.js"; 
-import { setupCSVDownload } from './csv.js';
-
-// 例: minores と vlogs を取得した後
-const minors = await fetchMinorsFromFirestore(userId); // ここで未成年者を取得
-const vlogs = await fetchVlogsFromFirestore(); // ここでブイログを取得
-
-setupCSVDownload(minors, vlogs); 
+import { setupCSVDownload } from './csv.js'; 
 
 const { auth, db } = initializeFirebase(); // Firebaseの初期化
 
@@ -18,11 +12,13 @@ auth.onAuthStateChanged(async (user) => {
         const userId = user.uid;
 
         // Firestoreから未成年者データを取得
-        await fetchMinorsFromFirestore(userId);
-
+        const minors = await fetchMinorsFromFirestore(userId); // userIdをここで使用
         // Firestoreからブイログデータを取得して表示
         const vlogs = await fetchVlogsFromFirestore();
         displayVlogs(vlogs); // 取得したブイログを表示
+
+        // CSVダウンロードのセットアップ
+        setupCSVDownload(minors, vlogs); // 取得した未成年者とブイログを渡してCSVダウンロード機能を設定
     } else {
         // ユーザーがログインしていない場合、ログインページにリダイレクト
         window.location.href = 'index.html';
