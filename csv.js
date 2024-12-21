@@ -1,6 +1,6 @@
-import { initializeFirebase } from "./firebase.js";
 import { fetchMinorsFromFirestore } from "./minors.js"; // 未成年者データを取得する関数をインポート
 import { fetchVlogsFromFirestore } from "./vlogs.js"; // ブイログデータを取得する関数をインポート
+import { initializeFirebase } from "./firebase.js";
 
 const { db } = initializeFirebase(); // Firebaseの初期化とdbの取得
 
@@ -9,8 +9,11 @@ export async function downloadCSV(userId) {
     try {
         // Firestoreから未成年者データを取得
         const minors = await fetchMinorsFromFirestore(userId);
+        console.log("Fetched Minors:", minors); // デバッグ用ログ
+
         // Firestoreからブイログデータを取得
         const vlogs = await fetchVlogsFromFirestore();
+        console.log("Fetched Vlogs:", vlogs); // デバッグ用ログ
 
         // CSVのヘッダーを定義
         const minorsHeader = '名前,年齢,収益,出演ブイログ\n';
