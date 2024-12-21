@@ -3,8 +3,29 @@ import { initializeFirebase } from "./firebase.js";
 
 const { auth } = initializeFirebase(); // Firebaseの初期化とauthの取得
 
-// 言語データを参照するための変数を追加
+// 言語データの定義
+const languageData = {
+    ja: {
+        registrationSuccess: "ユーザー登録が成功しました。",
+        registrationError: "登録に失敗しました。",
+        loginSuccess: "ログイン成功",
+        loginError: "ログインに失敗しました。",
+    },
+    en: {
+        registrationSuccess: "User registration was successful.",
+        registrationError: "Registration failed.",
+        loginSuccess: "Login successful.",
+        loginError: "Login failed.",
+    }
+};
+
+// 現在の言語を取得
 let currentLanguage = localStorage.getItem('language') || 'ja'; // ローカルストレージから取得
+
+// 言語変更の通知を受け取る関数
+export function updateLanguageInAuth(language) {
+    currentLanguage = language; // 現在の言語を更新
+}
 
 // ユーザー登録処理
 document.getElementById('registerButton').addEventListener('click', async () => {
