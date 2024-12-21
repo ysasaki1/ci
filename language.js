@@ -104,11 +104,10 @@ export function updateLanguage() {
     const modalClose = document.getElementById('modalClose');
     const emailPlaceholder = document.getElementById('email');
     const passwordPlaceholder = document.getElementById('password');
-    const loginemailPlaceholder = document.getElementById('loginEmail');
+        const loginemailPlaceholder = document.getElementById('loginEmail');
     const loginpasswordPlaceholder = document.getElementById('loginPassword');
 
     // 各要素のテキストを更新
-    updateTextContent(welcomeMessage, languageData[currentLanguage].welcomeMessage);
     updateTextContent(minorInfoTitle, languageData[currentLanguage].minorInfo);
     updateTextContent(vlogInfoTitle, languageData[currentLanguage].vlogInfo);
     updateTextContent(registeredMinorsTitle, languageData[currentLanguage].registeredMinors);
@@ -131,10 +130,10 @@ export function updateLanguage() {
 
     // プレースホルダーの更新
     updatePlaceholder(minorAgeLabel, languageData[currentLanguage].minorAge);
-    updatePlaceholder(emailPlaceholder, languageData[currentLanguage].emailPlaceholder);
-    updatePlaceholder(passwordPlaceholder, languageData[currentLanguage].passwordPlaceholder);
-    updatePlaceholder(loginemailPlaceholder, languageData[currentLanguage].loginemailPlaceholder);
-    updatePlaceholder(loginpasswordPlaceholder, languageData[currentLanguage].loginpasswordPlaceholder);
+    updatePlaceholder(document.getElementById('email'), languageData[currentLanguage].emailPlaceholder);
+    updatePlaceholder(document.getElementById('password'), languageData[currentLanguage].passwordPlaceholder);
+        updatePlaceholder(document.getElementById('loginEmail'), languageData[currentLanguage].loginemailPlaceholder);
+    updatePlaceholder(document.getElementById('loginPassword'), languageData[currentLanguage].loginpasswordPlaceholder);
 }
 
 // テキストを更新する関数
