@@ -21,6 +21,17 @@ export const languageData = {
         minorParticipants: "Minor Participants",
         errorMessage: "Please fill in all fields correctly.", // エラーメッセージ
         welcomeMessage: "Welcome, {user}!" // ウェルカムメッセージ
+        registerTitle: "ユーザー登録",
+        loginTitle: "ログイン",
+        registerButton: "登録",
+        loginButton: "ログイン",
+        modalClose: "閉じる",
+        registrationSuccess: "ユーザー登録が成功しました。",
+        registrationError: "登録に失敗しました。",
+        loginSuccess: "ログイン成功",
+        loginError: "ログインに失敗しました。",
+        emailPlaceholder: "メールアドレス",
+        passwordPlaceholder: "パスワード",
     },
     ja: {
         title: "ブイログ情報管理",
@@ -41,6 +52,17 @@ export const languageData = {
         minorParticipants: "出演未成年者",
         errorMessage: "すべてのフィールドを正しく入力してください。", // エラーメッセージ
         welcomeMessage: "ようこそ, {user}さん！" // ウェルカムメッセージ
+        registerTitle: "User Registration",
+        loginTitle: "Login",
+        registerButton: "Register",
+        loginButton: "Login",
+        modalClose: "Close",
+        registrationSuccess: "User registration was successful.",
+        registrationError: "Registration failed.",
+        loginSuccess: "Login successful.",
+        loginError: "Login failed.",
+        emailPlaceholder: "Email Address",
+        passwordPlaceholder: "Password",
     }
 };
 
