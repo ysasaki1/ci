@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -6,8 +7,8 @@
     <title>ポートフォリオサイト</title>
     <link rel="stylesheet" href="style.css">
     <script type="module" src="firebase.js"></script>
-    <script type="module" src="auth.js"></script> <!-- 新しいファイルで認証機能を管理 -->
-    <script type="module" src="language.js"></script> <!-- 言語管理用のスクリプト -->
+    <script type="module" src="auth.js"></script>
+    <script type="module" src="language.js"></script>
 </head>
 <body>
     <div class="lang-buttons">
@@ -39,9 +40,38 @@
     </div>
 
     <script>
-        import { languageData, getCurrentLanguage } from "./language.js"; // 言語データをインポート
+        const languageData = {
+            ja: {
+                registerTitle: "ユーザー登録",
+                loginTitle: "ログイン",
+                registerButton: "登録",
+                loginButton: "ログイン",
+                modalClose: "閉じる",
+                errorMessage: "エラーが発生しました。すべてのフィールドを正しく入力してください。"
+            },
+            en: {
+                registerTitle: "User Registration",
+                loginTitle: "Login",
+                registerButton: "Register",
+                loginButton: "Login",
+                modalClose: "Close",
+                errorMessage: "An error occurred. Please fill in all fields correctly."
+            }
+        };
 
-        let currentLanguage = getCurrentLanguage(); // 初期言語を取得
+        let currentLanguage = 'ja'; // 初期言語を日本語に設定
+
+        document.getElementById('lang-ja').addEventListener('click', () => {
+            currentLanguage = 'ja';
+            localStorage.setItem('language', 'ja'); // ローカルストレージに保存
+            updateUI();
+        });
+
+        document.getElementById('lang-en').addEventListener('click', () => {
+            currentLanguage = 'en';
+            localStorage.setItem('language', 'en'); // ローカルストレージに保存
+            updateUI();
+        });
 
         function updateUI() {
             document.getElementById('registerTitle').textContent = languageData[currentLanguage].registerTitle;
@@ -50,53 +80,6 @@
             document.getElementById('loginButton').textContent = languageData[currentLanguage].loginButton;
             document.getElementById('closeModal').textContent = languageData[currentLanguage].modalClose;
         }
-
-        function showError(message) {
-            document.getElementById('modalMessage').textContent = message;
-            document.getElementById('errorModal').style.display = 'block';
-        }
-
-        document.getElementById('registerButton').addEventListener('click', () => {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-
-            // 簡単なバリデーション
-            if (!email || !password) {
-                showError(languageData[currentLanguage].errorMessage);
-                return;
-            }
-
-            // Firebaseのユーザー登録処理を呼び出す
-            // registerUser(email, password); // Firebaseの関数をここに追加
-        });
-
-        document.getElementById('loginButton').addEventListener('click', () => {
-            const loginEmail = document.getElementById('loginEmail').value;
-            const loginPassword = document.getElementById('loginPassword').value;
-
-            // 簡単なバリデーション
-            if (!loginEmail || !loginPassword) {
-                showError(languageData[currentLanguage].errorMessage);
-                return;
-            }
-
-            // Firebaseのログイン処理を呼び出す
-            // loginUser(loginEmail, loginPassword); // Firebaseの関数をここに追加
-        });
-
-        document.getElementById('closeModal').onclick = function() {
-            document.getElementById('errorModal').style.display = 'none';
-        };
-
-        document.getElementById('lang-ja').addEventListener('click', () => {
-            currentLanguage = 'ja';
-            updateUI();
-        });
-
-        document.getElementById('lang-en').addEventListener('click', () => {
-            currentLanguage = 'en';
-            updateUI();
-        });
 
         // 初期UIの更新
         updateUI();
