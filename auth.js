@@ -12,6 +12,7 @@ document.getElementById('registerButton').addEventListener('click', async () => 
     try {
         await createUserWithEmailAndPassword(auth, email, password);
         alert(getCurrentMessage('registrationSuccess')); // 言語に応じたメッセージ
+        window.location.href = 'user.html'; // ユーザー登録後にリダイレクト
     } catch (error) {
         console.error("ユーザー登録中のエラー:", error);
         alert(getCurrentMessage('registrationError')); // 言語に応じたメッセージ
