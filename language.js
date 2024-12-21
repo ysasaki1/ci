@@ -64,7 +64,7 @@ function updatePlaceholder(element, placeholder) {
 // 言語を更新する関数
 export function updateLanguage() {
     const welcomeMessage = document.getElementById('welcomeMessage');
-    const userEmail = auth.currentUser ? auth.currentUser.email : "";
+    const userEmail = auth.currentUser ? auth.currentUser.email : "ゲスト"; // ユーザー名を取得
 
     // ウェルカムメッセージの更新
     updateTextContent(welcomeMessage, languageData[currentLanguage].welcomeMessage.replace("{user}", userEmail));
