@@ -9,9 +9,6 @@ export async function downloadCSV(userId) {
     const vlogs = await fetchVlogsFromFirestore();
 
     // データの存在チェック
-    console.log("未成年者データ:", minors);
-    console.log("ブイログデータ:", vlogs);
-
     if (!minors || !Array.isArray(minors) || minors.length === 0) {
         console.error("未成年者データがありません:", minors);
         return;
