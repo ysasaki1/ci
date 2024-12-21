@@ -34,7 +34,7 @@ export const languageData = {
         loginemailPlaceholder: "Email Address",
         loginpasswordPlaceholder: "Password",
         welcomeMessagePart1: "Welcome",
-        welcomeMessagePart2: "!",
+        welcomeMessagePart2: "!", // ここは固定
     },
     ja: {
         title: "ブイログ情報管理",
@@ -67,8 +67,8 @@ export const languageData = {
         passwordPlaceholder: "パスワード",
         loginemailPlaceholder: "メールアドレス",
         loginpasswordPlaceholder: "パスワード",
-        welcomeMessagePart1: "Welcome",
-        welcomeMessagePart2: "!",
+        welcomeMessagePart1: "ようこそ",
+        welcomeMessagePart2: "さん", // ここは固定
     }
 };
 
@@ -77,8 +77,6 @@ let currentLanguage = localStorage.getItem('language') || 'ja'; // デフォル�
 
 // UIを更新する関数
 export function updateLanguage() {
-    const userEmail = auth.currentUser ? auth.currentUser.email : "ゲスト"; // ユーザー名を取得
-
     // 各要素の取得
     const minorInfoTitle = document.getElementById('minorInfoTitle');
     const vlogInfoTitle = document.getElementById('vlogInfoTitle');
@@ -104,7 +102,7 @@ export function updateLanguage() {
     const passwordPlaceholder = document.getElementById('password');
     const loginemailPlaceholder = document.getElementById('loginEmail');
     const loginpasswordPlaceholder = document.getElementById('loginPassword');
-        const welcomeMessagePart1 = document.getElementById('welcomeMessagePart1');
+    const welcomeMessagePart1 = document.getElementById('welcomeMessagePart1');
     const welcomeMessagePart2 = document.getElementById('welcomeMessagePart2');
 
     // 各要素のテキストを更新
@@ -127,14 +125,16 @@ export function updateLanguage() {
     updateTextContent(registerButton, languageData[currentLanguage].registerButton);
     updateTextContent(loginButton, languageData[currentLanguage].loginButton);
     updateTextContent(modalClose, languageData[currentLanguage].modalClose);
-     updateTextContent(welcomeMessagePart1, languageData[currentLanguage].welcomeMessagePart1);
-    updateTextContent(welcomeMessagePart2, languageData[currentLanguage].welcomeMessagePart2);
+    
+    // ウェルカムメッセージの更新
+    updateTextContent(welcomeMessagePart1, languageData[currentLanguage].welcomeMessagePart1);
+    updateTextContent(welcomeMessagePart2, languageData[currentLanguage].welcomeMessagePart2); // 固定テキスト
 
     // プレースホルダーの更新
     updatePlaceholder(minorAgeLabel, languageData[currentLanguage].minorAge);
     updatePlaceholder(document.getElementById('email'), languageData[currentLanguage].emailPlaceholder);
     updatePlaceholder(document.getElementById('password'), languageData[currentLanguage].passwordPlaceholder);
-        updatePlaceholder(document.getElementById('loginEmail'), languageData[currentLanguage].loginemailPlaceholder);
+    updatePlaceholder(document.getElementById('loginEmail'), languageData[currentLanguage].loginemailPlaceholder);
     updatePlaceholder(document.getElementById('loginPassword'), languageData[currentLanguage].loginpasswordPlaceholder);
 }
 
