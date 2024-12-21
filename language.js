@@ -20,6 +20,7 @@ export const languageData = {
         delete: "Delete",
         minorParticipants: "Minor Participants",
         errorMessage: "Please fill in all fields correctly.", // エラーメッセージ
+        welcomeMessage: "Welcome, {user}!" // ウェルカムメッセージ
     },
     ja: {
         title: "ブイログ情報管理",
@@ -38,7 +39,8 @@ export const languageData = {
         minorAge: "年齢",
         delete: "削除",
         minorParticipants: "出演未成年者",
-        errorMessage: "すべてのフィールドを正しく入力してください。" // エラーメッセージ
+        errorMessage: "すべてのフィールドを正しく入力してください。", // エラーメッセージ
+        welcomeMessage: "ようこそ, {user}さん！" // ウェルカムメッセージ
     }
 };
 
@@ -62,6 +64,11 @@ function updatePlaceholder(element, placeholder) {
 // 言語を更新する関数
 export function updateLanguage() {
     const welcomeMessage = document.getElementById('welcomeMessage');
+    const userEmail = auth.currentUser ? auth.currentUser.email : "";
+
+    // ウェルカムメッセージの更新
+    updateTextContent(welcomeMessage, languageData[currentLanguage].welcomeMessage.replace("{user}", userEmail));
+
     const minorInfoTitle = document.getElementById('minorInfoTitle');
     const vlogInfoTitle = document.getElementById('vlogInfoTitle');
     const addMinorButton = document.getElementById('addMinorInfoButton');
@@ -80,11 +87,6 @@ export function updateLanguage() {
     const minorAgeInput = document.getElementById('minorAge');
 
     // 各要素のテキストを更新
-    const userEmail = auth.currentUser ? auth.currentUser.email : "";
-    updateTextContent(welcomeMessage, currentLanguage === 'ja' 
-        ? `ようこそ, ${userEmail}さん！` 
-        : `Welcome, ${userEmail}!`);
-
     updateTextContent(minorInfoTitle, languageData[currentLanguage].minorInfo);
     updateTextContent(vlogInfoTitle, languageData[currentLanguage].vlogInfo);
     updateTextContent(registeredMinorsTitle, languageData[currentLanguage].registeredMinors);
@@ -99,7 +101,6 @@ export function updateLanguage() {
     updatePlaceholder(totalDurationLabel, languageData[currentLanguage].totalDuration);
     updatePlaceholder(minorNameInput, languageData[currentLanguage].minorName);
     updatePlaceholder(minorAgeInput, languageData[currentLanguage].minorAge);
-
 
     // 削除ボタンのラベルを更新
     const deleteButtons = document.querySelectorAll('.delete-button');
