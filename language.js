@@ -19,7 +19,6 @@ export const languageData = {
         minorAge: "Age",
         delete: "Delete",
         minorParticipants: "Minor Participants",
-
         errorMessage: "Please fill in all fields correctly.", // エラーメッセージ
     },
     ja: {
@@ -39,13 +38,12 @@ export const languageData = {
         minorAge: "年齢",
         delete: "削除",
         minorParticipants: "出演未成年者",
-
         errorMessage: "すべてのフィールドを正しく入力してください。" // エラーメッセージ
     }
 };
 
 // 現在の言語を設定
-let currentLanguage = 'ja'; // 初期言語
+let currentLanguage = localStorage.getItem('language') || 'ja'; // ローカルストレージから取得、初期言語は日本語
 
 // 要素の存在を確認してテキストを更新する関数
 function updateTextContent(element, text) {
@@ -81,7 +79,6 @@ export function updateLanguage() {
     const minorNameInput = document.getElementById('minorName');
     const minorAgeInput = document.getElementById('minorAge');
 
-
     // 各要素のテキストを更新
     const userEmail = auth.currentUser ? auth.currentUser.email : "";
     updateTextContent(welcomeMessage, currentLanguage === 'ja' 
@@ -102,19 +99,12 @@ export function updateLanguage() {
     updatePlaceholder(minorNameInput, languageData[currentLanguage].minorName);
     updatePlaceholder(minorAgeInput, languageData[currentLanguage].minorAge);
 
-
-
-
     // 削除ボタンのラベルを更新
     const deleteButtons = document.querySelectorAll('.delete-button');
     deleteButtons.forEach(button => {
         button.innerText = languageData[currentLanguage].delete;
     });
 }
-
-
-
-
 
 // 言語を切り替える関数
 export function setLanguage(lang) {
@@ -130,8 +120,5 @@ export function getCurrentLanguage() {
     return currentLanguage;
 }
 
-// 言語更新のための関数
-function updateLanguageUI() {
-    // UIの各要素を更新
-    updateUI(); // UIを再表示
-}
+// 初期UIの更新
+updateLanguage();
