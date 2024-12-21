@@ -38,7 +38,10 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        import { auth } from './firebase.js'; // authをインポート
+        import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
+
         const languageData = {
             ja: {
                 registerTitle: "ユーザー登録",
@@ -74,14 +77,12 @@
             currentLanguage = 'ja';
             localStorage.setItem('language', 'ja'); // ローカルストレージに保存
             updateUI();
-            notifyLanguageChange();
         });
 
         document.getElementById('lang-en').addEventListener('click', () => {
             currentLanguage = 'en';
             localStorage.setItem('language', 'en'); // ローカルストレージに保存
             updateUI();
-            notifyLanguageChange();
         });
 
         function updateUI() {
@@ -97,16 +98,6 @@
             document.getElementById('loginEmail').placeholder = languageData[currentLanguage].emailPlaceholder;
             document.getElementById('loginPassword').placeholder = languageData[currentLanguage].passwordPlaceholder;
         }
-
-        function notifyLanguageChange() {
-            // auth.js に言語変更を通知
-            if (typeof updateLanguageInAuth === 'function') {
-                updateLanguageInAuth(currentLanguage);
-            }
-        }
-
-        // Firebaseの初期化とauthの取得
-        const { auth } = initializeFirebase(); // Firebaseの初期化
 
         // ユーザー登録処理
         document.getElementById('registerButton').addEventListener('click', async () => {
