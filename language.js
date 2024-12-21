@@ -84,6 +84,7 @@ export function updateLanguage() {
     updateTextContent(welcomeMessage, currentLanguage === 'ja' 
         ? `ようこそ, ${userEmail}さん！` 
         : `Welcome, ${userEmail}!`);
+
     updateTextContent(minorInfoTitle, languageData[currentLanguage].minorInfo);
     updateTextContent(vlogInfoTitle, languageData[currentLanguage].vlogInfo);
     updateTextContent(registeredMinorsTitle, languageData[currentLanguage].registeredMinors);
@@ -98,6 +99,7 @@ export function updateLanguage() {
     updatePlaceholder(totalDurationLabel, languageData[currentLanguage].totalDuration);
     updatePlaceholder(minorNameInput, languageData[currentLanguage].minorName);
     updatePlaceholder(minorAgeInput, languageData[currentLanguage].minorAge);
+
 
     // 削除ボタンのラベルを更新
     const deleteButtons = document.querySelectorAll('.delete-button');
