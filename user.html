@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ユーザーページ</title>
     <link rel="stylesheet" href="style.css">
+    <script type="module" src="language.js"></script>
     <script type="module" src="main.js"></script>
 </head>
 <body>
@@ -14,7 +15,11 @@
     </div>
 
     <div class="container">
-        <p id="welcomeMessage"></p>
+        <p>
+            <span id="welcomeMessagePart1">ようこそ, </span>
+            <span id="userEmail">ユーザー名</span>
+            <span id="welcomeMessagePart2">さん！</span>
+        </p>
 
         <div class="form-section">
             <h2 id="minorInfoTitle">未成年者の情報</h2>
@@ -60,41 +65,28 @@
         </div>
     </div>
 
-    <script>
-        const languageData = {
-            ja: {
-                welcomeMessage: "ようこそ",
-                minorInfoTitle: "未成年者の情報",
-                vlogInfoTitle: "収益化ブイログ情報",
-                addMinorButton: "追加",
-                addVlogButton: "追加",
-                registeredMinorsTitle: "登録された未成年者",
-                registeredVlogsTitle: "登録されたブイログ",
-                errorMessage: "エラーが発生しました。すべてのフィールドを正しく入力してください。"
-            },
-            en: {
-                welcomeMessage: "Welcome",
-                minorInfoTitle: "Minor Information",
-                vlogInfoTitle: "Monetized Vlog Information",
-                addMinorButton: "Add Minor",
-                addVlogButton: "Add Vlog",
-                registeredMinorsTitle: "Registered Minors",
-                registeredVlogsTitle: "Registered Vlogs",
-                errorMessage: "An error occurred. Please fill in all fields correctly."
-            }
-        };
+    <script type="module">
+        import { auth } from "./firebase.js"; // authをインポート
+        import { languageData } from "./language.js"; // language.jsをインポート
 
         let currentLanguage = localStorage.getItem('language') || 'ja'; // ローカルストレージから取得
 
-        function updateUI() {
-            document.getElementById('welcomeMessage').textContent = languageData[currentLanguage].welcomeMessage;
-            document.getElementById('minorInfoTitle').textContent = languageData[currentLanguage].minorInfoTitle;
-            document.getElementById('vlogInfoTitle').textContent = languageData[currentLanguage].vlogInfoTitle;
-            document.getElementById('addMinorInfoButton').textContent = languageData[currentLanguage].addMinorButton;
-            document.getElementById('addVlogInfoButton').textContent = languageData[currentLanguage].addVlogButton;
-            document.getElementById('registeredMinorsTitle').textContent = languageData[currentLanguage].registeredMinorsTitle;
-            document.getElementById('registeredVlogsTitle').textContent = languageData[currentLanguage].registeredVlogsTitle;
+        async function getUserEmail() {
+            const user = auth.currentUser;
+            return user ? user.email : "ゲスト"; // ユーザー名を取得
         }
+
+        async function updateUI() {
+            const userEmail = await getUserEmail();
+            document.getElementById('welcomeMessagePart1').textContent = languageData[currentLanguage].welcomeMessage;
+            document.getElementById('userEmail').textContent = userEmail; // ユーザー名を表示
+            document.getElementById('welcomeMessagePart2').textContent = "さん！";
+            
+            // 他のUI要素は変更しない
+        }
+
+        // 初期UIの更新
+        updateUI();
 
         document.getElementById('lang-ja').addEventListener('click', () => {
             currentLanguage = 'ja';
@@ -111,9 +103,6 @@
         document.getElementById('closeModal').onclick = function() {
             document.getElementById('errorModal').style.display = 'none';
         };
-
-        // 初期UIの更新
-        updateUI();
     </script>
 </body>
 </html>
