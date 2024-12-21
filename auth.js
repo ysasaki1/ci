@@ -1,31 +1,11 @@
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.1.0/firebase-auth.js";
 import { initializeFirebase } from "./firebase.js";
+import { languageData, getCurrentLanguage } from './language.js'; // language.jsをインポート
 
 const { auth } = initializeFirebase(); // Firebaseの初期化とauthの取得
 
-// 言語データの定義
-const languageData = {
-    ja: {
-        registrationSuccess: "ユーザー登録が成功しました。",
-        registrationError: "登録に失敗しました。",
-        loginSuccess: "ログイン成功",
-        loginError: "ログインに失敗しました。",
-    },
-    en: {
-        registrationSuccess: "User registration was successful.",
-        registrationError: "Registration failed.",
-        loginSuccess: "Login successful.",
-        loginError: "Login failed.",
-    }
-};
-
 // 現在の言語を取得
-let currentLanguage = localStorage.getItem('language') || 'ja'; // ローカルストレージから取得
-
-// 言語変更の通知を受け取る関数
-export function updateLanguageInAuth(language) {
-    currentLanguage = language; // 現在の言語を更新
-}
+let currentLanguage = getCurrentLanguage();
 
 // ユーザー登録処理
 document.getElementById('registerButton').addEventListener('click', async () => {
