@@ -98,6 +98,8 @@ export function updateLanguage() {
     const registerButton = document.getElementById('registerButton');
     const loginButton = document.getElementById('loginButton');
     const modalClose = document.getElementById('modalClose');
+    const emailPlaceholder = document.getElementById('email');
+    const passwordPlaceholder = document.getElementById('password');
 
     // 各要素のテキストを更新
     updateTextContent(minorInfoTitle, languageData[currentLanguage].minorInfo);
@@ -124,12 +126,6 @@ export function updateLanguage() {
     updatePlaceholder(minorAgeLabel, languageData[currentLanguage].minorAge);
     updatePlaceholder(document.getElementById('email'), languageData[currentLanguage].emailPlaceholder);
     updatePlaceholder(document.getElementById('password'), languageData[currentLanguage].passwordPlaceholder);
-
-    // 削除ボタンのラベルを更新
-    const deleteButtons = document.querySelectorAll('.delete-button');
-    deleteButtons.forEach(button => {
-        button.innerText = languageData[currentLanguage].delete;
-    });
 }
 
 // テキストを更新する関数
