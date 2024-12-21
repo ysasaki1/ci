@@ -20,8 +20,7 @@ export const languageData = {
         delete: "Delete",
         minorParticipants: "Minor Participants",
         errorMessage: "Please fill in all fields correctly.", // エラーメッセージ
-        welcomeMessagePart1: "Welcome, ", // ウェルカムメッセージの一部
-        welcomeMessagePart2: "!", // ウェルカムメッセージの一部
+        welcomeMessage: "Welcome, {user}!", // ウェルカムメッセージ
         registerTitle: "User Registration",
         loginTitle: "Login",
         registerButton: "Register",
@@ -54,8 +53,7 @@ export const languageData = {
         delete: "削除",
         minorParticipants: "出演未成年者",
         errorMessage: "すべてのフィールドを正しく入力してください。", // エラーメッセージ
-        welcomeMessagePart1: "ようこそ, ", // ウェルカムメッセージの一部
-        welcomeMessagePart2: "さん！", // ウェルカムメッセージの一部
+        welcomeMessage: "ようこそ, {user}さん！", // ウェルカムメッセージ
         registerTitle: "ユーザー登録",
         loginTitle: "ログイン",
         registerButton: "登録",
@@ -77,16 +75,11 @@ let currentLanguage = localStorage.getItem('language') || 'ja'; // デフォル�
 
 // UIを更新する関数
 export function updateLanguage() {
-    const welcomeMessagePart1Element = document.getElementById('welcomeMessagePart1');
-    const userEmailElement = document.getElementById('userEmail');
-    const welcomeMessagePart2Element = document.getElementById('welcomeMessagePart2');
-    
+    const welcomeMessage = document.getElementById('welcomeMessage');
     const userEmail = auth.currentUser ? auth.currentUser.email : "ゲスト"; // ユーザー名を取得
 
     // ウェルカムメッセージの更新
-    updateTextContent(welcomeMessagePart1Element, languageData[currentLanguage].welcomeMessagePart1);
-    updateTextContent(userEmailElement, userEmail);
-    updateTextContent(welcomeMessagePart2Element, languageData[currentLanguage].welcomeMessagePart2);
+    updateTextContent(welcomeMessage, languageData[currentLanguage].welcomeMessage.replace("{user}", userEmail));
 
     // 各要素の取得
     const minorInfoTitle = document.getElementById('minorInfoTitle');
@@ -115,6 +108,7 @@ export function updateLanguage() {
     const loginpasswordPlaceholder = document.getElementById('loginPassword');
 
     // 各要素のテキストを更新
+    updateTextContent(welcomeMessage, languageData[currentLanguage].welcomeMessage);
     updateTextContent(minorInfoTitle, languageData[currentLanguage].minorInfo);
     updateTextContent(vlogInfoTitle, languageData[currentLanguage].vlogInfo);
     updateTextContent(registeredMinorsTitle, languageData[currentLanguage].registeredMinors);
