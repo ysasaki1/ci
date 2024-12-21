@@ -8,15 +8,6 @@ export async function downloadCSV(userId) {
     // ブイログデータを取得
     const vlogs = await fetchVlogsFromFirestore();
 
-    // データの存在チェック
-    if (!minors || !Array.isArray(minors) || minors.length === 0) {
-        console.error("未成年者データがありません:", minors);
-        return;
-    }
-    if (!vlogs || !Array.isArray(vlogs) || vlogs.length === 0) {
-        console.error("ブイログデータがありません:", vlogs);
-        return;
-    }
 
     // CSVのヘッダーを定義
     const minorsHeader = '名前,年齢,収益,出演ブイログ\n';
