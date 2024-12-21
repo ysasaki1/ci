@@ -14,9 +14,11 @@
     </div>
 
     <div class="container">
-        <p id="welcomeMessagePart1">ようこそ, </p>
-        <p id="userEmail">ユーザー名</p>
-        <p id="welcomeMessagePart2">さん！</p>
+        <p>
+            <span id="welcomeMessagePart1">ようこそ, </span>
+            <span id="userEmail">ユーザー名</span>
+            <span id="welcomeMessagePart2">さん！</span>
+        </p>
 
         <div class="form-section">
             <h2 id="minorInfoTitle">未成年者の情報</h2>
@@ -62,7 +64,9 @@
         </div>
     </div>
 
-    <script>
+    <script type="module">
+        import { auth } from "./firebase.js"; // authをインポート
+
         const languageData = {
             ja: {
                 welcomeMessagePart1: "ようこそ, ",
@@ -76,26 +80,31 @@
 
         let currentLanguage = localStorage.getItem('language') || 'ja'; // ローカルストレージから取得
 
-        function updateUI(userEmail) {
+        async function getUserEmail() {
+            const user = auth.currentUser;
+            return user ? user.email : "ゲスト"; // ユーザー名を取得
+        }
+
+        async function updateUI() {
+            const userEmail = await getUserEmail();
             document.getElementById('welcomeMessagePart1').textContent = languageData[currentLanguage].welcomeMessagePart1;
             document.getElementById('userEmail').textContent = userEmail; // ユーザー名を表示
             document.getElementById('welcomeMessagePart2').textContent = languageData[currentLanguage].welcomeMessagePart2;
         }
 
-        // ここでユーザー名を取得する処理を追加
-        const userEmail = "ユーザー名"; // 実際のユーザー名を取得する処理に置き換えてください
-        updateUI(userEmail);
+        // 初期UIの更新
+        updateUI();
 
         document.getElementById('lang-ja').addEventListener('click', () => {
             currentLanguage = 'ja';
             localStorage.setItem('language', 'ja'); // ローカルストレージに保存
-            updateUI(userEmail);
+            updateUI();
         });
 
         document.getElementById('lang-en').addEventListener('click', () => {
             currentLanguage = 'en';
             localStorage.setItem('language', 'en'); // ローカルストレージに保存
-            updateUI(userEmail);
+            updateUI();
         });
 
         document.getElementById('closeModal').onclick = function() {
