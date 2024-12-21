@@ -2,13 +2,13 @@
 
 // CSV出力の関数
 export function downloadCSV(minors, vlogs) {
-    // データがない場合のエラーハンドリング
+    // データの存在チェック
     if (!minors || !Array.isArray(minors) || minors.length === 0) {
-        console.error("未成年者データがありません");
+        console.error("未成年者データがありません:", minors);
         return;
     }
     if (!vlogs || !Array.isArray(vlogs) || vlogs.length === 0) {
-        console.error("ブイログデータがありません");
+        console.error("ブイログデータがありません:", vlogs);
         return;
     }
 
@@ -32,6 +32,9 @@ export function downloadCSV(minors, vlogs) {
 
 // CSV出力ボタンを設定
 export function setupCSVDownload(minors, vlogs) {
+    console.log("未成年者データ:", minors); // デバッグ用
+    console.log("ブイログデータ:", vlogs); // デバッグ用
+
     document.getElementById('downloadCSVButton').addEventListener('click', () => {
         downloadCSV(minors, vlogs);
     });
