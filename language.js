@@ -20,7 +20,6 @@ export const languageData = {
         delete: "Delete",
         minorParticipants: "Minor Participants",
         errorMessage: "Please fill in all fields correctly.", // エラーメッセージ
-        welcomeMessage: "Welcome, {user}!", // ウェルカムメッセージ
         registerTitle: "User Registration",
         loginTitle: "Login",
         registerButton: "Register",
@@ -53,7 +52,6 @@ export const languageData = {
         delete: "削除",
         minorParticipants: "出演未成年者",
         errorMessage: "すべてのフィールドを正しく入力してください。", // エラーメッセージ
-        welcomeMessage: "ようこそ, {user}さん！", // ウェルカムメッセージ
         registerTitle: "ユーザー登録",
         loginTitle: "ログイン",
         registerButton: "登録",
@@ -75,11 +73,7 @@ let currentLanguage = localStorage.getItem('language') || 'ja'; // デフォル�
 
 // UIを更新する関数
 export function updateLanguage() {
-    const welcomeMessage = document.getElementById('welcomeMessage');
     const userEmail = auth.currentUser ? auth.currentUser.email : "ゲスト"; // ユーザー名を取得
-
-    // ウェルカムメッセージの更新
-    updateTextContent(welcomeMessage, languageData[currentLanguage].welcomeMessage.replace("{user}", userEmail));
 
     // 各要素の取得
     const minorInfoTitle = document.getElementById('minorInfoTitle');
