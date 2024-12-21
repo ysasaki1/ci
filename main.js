@@ -19,6 +19,9 @@ auth.onAuthStateChanged(async (user) => {
 
         // CSVダウンロードのセットアップ
         setupCSVDownload(userId); // userIdを渡してCSVダウンロード機能を設定
+
+        // ログアウト処理を設定
+        setupLogout(); // ユーザーがログインしている場合にログアウト処理を設定
     } else {
         // ユーザーがログインしていない場合、ログインページにリダイレクト
         window.location.href = 'index.html';
@@ -58,5 +61,4 @@ addMinorEventListener();
 // 収益化ブイログ情報を追加
 addVlogEventListener();
 
-// ログアウト処理
-setupLogout();
+// ログアウト処理は onAuthStateChanged 内で設定済み
