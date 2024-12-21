@@ -10,12 +10,12 @@
     <script type="module" src="language.js"></script> <!-- 言語管理用のスクリプト -->
 </head>
 <body>
-    <div class="container">
-        <div class="language-switcher">
-            <button id="lang-ja" class="lang-button">日本語</button>
-            <button id="lang-en" class="lang-button">English</button>
-        </div>
+    <div class="language-switcher">
+        <button id="lang-en" class="lang-button">EN</button>
+        <button id="lang-ja" class="lang-button">JP</button>
+    </div>
 
+    <div class="container">
         <div class="form-section">
             <h1 id="registerTitle">ユーザー登録</h1>
             <input type="email" id="email" placeholder="メールアドレス" required>
@@ -45,14 +45,16 @@
                 loginTitle: "ログイン",
                 registerButton: "登録",
                 loginButton: "ログイン",
-                modalClose: "閉じる"
+                modalClose: "閉じる",
+                errorMessage: "エラーが発生しました。すべてのフィールドを正しく入力してください。"
             },
             en: {
                 registerTitle: "User Registration",
                 loginTitle: "Login",
                 registerButton: "Register",
                 loginButton: "Login",
-                modalClose: "Close"
+                modalClose: "Close",
+                errorMessage: "An error occurred. Please fill in all fields correctly."
             }
         };
 
@@ -65,6 +67,43 @@
             document.getElementById('loginButton').textContent = languageData[currentLanguage].loginButton;
             document.getElementById('closeModal').textContent = languageData[currentLanguage].modalClose;
         }
+
+        function showError(message) {
+            document.getElementById('modalMessage').textContent = message;
+            document.getElementById('errorModal').style.display = 'block';
+        }
+
+        document.getElementById('registerButton').addEventListener('click', () => {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // 簡単なバリデーション
+            if (!email || !password) {
+                showError(languageData[currentLanguage].errorMessage);
+                return;
+            }
+
+            // Firebaseのユーザー登録処理を呼び出す
+            // registerUser(email, password); // Firebaseの関数をここに追加
+        });
+
+        document.getElementById('loginButton').addEventListener('click', () => {
+            const loginEmail = document.getElementById('loginEmail').value;
+            const loginPassword = document.getElementById('loginPassword').value;
+
+            // 簡単なバリデーション
+            if (!loginEmail || !loginPassword) {
+                showError(languageData[currentLanguage].errorMessage);
+                return;
+            }
+
+            // Firebaseのログイン処理を呼び出す
+            // loginUser(loginEmail, loginPassword); // Firebaseの関数をここに追加
+        });
+
+        document.getElementById('closeModal').onclick = function() {
+            document.getElementById('errorModal').style.display = 'none';
+        };
 
         document.getElementById('lang-ja').addEventListener('click', () => {
             currentLanguage = 'ja';
