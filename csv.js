@@ -1,7 +1,14 @@
 // CSV出力機能を管理するファイル
+import { fetchMinorsFromFirestore } from './minors.js'; // 未成年者データを取得する関数をインポート
+import { fetchVlogsFromFirestore } from './vlogs.js'; // ブイログデータを取得する関数をインポート
 
 // CSV出力の関数
-export function downloadCSV(minors, vlogs) {
+export async function downloadCSV(userId) {
+    // 未成年者データを取得
+    const minors = await fetchMinorsFromFirestore(userId);
+    // ブイログデータを取得
+    const vlogs = await fetchVlogsFromFirestore();
+
     // データの存在チェック
     if (!minors || !Array.isArray(minors) || minors.length === 0) {
         console.error("未成年者データがありません:", minors);
@@ -31,11 +38,8 @@ export function downloadCSV(minors, vlogs) {
 }
 
 // CSV出力ボタンを設定
-export function setupCSVDownload(minors, vlogs) {
-    console.log("未成年者データ:", minors); // デバッグ用
-    console.log("ブイログデータ:", vlogs); // デバッグ用
-
+export function setupCSVDownload(userId) {
     document.getElementById('downloadCSVButton').addEventListener('click', () => {
-        downloadCSV(minors, vlogs);
+        downloadCSV(userId);
     });
 }
