@@ -2,6 +2,13 @@ import { initializeFirebase, setupLogout } from "./firebase.js";
 import { setLanguage } from "./language.js"; 
 import { fetchMinorsFromFirestore, addMinorEventListener } from "./minors.js";
 import { fetchVlogsFromFirestore, displayVlogs, addVlogEventListener } from "./vlogs.js"; 
+import { setupCSVDownload } from './csv.js';
+
+// 例: minores と vlogs を取得した後
+const minors = await fetchMinorsFromFirestore(userId); // ここで未成年者を取得
+const vlogs = await fetchVlogsFromFirestore(); // ここでブイログを取得
+
+setupCSVDownload(minors, vlogs); 
 
 const { auth, db } = initializeFirebase(); // Firebaseの初期化
 
