@@ -14,7 +14,9 @@
     </div>
 
     <div class="container">
-        <p id="welcomeMessage"></p>
+        <p id="welcomeMessagePart1">ようこそ, </p>
+        <p id="userEmail">ユーザー名</p>
+        <p id="welcomeMessagePart2">さん！</p>
 
         <div class="form-section">
             <h2 id="minorInfoTitle">未成年者の情報</h2>
@@ -63,57 +65,42 @@
     <script>
         const languageData = {
             ja: {
-                welcomeMessage: "ようこそ",
-                minorInfoTitle: "未成年者の情報",
-                vlogInfoTitle: "収益化ブイログ情報",
-                addMinorButton: "追加",
-                addVlogButton: "追加",
-                registeredMinorsTitle: "登録された未成年者",
-                registeredVlogsTitle: "登録されたブイログ",
-                errorMessage: "エラーが発生しました。すべてのフィールドを正しく入力してください。"
+                welcomeMessagePart1: "ようこそ, ",
+                welcomeMessagePart2: "さん！"
             },
             en: {
-                welcomeMessage: "Welcome",
-                minorInfoTitle: "Minor Information",
-                vlogInfoTitle: "Monetized Vlog Information",
-                addMinorButton: "Add Minor",
-                addVlogButton: "Add Vlog",
-                registeredMinorsTitle: "Registered Minors",
-                registeredVlogsTitle: "Registered Vlogs",
-                errorMessage: "An error occurred. Please fill in all fields correctly."
+                welcomeMessagePart1: "Welcome, ",
+                welcomeMessagePart2: "!"
             }
         };
 
         let currentLanguage = localStorage.getItem('language') || 'ja'; // ローカルストレージから取得
 
-        function updateUI() {
-            document.getElementById('welcomeMessage').textContent = languageData[currentLanguage].welcomeMessage;
-            document.getElementById('minorInfoTitle').textContent = languageData[currentLanguage].minorInfoTitle;
-            document.getElementById('vlogInfoTitle').textContent = languageData[currentLanguage].vlogInfoTitle;
-            document.getElementById('addMinorInfoButton').textContent = languageData[currentLanguage].addMinorButton;
-            document.getElementById('addVlogInfoButton').textContent = languageData[currentLanguage].addVlogButton;
-            document.getElementById('registeredMinorsTitle').textContent = languageData[currentLanguage].registeredMinorsTitle;
-            document.getElementById('registeredVlogsTitle').textContent = languageData[currentLanguage].registeredVlogsTitle;
+        function updateUI(userEmail) {
+            document.getElementById('welcomeMessagePart1').textContent = languageData[currentLanguage].welcomeMessagePart1;
+            document.getElementById('userEmail').textContent = userEmail; // ユーザー名を表示
+            document.getElementById('welcomeMessagePart2').textContent = languageData[currentLanguage].welcomeMessagePart2;
         }
+
+        // ここでユーザー名を取得する処理を追加
+        const userEmail = "ユーザー名"; // 実際のユーザー名を取得する処理に置き換えてください
+        updateUI(userEmail);
 
         document.getElementById('lang-ja').addEventListener('click', () => {
             currentLanguage = 'ja';
             localStorage.setItem('language', 'ja'); // ローカルストレージに保存
-            updateUI();
+            updateUI(userEmail);
         });
 
         document.getElementById('lang-en').addEventListener('click', () => {
             currentLanguage = 'en';
             localStorage.setItem('language', 'en'); // ローカルストレージに保存
-            updateUI();
+            updateUI(userEmail);
         });
 
         document.getElementById('closeModal').onclick = function() {
             document.getElementById('errorModal').style.display = 'none';
         };
-
-        // 初期UIの更新
-        updateUI();
     </script>
 </body>
 </html>
