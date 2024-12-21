@@ -77,13 +77,16 @@ let currentLanguage = localStorage.getItem('language') || 'ja'; // デフォル�
 
 // UIを更新する関数
 export function updateLanguage() {
-    const welcomeMessageElement = document.getElementById('welcomeMessage');
+    const welcomeMessagePart1Element = document.getElementById('welcomeMessagePart1');
+    const userEmailElement = document.getElementById('userEmail');
+    const welcomeMessagePart2Element = document.getElementById('welcomeMessagePart2');
+    
     const userEmail = auth.currentUser ? auth.currentUser.email : "ゲスト"; // ユーザー名を取得
 
     // ウェルカムメッセージの更新
-    const welcomeMessage = 
-        languageData[currentLanguage].welcomeMessagePart1 + userEmail + languageData[currentLanguage].welcomeMessagePart2;
-    updateTextContent(welcomeMessageElement, welcomeMessage);
+    updateTextContent(welcomeMessagePart1Element, languageData[currentLanguage].welcomeMessagePart1);
+    updateTextContent(userEmailElement, userEmail);
+    updateTextContent(welcomeMessagePart2Element, languageData[currentLanguage].welcomeMessagePart2);
 
     // 各要素の取得
     const minorInfoTitle = document.getElementById('minorInfoTitle');
