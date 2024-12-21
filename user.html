@@ -17,7 +17,7 @@
     <div class="container">
         <p>
             <span id="welcomeMessagePart1">ようこそ, </span>
-            <span id="userEmail">ユーザー名</span>
+            <span id="userEmail"></span> <!-- ユーザー名をここに表示 -->
             <span id="welcomeMessagePart2">さん！</span>
         </p>
 
@@ -71,9 +71,14 @@
 
         let currentLanguage = localStorage.getItem('language') || 'ja'; // ローカルストレージから取得
 
-        async function getUserEmail() {
-            const user = auth.currentUser;
-            return user ? user.email : "ゲスト"; // ユーザー名を取得
+ async function getUserEmail() {
+            const user = auth.currentUser; // 現在のユーザーを取得
+            return user.email; // ユーザー名を取得（必ずログインしている前提）
+        }
+
+        async function updateUI() {
+            const userEmail = await getUserEmail(); // ユーザー名を取得
+            document.getElementById('userEmail').textContent = userEmail; // ユーザー名を表示
         }
 
         async function updateUI() {
